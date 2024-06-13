@@ -3,4 +3,6 @@
 Il progetto coinvolgerà la ricerca delle necessità degli utenti, la progettazione UX/UI, l’implementazione delle funzionalità dell’applicazione e i test per garantire che l’applicazione soddisfi le esigenze degli utenti.
 </h>
 <br><br>
-<h> Pagina di mockup https://rp3.mockplus.com/rps/Z1-95387i/WPoBdg5kJ </h>
+<h>Pagine di mockup principale: https://rp3.mockplus.com/rps/Z1-95387i/WPoBdg5kJ </h><br>
+<h>Pagine di mockup supplementari: https://rp3.mockplus.com/rps/1UhHAGBvo_/gtztm4oRtv</h>
+<br><br><h>Moodboard: https://pin.it/562DdvjO0</h>
