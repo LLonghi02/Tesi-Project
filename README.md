@@ -4,5 +4,5 @@ Il progetto coinvolgerà la ricerca delle necessità degli utenti, la progettazi
 </h>
 <br><br>
 <h>Pagine di mockup principale: https://rp3.mockplus.com/rps/Z1-95387i/WPoBdg5kJ </h><br>
-<h>Pagine di mockup supplementari: https://rp3.mockplus.com/rps/1UhHAGBvo_/gtztm4oRtv</h>
+<h>Pagine di mockup supplementari: https://rp3.mockplus.com/rps/tLUaCdrPep/I9KT8THhG3</h>
 <br><br><h>Moodboard: https://pin.it/562DdvjO0</h>
