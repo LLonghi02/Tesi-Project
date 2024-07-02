@@ -1,0 +1,4 @@
+{
+    "cmake.configureOnOpen": true,
+    "java.compile.nullAnalysis.mode": "automatic"
+}
