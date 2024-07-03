@@ -14,7 +14,7 @@ class TopBar extends ConsumerWidget implements PreferredSizeWidget {
       title: Row(
         children: [
           Image.asset(
-            'assets/icons/logo.png', // Percorso dell'immagine nel tuo progetto
+            'assets/logo.jpg', // Percorso dell'immagine nel tuo progetto
             width: 24, // Larghezza dell'immagine
             height: 24, // Altezza dell'immagine
           ),

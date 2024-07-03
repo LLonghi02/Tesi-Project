@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:entypo_flutter/entypo_flutter.dart'; // Importa il pacchetto Entypo
 import 'package:flutter_application/widget/theme.dart'; // Importa il tuo provider di colore
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart'; 
 
 class BottomBar extends ConsumerWidget {
   const BottomBar({super.key});
@@ -19,11 +17,11 @@ class BottomBar extends ConsumerWidget {
           label: 'Home',
         ),
         BottomNavigationBarItem(
-          icon: Icon(FontAwesomeIcons.brain),
+          icon: Icon(Icons.spa),
           label: 'Ease',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Entypo.chat),  // Icona di Entypo "chat"
+          icon: Icon(Icons.chat),  // Icona di Entypo "chat"
           label: 'Supporto',
         ),
         BottomNavigationBarItem(

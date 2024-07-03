@@ -3,7 +3,6 @@ import 'package:flutter_application/widget/bottom_bar.dart';
 import 'package:flutter_application/widget/top_bar.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_application/widget/theme.dart'; // Assicurati che il percorso sia corretto
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -26,8 +25,6 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final backColor = ref.watch(accentColorProvider);
-    backgroundColor: backColor;
     return Scaffold(
       appBar: const TopBar(),
       body: Column(
@@ -79,7 +76,7 @@ class HomePage extends ConsumerWidget {
             ),
             child: Column(
               children: [
-                Image.asset('assets/images/mountain.png'), // Assicurati di avere l'immagine nel percorso corretto
+                Image.asset('assets/mindfulness.jpg'), // Assicurati di avere l'immagine nel percorso corretto
                 const SizedBox(height: 10),
                 const Text(
                   'Il tuo obiettivo quotidiano di Mindfulness',

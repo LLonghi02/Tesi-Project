@@ -1,0 +1,29 @@
+name: flutter_mindease
+description: "A Flutter project to manage anxiety"
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.4.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_animate: ^4.5.0
+  flutter_riverpod: ^2.5.1
+  window_manager: ^0.3.8
+  http: ^1.2.1
+  font_awesome_flutter: ^9.2.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  riverpod_lint: ^2.3.10
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/logo.jpg
+    - assets/images/home.jpg
+    - assets/images/mindfulness.jpg
