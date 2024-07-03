@@ -1,30 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mindease/widget/font.dart';
 
 class EmotionButton extends StatelessWidget {
   final String imageUrl;
-  final VoidCallback? onPressed;
+  final String text;
 
   const EmotionButton({
-    Key? key,
+    super.key,
     required this.imageUrl,
-    this.onPressed,
-  }) : super(key: key);
+    required this.text,
+  });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onPressed, // Il gestore di onTap viene definito qui
+      onTap: () {
+        // Actions to be executed when the image is pressed
+      },
       borderRadius: BorderRadius.circular(12.0),
-      child: Container(
-        width: 100,
-        height: 100,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12.0),
-          image: DecorationImage(
-            image: AssetImage(imageUrl),
-            fit: BoxFit.cover,
+      child: Column(
+        children: [
+          Container(
+            width: 60, // Adjusted width to accommodate the image
+            height: 60, // Fixed height for the button
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12.0),
+              image: DecorationImage(
+                image: AssetImage(imageUrl),
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
-        ),
+          const SizedBox(height: 8), // Space between image and text
+          Text(
+            text,
+            style: AppFonts.emo,
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     );
   }

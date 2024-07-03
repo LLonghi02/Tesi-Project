@@ -27,6 +27,12 @@ flutter:
     - assets/images/logo.jpg
     - assets/images/home.jpg
     - assets/images/mindfulness.jpg
+    - assets/images/meditazione.jpg
+    - assets/images/supporto.png
+    - assets/images/resp.jpg
+    - assets/images/suoni.jpeg
+    - assets/images/calendario.png
+    - assets/images/trofeo.png
     - assets/images/emotion/annoiato.png
     - assets/images/emotion/ansia.png
     - assets/images/emotion/arabbiato.png

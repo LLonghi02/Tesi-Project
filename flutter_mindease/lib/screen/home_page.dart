@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mindease/widget/bottom_bar.dart';
 import 'package:flutter_mindease/widget/click_image.dart';
-import 'package:flutter_mindease/widget/emotion_button.dart'; 
+import 'package:flutter_mindease/widget/emotion_button.dart';
 import 'package:flutter_mindease/widget/font.dart';
 import 'package:flutter_mindease/widget/theme.dart';
 import 'package:flutter_mindease/widget/top_bar.dart';
@@ -12,7 +12,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends ConsumerWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -67,52 +67,80 @@ class HomePage extends ConsumerWidget {
                       ),
                       const SizedBox(height: 20),
                       Container(
-                        height: 150,
+                        height: 130,
                         width: double.infinity,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(25.0),
                         ),
                         padding: const EdgeInsets.all(8.0),
-                        child: Column(
+                        child: const Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
+                            Text(
                               'Come ti senti oggi?',
                               style: AppFonts.mind,
                             ),
-                            const SizedBox(height: 10),
+                            SizedBox(height: 10),
                             SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
-                              physics: const AlwaysScrollableScrollPhysics(),
+                              physics: AlwaysScrollableScrollPhysics(),
                               child: Row(
                                 children: [
-                                  const SizedBox(width: 16),
+                                  SizedBox(width: 16),
                                   EmotionButton(
                                     imageUrl: 'assets/images/emotion/annoiato.png',
-                                    onPressed: () {
-                                      // Azione da eseguire quando il pulsante emozione viene premuto
-                                      print('Emotion button pressed!');
-                                      // Aggiungi qui l'azione desiderata
-                                    },
+                                    text: 'Annoiato',
                                   ),
-                                  const SizedBox(width: 16),
+                                  SizedBox(width: 16),
                                   EmotionButton(
                                     imageUrl: 'assets/images/emotion/felice.png',
-                                    onPressed: () {
-                                      // Azione da eseguire quando il pulsante emozione viene premuto
-                                      print('Emotion button pressed!');
-                                      // Aggiungi qui l'azione desiderata
-                                    },
+                                    text: 'Felice',
                                   ),
-                                  const SizedBox(width: 16),
+                                  SizedBox(width: 16),
                                   EmotionButton(
                                     imageUrl: 'assets/images/emotion/triste.png',
-                                    onPressed: () {
-                                      // Azione da eseguire quando il pulsante emozione viene premuto
-                                      print('Emotion button pressed!');
-                                      // Aggiungi qui l'azione desiderata
-                                    },
+                                    text: 'Triste',
+                                  ),
+                                  SizedBox(width: 16),
+                                  EmotionButton(
+                                    imageUrl: 'assets/images/emotion/ansia.png',
+                                    text: 'Ansia',
+                                  ),
+                                  SizedBox(width: 16),
+                                  EmotionButton(
+                                    imageUrl: 'assets/images/emotion/arabbiato.png',
+                                    text: 'Arrabbiato',
+                                  ),
+                                  SizedBox(width: 16),
+                                  EmotionButton(
+                                    imageUrl: 'assets/images/emotion/calmo.png',
+                                    text: 'Calmo',
+                                  ),
+                                  SizedBox(width: 16),
+                                  EmotionButton(
+                                    imageUrl: 'assets/images/emotion/eccitato.png',
+                                    text: 'Eccitato',
+                                  ),
+                                  SizedBox(width: 16),
+                                  EmotionButton(
+                                    imageUrl: 'assets/images/emotion/preoccupato.png',
+                                    text: 'Preoccupato',
+                                  ),
+                                  SizedBox(width: 16),
+                                  EmotionButton(
+                                    imageUrl: 'assets/images/emotion/rilassato.png',
+                                    text: 'Rilassato',
+                                  ),
+                                  SizedBox(width: 16),
+                                  EmotionButton(
+                                    imageUrl: 'assets/images/emotion/stanco.png',
+                                    text: 'Stanco',
+                                  ),
+                                  SizedBox(width: 16),
+                                  EmotionButton(
+                                    imageUrl: 'assets/images/emotion/stressed.png',
+                                    text: 'Stressato',
                                   ),
                                 ],
                               ),
@@ -120,11 +148,13 @@ class HomePage extends ConsumerWidget {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 10),
                       // Widget per l'obiettivo quotidiano utilizzando ClickableImage
                       const ClickableImage(
                         imageUrl: 'assets/images/mindfulness.jpg',
                         text: 'Il tuo obiettivo quotidiano di Mindfulness',
+                        height: 150,
+                        width:550,
                       ),
                     ],
                   ),

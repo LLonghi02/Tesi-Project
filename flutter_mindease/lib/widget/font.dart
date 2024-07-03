@@ -14,8 +14,12 @@ class AppFonts {
     color: Color(0xFF4FA69E), // Colore del testo
   );
 
+  static const TextStyle emo = TextStyle(
+    fontSize: 10, // Dimensione del font
+    color: Color(0xFF4FA69E), // Colore del testo
+  );
   static const TextStyle mind = TextStyle(
-    fontSize: 20, // Dimensione del font
+    fontSize: 15, // Dimensione del font
     //fontWeight: FontWeight.bold, // Grassetto
     color: Color(0xFF00807F), // Colore del testo
   );

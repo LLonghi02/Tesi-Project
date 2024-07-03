@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mindease/screen/Sign_in.dart';
-import 'package:flutter_mindease/screen/home_page.dart';
 import 'package:flutter_mindease/widget/font.dart';
 import 'package:flutter_mindease/widget/theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,7 +33,7 @@ class SignIn {
 }
 
 class RegistrazionePage extends ConsumerWidget {
-  const RegistrazionePage({Key? key}) : super(key: key);
+  const RegistrazionePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

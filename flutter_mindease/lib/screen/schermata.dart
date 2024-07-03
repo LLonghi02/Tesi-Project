@@ -4,9 +4,10 @@ import 'package:flutter_mindease/screen/sign_in.dart';
 import 'package:flutter_mindease/widget/font.dart';
 
 class Schermata extends StatefulWidget {
-  const Schermata({Key? key}) : super(key: key);
+  const Schermata({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _SchermataState createState() => _SchermataState();
 }
 
