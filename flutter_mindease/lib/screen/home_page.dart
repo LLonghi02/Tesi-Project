@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mindease/widget/bottom_bar.dart';
 import 'package:flutter_mindease/widget/clik_image.dart';
+import 'package:flutter_mindease/widget/emotion.dart';
 import 'package:flutter_mindease/widget/font.dart';
 import 'package:flutter_mindease/widget/theme.dart';
 import 'package:flutter_mindease/widget/top_bar.dart';
@@ -86,6 +87,10 @@ class HomePage extends ConsumerWidget {
                             'Come ti senti oggi? ',
                             style: AppFonts.mind,
                           ),
+                        SizedBox(width: 16),
+                        EmotionButton(
+                            imageUrl: 'assets/images/emotion/annoiato.png'
+                        ),
                         ),
                       ),
                       const SizedBox(height: 20),

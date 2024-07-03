@@ -1,10 +1,10 @@
 name: flutter_mindease
 description: "A Flutter project to manage anxiety"
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
-  sdk: '>=3.4.3 <4.0.0'
+  sdk: ">=3.4.3 <4.0.0"
 
 dependencies:
   flutter:
@@ -27,3 +27,14 @@ flutter:
     - assets/images/logo.jpg
     - assets/images/home.jpg
     - assets/images/mindfulness.jpg
+    - assets/images/emotion/annoiato.png
+    - assets/images/emotion/ansia.png
+    - assets/images/emotion/arabbiato.png
+    - assets/images/emotion/calmo.png
+    - assets/images/emotion/eccitato.png
+    - assets/images/emotion/felice.png
+    - assets/images/emotion/preoccupato.png
+    - assets/images/emotion/rilassato.png
+    - assets/images/emotion/stanco.png
+    - assets/images/emotion/stressed.png
+    - assets/images/emotion/triste.png
