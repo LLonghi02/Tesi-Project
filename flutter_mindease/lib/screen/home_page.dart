@@ -48,41 +48,55 @@ class HomePage extends ConsumerWidget {
             ),
           ),
           Expanded(
-            child: Container(
-              padding: const EdgeInsets.all(16.0),
-              color: backcolor, // Colore di sfondo preso dal provider
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(25.0),
+                  topRight: Radius.circular(25.0),
+                ),
+                child: Container(
+                  color: backcolor, // Colore di sfondo preso dal provider
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Ciao, nome',
-                        style: AppFonts.appTitle,
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Ciao,',
+                            style: AppFonts.appTitle,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    children: [
+                      const SizedBox(height: 20),
                       Container(
-                        color: Colors.white,
-                        padding: const EdgeInsets.all(8.0), // Aggiunto padding per migliorare la visualizzazione
-                        child: Text(
-                          'Come ti senti oggi?',
-                          style: AppFonts.mind,
+                        height: 150,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
+                        padding: const EdgeInsets.all(8.0),
+                        child: const SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          physics: AlwaysScrollableScrollPhysics(),
+                          child: Text(
+                            'Come ti senti oggi? ',
+                            style: AppFonts.mind,
+                          ),
                         ),
                       ),
+                      const SizedBox(height: 20),
+                      // Widget per l'obiettivo quotidiano utilizzando ClickableImage
+                      const ClickableImage(
+                        imageUrl: 'assets/images/mindfulness.jpg',
+                        text: 'Il tuo obiettivo quotidiano di Mindfulness',
+                      ),
                     ],
                   ),
-                  SizedBox(height: 20),
-                  // Widget per l'obiettivo quotidiano utilizzando ClickableImage
-                  ClickableImage(
-                    imageUrl: 'assets/images/mindfulness.jpg',
-                    text: 'Il tuo obiettivo quotidiano di Mindfulness',
-                  ),
-                ],
+                ),
               ),
             ),
           ),
