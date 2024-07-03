@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mindease/screen/registrazione.dart';
+import 'package:flutter_mindease/screen/Sign_in.dart';
+import 'package:flutter_mindease/screen/home_page.dart';
 import 'package:flutter_mindease/widget/font.dart';
 import 'package:flutter_mindease/widget/theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,8 +33,8 @@ class SignIn {
   }
 }
 
-class SignInPage extends ConsumerWidget {
-  const SignInPage({Key? key}) : super(key: key);
+class RegistrazionePage extends ConsumerWidget {
+  const RegistrazionePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -56,18 +57,38 @@ class SignInPage extends ConsumerWidget {
               // Immagine rotonda del logo
               const CircleAvatar(
                 backgroundImage: AssetImage('assets/images/logo.jpg'),
-                radius: 80,
+                radius: 60,
               ),
               const SizedBox(height: 20),
               // Scritta
               const Text(
-                'Bentornato in MindEase',
+                'Crea il tuo account',
                 style: AppFonts.sign,
               ),
               const SizedBox(height: 20),
               const Row(
                 children: [
-                  SizedBox(width: 10),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        labelText: 'E-mail',
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(),
+                        suffixIcon: Icon(
+                          Icons.mail,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              const Row(
+                children: [
+                  SizedBox(width: 8),
                   Expanded(
                     child: TextField(
                       decoration: InputDecoration(
@@ -88,7 +109,7 @@ class SignInPage extends ConsumerWidget {
               // TextField per la password
               const Row(
                 children: [
-                  SizedBox(width: 10),
+                  SizedBox(width: 8),
                   Expanded(
                     child: TextField(
                       obscureText: true,
@@ -106,7 +127,7 @@ class SignInPage extends ConsumerWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 3),
               // Checkbox per 'Ricordati di me'
               Row(
                 children: [
@@ -132,12 +153,12 @@ class SignInPage extends ConsumerWidget {
                       MaterialStateProperty.all<Color>(buttonColor),
                 ),
                 child: Text(
-                  'Accedi',
+                  'Registrami',
                   style: TextStyle(color: detColor),
                 ),
               ),
+              
               const SizedBox(height: 10),
-
               //riga or
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -205,7 +226,7 @@ class SignInPage extends ConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical:5,horizontal: 10),
                     child: Text(
-                      'Non hai un account?',
+                      'Hai già un account?',
                       style: TextStyle(
                         color: detColor,
                         fontSize: 16,
@@ -216,11 +237,11 @@ class SignInPage extends ConsumerWidget {
                     onTap: () {
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
-                            builder: (_) => const RegistrazionePage()),
+                            builder: (_) => const SignInPage()),
                       );
                     },
                     child: Text(
-                      'Registrati',
+                      'Sign in',
                       style: TextStyle(
                         color: detColor, // Cambia colore a tuo piacimento
                         fontSize: 16,
