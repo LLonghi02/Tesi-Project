@@ -7,11 +7,22 @@ class AppFonts {
     fontWeight: FontWeight.bold, // Grassetto
     color: Color(0xFF4FA69E), // Colore del testo
   );
+  
+  static const TextStyle screenTitle = TextStyle(
+    fontSize: 30, // Dimensione del font
+    fontWeight: FontWeight.bold, // Grassetto
+    color: Color(0xFF4FA69E), // Colore del testo
+  );
 
   static const TextStyle mind = TextStyle(
     fontSize: 20, // Dimensione del font
     //fontWeight: FontWeight.bold, // Grassetto
     color: Color(0xFF00807F), // Colore del testo
   );
-  // Puoi aggiungere altri stili di testo qui
+
+  static const TextStyle sign = TextStyle(
+    fontSize: 25, // Dimensione del font
+    fontWeight: FontWeight.bold, // Grassetto
+    color: Color(0xFF00807F), // Colore del testo
+  );
 }

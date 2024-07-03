@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mindease/widget/bottom_bar.dart';
-import 'package:flutter_mindease/widget/clik_image.dart';
-import 'package:flutter_mindease/widget/emotion.dart';
+import 'package:flutter_mindease/widget/click_image.dart';
+import 'package:flutter_mindease/widget/emotion_button.dart'; 
 import 'package:flutter_mindease/widget/font.dart';
 import 'package:flutter_mindease/widget/theme.dart';
 import 'package:flutter_mindease/widget/top_bar.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
@@ -13,7 +12,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +24,7 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends ConsumerWidget {
-  const HomePage({Key? key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -41,7 +40,7 @@ class HomePage extends ConsumerWidget {
             child: Container(
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/images/home.jpg'), 
+                  image: AssetImage('assets/images/home.jpg'),
                   fit: BoxFit.cover,
                   alignment: Alignment(0.0, -0.5), // Allinea l'immagine verticalmente in alto
                 ),
@@ -62,14 +61,9 @@ class HomePage extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Ciao,',
-                            style: AppFonts.appTitle,
-                          ),
-                        ],
+                      const Text(
+                        'Ciao,',
+                        style: AppFonts.appTitle,
                       ),
                       const SizedBox(height: 20),
                       Container(
@@ -80,17 +74,50 @@ class HomePage extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(25.0),
                         ),
                         padding: const EdgeInsets.all(8.0),
-                        child: const SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          physics: AlwaysScrollableScrollPhysics(),
-                          child: Text(
-                            'Come ti senti oggi? ',
-                            style: AppFonts.mind,
-                          ),
-                        SizedBox(width: 16),
-                        EmotionButton(
-                            imageUrl: 'assets/images/emotion/annoiato.png'
-                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Come ti senti oggi?',
+                              style: AppFonts.mind,
+                            ),
+                            const SizedBox(height: 10),
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              child: Row(
+                                children: [
+                                  const SizedBox(width: 16),
+                                  EmotionButton(
+                                    imageUrl: 'assets/images/emotion/annoiato.png',
+                                    onPressed: () {
+                                      // Azione da eseguire quando il pulsante emozione viene premuto
+                                      print('Emotion button pressed!');
+                                      // Aggiungi qui l'azione desiderata
+                                    },
+                                  ),
+                                  const SizedBox(width: 16),
+                                  EmotionButton(
+                                    imageUrl: 'assets/images/emotion/felice.png',
+                                    onPressed: () {
+                                      // Azione da eseguire quando il pulsante emozione viene premuto
+                                      print('Emotion button pressed!');
+                                      // Aggiungi qui l'azione desiderata
+                                    },
+                                  ),
+                                  const SizedBox(width: 16),
+                                  EmotionButton(
+                                    imageUrl: 'assets/images/emotion/triste.png',
+                                    onPressed: () {
+                                      // Azione da eseguire quando il pulsante emozione viene premuto
+                                      print('Emotion button pressed!');
+                                      // Aggiungi qui l'azione desiderata
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       const SizedBox(height: 20),
