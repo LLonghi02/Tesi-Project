@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.example.flutter_application.app-mergeDebugResources-11:/values-ky/values-ky.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\laral\\.gradle\\caches\\transforms-3\\e73f18abf09ffaba285cd06d031566f4\\transformed\\core-1.9.0\\res\\values-ky\\values-ky.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    }
+                }
+            ]
+        }
+    ]
+}

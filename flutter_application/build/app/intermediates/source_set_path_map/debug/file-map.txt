@@ -1,0 +1,17 @@
+com.example.flutter_application.app-jetified-window-1.0.0-beta04-0 C:\Users\laral\.gradle\caches\transforms-3\1231d457cfb7a49aaed6e2a4f47f31e5\transformed\jetified-window-1.0.0-beta04\res
+com.example.flutter_application.app-jetified-core-ktx-1.9.0-1 C:\Users\laral\.gradle\caches\transforms-3\20bd473bed75a76cd3c992564755a2b0\transformed\jetified-core-ktx-1.9.0\res
+com.example.flutter_application.app-jetified-window-java-1.0.0-beta04-2 C:\Users\laral\.gradle\caches\transforms-3\bb26090a27ac80ac67b7f3522e94ac2a\transformed\jetified-window-java-1.0.0-beta04\res
+com.example.flutter_application.app-core-1.9.0-3 C:\Users\laral\.gradle\caches\transforms-3\e73f18abf09ffaba285cd06d031566f4\transformed\core-1.9.0\res
+com.example.flutter_application.app-lifecycle-runtime-2.3.1-4 C:\Users\laral\.gradle\caches\transforms-3\eaf12454b8282a2dc4d3b0da643f8db5\transformed\lifecycle-runtime-2.3.1\res
+com.example.flutter_application.app-jetified-annotation-experimental-1.3.0-5 C:\Users\laral\.gradle\caches\transforms-3\f2b0aae4861bcf4ea1dd86129505b8d3\transformed\jetified-annotation-experimental-1.3.0\res
+com.example.flutter_application.app-debug-6 C:\Users\laral\Desktop\TESI\VSC\Tesi-Project\flutter_application\android\app\src\debug\res
+com.example.flutter_application.app-main-7 C:\Users\laral\Desktop\TESI\VSC\Tesi-Project\flutter_application\android\app\src\main\res
+com.example.flutter_application.app-pngs-8 C:\Users\laral\Desktop\TESI\VSC\Tesi-Project\flutter_application\build\app\generated\res\pngs\debug
+com.example.flutter_application.app-resValues-9 C:\Users\laral\Desktop\TESI\VSC\Tesi-Project\flutter_application\build\app\generated\res\resValues\debug
+com.example.flutter_application.app-rs-10 C:\Users\laral\Desktop\TESI\VSC\Tesi-Project\flutter_application\build\app\generated\res\rs\debug
+com.example.flutter_application.app-mergeDebugResources-11 C:\Users\laral\Desktop\TESI\VSC\Tesi-Project\flutter_application\build\app\intermediates\incremental\debug\mergeDebugResources\merged.dir
+com.example.flutter_application.app-mergeDebugResources-12 C:\Users\laral\Desktop\TESI\VSC\Tesi-Project\flutter_application\build\app\intermediates\incremental\debug\mergeDebugResources\stripped.dir
+com.example.flutter_application.app-merged_res-13 C:\Users\laral\Desktop\TESI\VSC\Tesi-Project\flutter_application\build\app\intermediates\merged_res\debug
+com.example.flutter_application.app-packaged_res-14 C:\Users\laral\Desktop\TESI\VSC\Tesi-Project\flutter_application\build\audioplayers_android\intermediates\packaged_res\debug
+com.example.flutter_application.app-packaged_res-15 C:\Users\laral\Desktop\TESI\VSC\Tesi-Project\flutter_application\build\flutter_keyboard_visibility\intermediates\packaged_res\debug
+com.example.flutter_application.app-packaged_res-16 C:\Users\laral\Desktop\TESI\VSC\Tesi-Project\flutter_application\build\path_provider_android\intermediates\packaged_res\debug
