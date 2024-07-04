@@ -1,1 +1,0 @@
- C:\\Users\\laral\\Desktop\\TESI\\VSC\\Tesi-Project\\flutter_application\\.dart_tool\\flutter_build\\70b33afc11f4d57e2171ec66a742cf4a\\native_assets.yaml: 
