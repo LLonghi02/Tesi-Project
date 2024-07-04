@@ -36,7 +36,7 @@ class ProfileScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Center(
+              const Center(
                 child: CircleAvatar(
                   radius: 50,
                   backgroundImage: AssetImage('assets/images/profilo.jpg'),
@@ -77,7 +77,7 @@ class ProfileScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Expanded(
                         child: Container(
                           height: 90,

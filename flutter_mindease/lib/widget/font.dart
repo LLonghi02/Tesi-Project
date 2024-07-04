@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 class AppFonts {
   static const TextStyle appTitle = TextStyle(
-    fontSize: 20, // Dimensione del font
+    fontFamily: 'MyFont',
+    fontSize: 15, // Dimensione del font
     fontWeight: FontWeight.bold, // Grassetto
     color: Color(0xFF4FA69E), // Colore del testo
   );
@@ -30,6 +31,7 @@ class AppFonts {
     color: Color(0xFF4FA69E), // Colore del testo
   );
   static const TextStyle settTitle = TextStyle(
+    fontFamily: 'MyFont',
     fontSize: 20, // Dimensione del font
     fontWeight: FontWeight.bold, // Grassetto
     color: Color(0xffd2f7ef), // Colore del testo
@@ -41,8 +43,10 @@ class AppFonts {
     color: Color(0xFF00807F), // Colore del testo
   );
 
+//clickable
   static const TextStyle sign = TextStyle(
-    fontSize: 25, // Dimensione del font
+    fontFamily: 'MyFont',
+    fontSize: 18, // Dimensione del font
     fontWeight: FontWeight.bold, // Grassetto
     color: Color(0xFF00807F), // Colore del testo
   );
