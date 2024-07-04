@@ -12,6 +12,7 @@ dependencies:
   flutter_animate: ^4.5.0
   flutter_riverpod: ^2.5.1
   window_manager: ^0.3.8
+  table_calendar: ^3.0.1
   http: ^1.2.1
   font_awesome_flutter: ^9.2.0
 
@@ -31,7 +32,7 @@ flutter:
     - assets/images/supporto.png
     - assets/images/resp.jpg
     - assets/images/suoni.jpeg
-    - assets/images/calendario.png
+    - assets/images/calend.png
     - assets/images/profilo.jpg
     - assets/images/trofeo.png
     - assets/images/emotion/annoiato.png

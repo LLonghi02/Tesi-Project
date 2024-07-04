@@ -19,6 +19,11 @@ class AppFonts {
     color: Color(0xFF4FA69E), // Colore del testo
   );
 
+  static const TextStyle calenda = TextStyle(
+    fontSize: 15, // Dimensione del font
+    color: Color(0xffd2f7ef), // Colore del testo
+  );
+
 //settingPage
   static const TextStyle sett = TextStyle(
     fontSize: 15, // Dimensione del font

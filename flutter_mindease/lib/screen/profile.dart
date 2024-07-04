@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mindease/screen/calendar.dart';
 import 'package:flutter_mindease/widget/bottom_bar.dart';
 import 'package:flutter_mindease/widget/font.dart';
 import 'package:flutter_mindease/widget/top_bar.dart';
@@ -21,19 +22,25 @@ class ProfileScreen extends StatelessWidget {
   // Dummy data to simulate objectives completion
   final List<bool> objectivesMet = List.generate(20, (index) => index % 2 == 0);
 
+  // Simulated current date for the calendar icon
+  String currentDate = '4/7'; // Assuming today's date is July 4th
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffd2f7ef),
+      backgroundColor: const Color(0xffd2f7ef),
       appBar: const TopBar(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const CircleAvatar(
-                radius: 50,
-                backgroundImage: AssetImage('assets/images/profilo.jpg'),
+              Center(
+                child: CircleAvatar(
+                  radius: 50,
+                  backgroundImage: AssetImage('assets/images/profilo.jpg'),
+                ),
               ),
               const SizedBox(height: 10),
               const Text(
@@ -52,26 +59,45 @@ class ProfileScreen extends StatelessWidget {
                     textAlign: TextAlign.left,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Column(
-                        children: [
-                          Image.asset(
-                            'assets/images/calendario.png',
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const CalendarPage(),
+                              ),
+                            );
+                          },
+                          child: Image.asset(
+                            'assets/images/calend.png',
                             height: 150,
                             width: 150,
                           ),
-                        ],
+                        ),
                       ),
-                      const Column(
-                        children: [
-                          Icon(Icons.mood, size: 50, color: Colors.teal),
-                          SizedBox(height: 5),
-                          Text(
-                            '28/4',
-                            style: TextStyle(fontSize: 14),
+                      SizedBox(width: 10),
+                      Expanded(
+                        child: Container(
+                          height: 90,
+                          decoration: BoxDecoration(
+                            color: Colors.teal,
+                            borderRadius: BorderRadius.circular(25.0),
                           ),
-                        ],
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(Icons.calendar_today,
+                                  size: 50, color: Color(0xffd2f7ef)),
+                              const SizedBox(height: 5),
+                              Text(
+                                currentDate,
+                                style: AppFonts.calenda,
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ],
                   ),
