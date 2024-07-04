@@ -32,6 +32,7 @@ flutter:
     - assets/images/resp.jpg
     - assets/images/suoni.jpeg
     - assets/images/calendario.png
+    - assets/images/profilo.jpg
     - assets/images/trofeo.png
     - assets/images/emotion/annoiato.png
     - assets/images/emotion/ansia.png
