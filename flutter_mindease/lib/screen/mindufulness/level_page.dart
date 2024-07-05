@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_mindease/model/level_information.dart';
 import 'package:flutter_mindease/widget/bottom_bar.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_mindease/widget/font.dart';
 import 'package:flutter_mindease/widget/theme.dart';
 import 'package:flutter_mindease/widget/top_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LevelPage extends ConsumerStatefulWidget {
   final int level;
@@ -18,22 +20,39 @@ class LevelPage extends ConsumerStatefulWidget {
 
 class _LevelPageState extends ConsumerState<LevelPage> {
   bool _isCompleted = false;
+  bool _dailyGoalCompleted = false;
 
-  void _showDailyGoalCompletedDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Obiettivo giornaliero completato'),
-        content: Text('Torna domani per continuare con il prossimo livello.'),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text('OK'),
-          ),
-        ],
-      ),
-    );
+  late SharedPreferences _prefs;
+  late Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeSharedPreferences();
+    _setupDailyResetTimer();
   }
+
+  Future<void> _initializeSharedPreferences() async {
+    _prefs = await SharedPreferences.getInstance();
+    _dailyGoalCompleted = _prefs.getBool('dailyGoalCompleted_$widget.level') ?? false;
+  }
+
+  void _setupDailyResetTimer() {
+    _timer = Timer.periodic(const Duration(days: 1), (timer) {
+      _prefs.setBool('dailyGoalCompleted_$widget.level', false);
+      setState(() {
+        _dailyGoalCompleted = false;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +105,7 @@ class _LevelPageState extends ConsumerState<LevelPage> {
                             _isCompleted = value ?? false;
                           });
                           if (_isCompleted) {
+                            _prefs.setBool('dailyGoalCompleted_$widget.level', true);
                             widget.onLevelCompleted(widget.level);
                             Navigator.pop(context); // Torna alla pagina precedente (livelli)
                           }
