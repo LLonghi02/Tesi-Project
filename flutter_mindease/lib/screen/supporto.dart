@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mindease/model/chat_logic.dart';
 import 'package:flutter_mindease/provider/main_support.dart';
 import 'package:flutter_mindease/screen/setting_pages/theme_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,7 +14,9 @@ class SupportoPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final backcolor = ref.watch(accentColorProvider); // Recupera il colore di sfondo dal provider
     final backgroundImage = ref.watch(backgroundImageProvider); // Recupera l'immagine di sfondo selezionata
+    final ChatService _chatService = ChatService(); // Initialize chat service
 
+    _chatService.startChat(); // Start the chat
     return Scaffold(
       appBar: const TopBar(),
       body: Stack(
@@ -36,6 +39,33 @@ class SupportoPage extends ConsumerWidget {
                 ),
               ),
             ),
+            Positioned(
+            bottom: 16,
+            left: 16,
+            right: 16,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    _chatService.handleUserResponse("sto male");
+                  },
+                  child: const Text("Sto male"),
+                ),
+                const SizedBox(height: 16),
+                StreamBuilder<String>(
+                  stream: _chatService.responseStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Text(snapshot.data!);
+                    } else {
+                      return const SizedBox.shrink();
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: const BottomBar(),
