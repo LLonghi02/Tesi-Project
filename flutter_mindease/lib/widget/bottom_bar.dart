@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mindease/screen/ease.dart';
+import 'package:flutter_mindease/screen/ease/ease.dart';
 import 'package:flutter_mindease/screen/home_page.dart';
 import 'package:flutter_mindease/screen/profile.dart';
 import 'package:flutter_mindease/screen/supporto.dart';
@@ -98,7 +98,7 @@ class BottomBar extends ConsumerWidget {
                           iconColor), // Utilizza il colore delle icone dal provider
                   onPressed: () {
                     Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (_) => const SupportoPage()),
+                      MaterialPageRoute(builder: (_) => const ChatPage()),
                     );
                   },
                 ),

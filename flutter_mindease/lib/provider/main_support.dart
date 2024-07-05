@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'MindEase',
-      home: SupportoPage(),
+      home: ChatPage(),
     );
   }
 }

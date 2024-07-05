@@ -1,0 +1,59 @@
+name: flutter_mindease
+description: "A Flutter project to manage anxiety"
+publish_to: "none"
+version: 0.1.0
+
+environment:
+  sdk: ">=3.4.3 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_animate: ^4.5.0
+  flutter_riverpod: ^2.5.1
+  window_manager: ^0.3.8
+  table_calendar: ^3.0.1
+  http: ^1.2.1
+  font_awesome_flutter: ^9.2.0
+  image_picker: ^0.8.4+4
+  shared_preferences: ^2.0.12
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  riverpod_lint: ^2.3.10
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/logo.jpg
+    - assets/images/home.jpg
+    - assets/images/mindfulness.jpg
+    - assets/images/meditazione.jpg
+    - assets/images/background.jpg
+    - assets/images/montagna.jpg
+    - assets/images/supporto.png
+    - assets/images/resp.jpg
+    - assets/images/suoni.jpeg
+    - assets/images/calend.png
+    - assets/images/psicologo.png
+    - assets/images/mostro.png
+    - assets/images/profilo.jpg
+    - assets/images/trofeo.png
+    - assets/images/emotion/annoiato.png
+    - assets/images/emotion/ansia.png
+    - assets/images/emotion/arabbiato.png
+    - assets/images/emotion/calmo.png
+    - assets/images/emotion/eccitato.png
+    - assets/images/emotion/felice.png
+    - assets/images/emotion/preoccupato.png
+    - assets/images/emotion/rilassato.png
+    - assets/images/emotion/stanco.png
+    - assets/images/emotion/stressed.png
+    - assets/images/emotion/triste.png
+  fonts:
+    - family: MyFont
+      fonts:
+        - asset: assets/fonts/chinese.msyh.ttf
