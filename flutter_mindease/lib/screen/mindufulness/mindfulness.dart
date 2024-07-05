@@ -24,7 +24,25 @@ class _LevelSelectionPageState extends ConsumerState<LevelSelectionPage> {
           ),
         ),
       );
+    } else {
+      _showDailyGoalCompletedDialog();
     }
+  }
+
+  void _showDailyGoalCompletedDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Obiettivo giornaliero completato'),
+        content: Text('Torna domani per continuare con il prossimo livello.'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   void _onLevelCompleted(int level) {

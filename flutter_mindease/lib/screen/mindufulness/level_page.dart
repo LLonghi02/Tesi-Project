@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mindease/model/level_information.dart';
-import 'package:flutter_mindease/screen/mindufulness/mindfulness.dart';
 import 'package:flutter_mindease/widget/bottom_bar.dart';
 import 'package:flutter_mindease/widget/font.dart';
 import 'package:flutter_mindease/widget/theme.dart';
@@ -19,6 +18,22 @@ class LevelPage extends ConsumerStatefulWidget {
 
 class _LevelPageState extends ConsumerState<LevelPage> {
   bool _isCompleted = false;
+
+  void _showDailyGoalCompletedDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Obiettivo giornaliero completato'),
+        content: Text('Torna domani per continuare con il prossimo livello.'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,11 +87,7 @@ class _LevelPageState extends ConsumerState<LevelPage> {
                           });
                           if (_isCompleted) {
                             widget.onLevelCompleted(widget.level);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LevelSelectionPage()),
-                            );
+                            Navigator.pop(context); // Torna alla pagina precedente (livelli)
                           }
                         },
                       ),
