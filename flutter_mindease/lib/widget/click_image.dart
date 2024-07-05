@@ -5,12 +5,14 @@ class ClickableImage extends StatelessWidget {
   final String imageUrl;
   final String text;
   final double? height;
-  final double? width; // Optional width parameter
+  final double? width;
+  final Widget destination; // Add the destination parameter
 
   const ClickableImage({
     super.key,
     required this.imageUrl,
     required this.text,
+    required this.destination, // Required destination parameter
     this.height, // Optional height parameter
     this.width, // Optional width parameter
   });
@@ -20,7 +22,10 @@ class ClickableImage extends StatelessWidget {
     return Center( // Center the content horizontally
       child: GestureDetector(
         onTap: () {
-          // Actions to be executed when the image is pressed
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => destination),
+          );
         },
         child: Container(
           margin: const EdgeInsets.all(16.0),
@@ -38,7 +43,7 @@ class ClickableImage extends StatelessWidget {
                   child: Image.asset(
                     imageUrl,
                     fit: BoxFit.cover,
-                    width: width ?? 340, // Use the passed width or default to 350
+                    width: width ?? 340, // Use the passed width or default to 340
                     height: height ?? 200, // Use the passed height or default to 200
                   ),
                 ),

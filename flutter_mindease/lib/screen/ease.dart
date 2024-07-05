@@ -33,7 +33,7 @@ class EasePage extends ConsumerWidget {
       appBar: const TopBar(),
       body: const Column(
         children: [
-          ClickableImage(
+         /* ClickableImage(
             imageUrl: 'assets/images/meditazione.jpg',
             text: 'Pratiche di meditazione',
             height: 150,
@@ -47,7 +47,7 @@ class EasePage extends ConsumerWidget {
             imageUrl: 'assets/images/suoni.jpeg',
             text: 'Suoni rilassanti',
             height: 100,
-          ),
+          ),*/
         ],
       ),
       bottomNavigationBar: const BottomBar(),

@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_mindease/widget/theme.dart';
 import 'package:flutter_mindease/widget/bottom_bar.dart';
 import 'package:flutter_mindease/widget/top_bar.dart';
-import 'package:flutter_mindease/controller/main_support.dart';
+import 'package:flutter_mindease/provider/main_support.dart';
 
 class ThemeSelectionPage extends ConsumerWidget {
   const ThemeSelectionPage({super.key});

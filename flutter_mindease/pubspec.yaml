@@ -30,6 +30,8 @@ flutter:
     - assets/images/home.jpg
     - assets/images/mindfulness.jpg
     - assets/images/meditazione.jpg
+    - assets/images/background.jpg
+    - assets/images/montagna.jpg
     - assets/images/supporto.png
     - assets/images/resp.jpg
     - assets/images/suoni.jpeg

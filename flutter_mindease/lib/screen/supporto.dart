@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mindease/controller/main_support.dart';
+import 'package:flutter_mindease/provider/main_support.dart';
 import 'package:flutter_mindease/screen/setting_pages/theme_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_mindease/widget/theme.dart';
