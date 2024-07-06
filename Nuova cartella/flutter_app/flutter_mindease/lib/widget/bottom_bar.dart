@@ -98,7 +98,7 @@ class BottomBar extends ConsumerWidget {
                           iconColor), // Utilizza il colore delle icone dal provider
                   onPressed: () {
                     Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (_) => const SupportoPage()),
+                      MaterialPageRoute(builder: (_) =>  SupportoPage()),
                     );
                   },
                 ),
