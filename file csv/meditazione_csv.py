@@ -6,7 +6,7 @@ import re
 DEVELOPER_KEY = "AIzaSyDp-i5FsVmz0TP6J1cydVXMI8ZkFF9ct9Y"
 
 # ID della playlist di meditazione
-playlist_id = "PLLVbtOVkPSt996c5Vpgyr0SACSBt1tt9"
+playlist_id = "PLLVbtOVkPSt996c5Vpgyr0SACSBt1tt9-"
 
 # YouTube API service
 YOUTUBE_API_SERVICE_NAME = "youtube"

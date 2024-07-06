@@ -6,7 +6,7 @@ import re
 DEVELOPER_KEY = "AIzaSyDp-i5FsVmz0TP6J1cydVXMI8ZkFF9ct9Y"
 
 # ID della playlist di meditazione
-playlist_id = "PLLVbtOVkPSt996c5Vpgyr0SACSBt1tt9"
+playlist_id = "PLLVbtOVkPSt_yXjiNMmtjNQLhma9DT8dK"
 
 # YouTube API service
 YOUTUBE_API_SERVICE_NAME = "youtube"
@@ -90,7 +90,7 @@ def write_to_csv(videos, output_file):
 
 if __name__ == "__main__":
     # Nome del file CSV di output
-    output_file = "meditazione.csv"
+    output_file = "respirazione.csv"
 
     # Ottieni i video della playlist con dettagli
     playlist_videos = get_playlist_videos(playlist_id)
