@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+const String defaultBackgroundImage = 'assets/images/supporto.png';
 
 class SupportoPage extends ConsumerWidget {
   const SupportoPage({super.key});
@@ -28,7 +29,7 @@ class SupportoPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final backcolor = ref.watch(accentColorProvider);
-    final backgroundImage = ref.watch(backgroundImageProvider);
+    final backgroundImage = ref.watch(backgroundImageProvider) ?? defaultBackgroundImage;
 
     return Scaffold(
       appBar: const TopBar(),
@@ -39,14 +40,13 @@ class SupportoPage extends ConsumerWidget {
               color: backcolor,
             ),
           ),
-          if (backgroundImage != null) // Verifica se backgroundImage non è null
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Image.asset(
-                backgroundImage,
-                fit: BoxFit.cover,
-              ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Image.asset(
+              backgroundImage,
+              fit: BoxFit.cover,
             ),
+          ),
         ],
       ),
       bottomNavigationBar: const BottomBar(),
