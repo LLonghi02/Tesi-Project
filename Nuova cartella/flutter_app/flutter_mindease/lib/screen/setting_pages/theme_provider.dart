@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mindease/provider/main_support.dart';
 import 'package:flutter_mindease/widget/font.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_mindease/widget/theme.dart';
 import 'package:flutter_mindease/widget/bottom_bar.dart';
 import 'package:flutter_mindease/widget/top_bar.dart';
 
-final backgroundImageProvider = StateProvider<String?>((ref) => 'assets/images/supporto.png');
-
 class ThemeSelectionPage extends ConsumerWidget {
   const ThemeSelectionPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final backcolor = ref.watch(detProvider); // Recupera il colore di sfondo dal provider
+    final backcolor =
+        ref.watch(detProvider); // Recupera il colore di sfondo dal provider
 
     final themes = [
       {
@@ -53,9 +53,11 @@ class ThemeSelectionPage extends ConsumerWidget {
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
-                    ref.read(backgroundImageProvider.notifier).state = themes[index]['image'];
+                    ref.read(backgroundImageProvider.notifier).state =
+                        themes[index]['image'];
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Tema selezionato con successo!')),
+                      const SnackBar(
+                          content: Text('Tema selezionato con successo!')),
                     );
                     Navigator.pop(context); // Torna alla pagina precedente
                   },
