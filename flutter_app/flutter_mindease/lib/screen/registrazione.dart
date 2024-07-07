@@ -27,7 +27,6 @@ class _RegistrazionePageState extends ConsumerState<RegistrazionePage> {
   final _emailController = TextEditingController();
   final _nicknameController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _rememberMe = false;
 
   @override
   void dispose() {
@@ -127,7 +126,7 @@ class _RegistrazionePageState extends ConsumerState<RegistrazionePage> {
                 label2: 'SignIn',
                 onTap: () {
                   Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (_) => const SignInPage()),
+                    MaterialPageRoute(builder: (_) =>  SignInPage()),
                   );
                 },
               ),

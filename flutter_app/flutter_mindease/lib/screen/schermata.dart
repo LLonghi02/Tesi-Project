@@ -20,7 +20,7 @@ class _SchermataState extends State<Schermata> {
     // Avvia il timer per navigare alla HomePage dopo 3 secondi
     _timer = Timer(const Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const SignInPage()),
+        MaterialPageRoute(builder: (_) =>  SignInPage()),
       );
     });
   }
