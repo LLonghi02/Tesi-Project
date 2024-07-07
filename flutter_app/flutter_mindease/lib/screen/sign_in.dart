@@ -123,9 +123,7 @@ class SignInPage extends ConsumerWidget {
               // Tasto del SignIn
               ElevatedButton(
                 onPressed: () {
-                  // Esempio di sign-in con email e password
-                  signIn.signInWithEmailAndPassword(
-                      'test@example.com', 'password');
+
                 },
                 style: ButtonStyle(
                   backgroundColor:
