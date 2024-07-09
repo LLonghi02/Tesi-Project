@@ -61,6 +61,12 @@ flutter:
     - assets/images/emotion/stanco.png
     - assets/images/emotion/stressed.png
     - assets/images/emotion/triste.png
+    - assets/images/sintomi/headache.png
+    - assets/images/sintomi/heart.png
+    - assets/images/sintomi/insomnia.png
+    - assets/images/sintomi/nervous.png
+    - assets/images/sintomi/parkinson.png
+    - assets/images/sintomi/stomackache.png
   fonts:
     - family: MyFont
       fonts:

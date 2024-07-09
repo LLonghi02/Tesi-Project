@@ -20,6 +20,7 @@ class CustomTextButton extends ConsumerWidget {
     final detColor = ref.watch(signProvider); // Recupera il colore del testo dal provider
 
     return Container(
+      alignment: Alignment.center,
       width: 200, // Imposta la larghezza del pulsante
       child: TextButton(
         onPressed: onPressed,

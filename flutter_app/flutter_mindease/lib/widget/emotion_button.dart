@@ -1,22 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mindease/widget/font.dart';
+import 'package:flutter_mindease/widget/record_emotion.dart';
 
 class EmotionButton extends StatelessWidget {
   final String imageUrl;
   final String text;
 
   const EmotionButton({
-    super.key,
+    Key? key,
     required this.imageUrl,
     required this.text,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    void onTap() {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => RecordEmotionPage(emotion: text),
+        ),
+      );
+    }
+
     return InkWell(
-      onTap: () {
-        // Actions to be executed when the image is pressed
-      },
+      onTap: onTap,
       borderRadius: BorderRadius.circular(12.0),
       child: Column(
         children: [
