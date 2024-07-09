@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mindease/repository/calendarDB.dart';
 import 'package:flutter_mindease/widget/SignIn/button_1.dart';
 import 'package:flutter_mindease/widget/bottom_bar.dart';
 import 'package:flutter_mindease/widget/font.dart';
@@ -6,7 +7,8 @@ import 'package:flutter_mindease/widget/sintomo_button.dart';
 import 'package:flutter_mindease/widget/text_field_noIcon.dart';
 import 'package:flutter_mindease/widget/theme.dart';
 import 'package:flutter_mindease/widget/top_bar.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart'; // Aggiunto per l'uso di Riverpod
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mongo_dart/mongo_dart.dart' as mongo;
 
 class RecordEmotionPage extends StatefulWidget {
   final String emotion;
@@ -18,12 +20,29 @@ class RecordEmotionPage extends StatefulWidget {
 }
 
 class _RecordEmotionPageState extends State<RecordEmotionPage> {
+  final CalendarDBService _calendarDBService = CalendarDBService();
   String symptoms = ''; // Variabile per memorizzare i sintomi inseriti
   Set<String> selectedSymptoms = {}; // Set per memorizzare i sintomi selezionati
+  TextEditingController causeController = TextEditingController(); // Controller per la causa
 
-  void saveRecord() {
-    // Implementa la logica per salvare l'emozione registrata e i sintomi
-    print('Emotion: ${widget.emotion}, Symptoms: $symptoms');
+  @override
+  void initState() {
+    super.initState();
+    _calendarDBService.open(); // Apri la connessione al database all'inizio
+  }
+
+  @override
+  void dispose() {
+    _calendarDBService.close(); // Chiudi la connessione al database alla fine
+    super.dispose();
+  }
+
+  void saveRecord() async {
+    await _calendarDBService.recordEmotion(
+      widget.emotion,
+      causeController.text,
+      selectedSymptoms.toList(),
+    );
     Navigator.of(context).pop(); // Chiudi la pagina dopo aver salvato
   }
 
@@ -40,7 +59,6 @@ class _RecordEmotionPageState extends State<RecordEmotionPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: const Color(0xffd2f7ef),
       appBar: const TopBar(),
@@ -54,7 +72,10 @@ class _RecordEmotionPageState extends State<RecordEmotionPage> {
               style: AppFonts.appTitle,
             ),
             const SizedBox(height: 20),
-             MyTextField2(labelText: 'Come mai sei ${widget.emotion}?'),
+            MyTextField2(
+              labelText: 'Come mai sei ${widget.emotion}?',
+              controller: causeController, // Usa il controller per il campo di testo
+            ),
             const SizedBox(height: 20),
             const Text(
               'Seleziona i sintomi:',
@@ -118,10 +139,10 @@ class _RecordEmotionPageState extends State<RecordEmotionPage> {
                 ],
               ),
             ),
-            Center(  // Centra il CustomTextButton
+            Center(
               child: CustomTextButton(
                 onPressed: saveRecord,
-                buttonText:  'Salva',
+                buttonText: 'Salva',
               ),
             ),
           ],

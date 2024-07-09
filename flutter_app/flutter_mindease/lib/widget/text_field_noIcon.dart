@@ -2,22 +2,21 @@ import 'package:flutter/material.dart';
 
 class MyTextField2 extends StatelessWidget {
   final String labelText;
+  final TextEditingController controller; // Aggiungi il controller come parametro
 
   const MyTextField2({
+    Key? key,
     required this.labelText,
-  });
+    required this.controller, // Assicurati di aggiungere questo parametro
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-      child: TextField(
-        decoration: InputDecoration(
-          labelText: labelText,
-          filled: true,
-          fillColor: Colors.white,
-          border: OutlineInputBorder(),
-        ),
+    return TextField(
+      controller: controller, // Usa il controller nel TextField
+      decoration: InputDecoration(
+        labelText: labelText,
+        border: OutlineInputBorder(),
       ),
     );
   }
