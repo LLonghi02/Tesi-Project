@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mindease/model/sound_model.dart'; // Assicurati di importare correttamente il modello SuoniModel
-import 'package:flutter_mindease/screen/ease/audioPlayer.dart';
 import 'package:flutter_mindease/widget/bottom_bar.dart';
 import 'package:flutter_mindease/widget/theme.dart';
 import 'package:flutter_mindease/widget/top_bar.dart';
@@ -56,15 +55,7 @@ class SoundPage extends ConsumerWidget {
                   title: Text(video.title),
                   subtitle: Text(video.artist),
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AudioPlayerPage(
-                          playlist: soundList,
-                          initialIndex: index,
-                        ),
-                      ),
-                    );
+                    
                   },
                 );
               },
