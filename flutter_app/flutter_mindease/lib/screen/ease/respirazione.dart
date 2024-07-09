@@ -1,40 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mindease/model/video_model.dart';
+import 'package:flutter_mindease/repository/video.dart';
 import 'package:flutter_mindease/widget/bottom_bar.dart';
-import 'package:flutter_mindease/widget/click_image.dart';
 import 'package:flutter_mindease/widget/theme.dart';
 import 'package:flutter_mindease/widget/top_bar.dart';
+import 'package:flutter_mindease/widget/video_item.dart';
+import 'package:flutter_mindease/widget/video_player.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-void main() {
-  runApp(const ProviderScope(child: MyApp()));
+class RespirationPage extends ConsumerStatefulWidget {
+  const RespirationPage({Key? key}) : super(key: key);
+
+  @override
+  _RespirationPageState createState() => _RespirationPageState();
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class _RespirationPageState extends ConsumerState<RespirationPage> {
+  VideoModel? selectedVideo;
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'MindEase',
-      home: RespirationPage(),
-    );
-  }
-}
-
-class RespirationPage extends ConsumerWidget {
-  const RespirationPage({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final backcolor = ref.watch(accentColorProvider); // Recupera il colore di sfondo dal provider
+    final backcolor = ref.watch(accentColorProvider);
+    final AsyncValue<List<VideoModel>> futureVideos = ref.watch(videoProvider('respirazione'));
 
     return Scaffold(
       backgroundColor: backcolor,
       appBar: const TopBar(),
-      body: const Column(
-        children: [
-         
-        ],
+      body: futureVideos.when(
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (err, stack) => Center(child: Text('Errore nel caricamento dei video')),
+        data: (videos) {
+          if (videos.isEmpty) {
+            return const Center(child: Text('Nessun video disponibile'));
+          } else {
+            return Column(
+              children: [
+                if (selectedVideo != null)
+                  Container(
+                    height: 200, // Altezza del container per il video
+                    child: VideoPlayerWidget(videoUrl: selectedVideo!.videoUrl),
+                  ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: videos.length,
+                    itemBuilder: (context, index) {
+                      return VideoListItem(
+                        video: videos[index],
+                        onTap: () {
+                          setState(() {
+                            selectedVideo = videos[index];
+                          });
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
+          }
+        },
       ),
       bottomNavigationBar: const BottomBar(),
     );

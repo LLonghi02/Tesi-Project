@@ -64,7 +64,8 @@ def get_playlist_videos(playlist_id):
                 'title': title,
                 'author': author,
                 'duration': duration_seconds,
-                'video_url': video_url
+                'video_url': video_url,
+                'tag':'meditazione'
             }
             videos_with_details.append(video_info)
 
@@ -76,7 +77,7 @@ def get_playlist_videos(playlist_id):
 
 def write_to_csv(videos, output_file):
     with open(output_file, 'w', newline='', encoding='utf-8') as csvfile:
-        fieldnames = ['Title', 'Author', 'Duration (seconds)', 'Video URL']
+        fieldnames = ['Title', 'Author', 'Duration (seconds)', 'Video URL','Tag']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
         writer.writeheader()
@@ -85,7 +86,8 @@ def write_to_csv(videos, output_file):
                 'Title': video['title'],
                 'Author': video['author'],
                 'Duration (seconds)': video['duration'],
-                'Video URL': video['video_url']
+                'Video URL': video['video_url'],
+                'Tag':video['tag']
             })
 
 if __name__ == "__main__":

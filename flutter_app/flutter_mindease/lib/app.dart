@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mindease/screen/registrazione.dart';
 import 'package:flutter_mindease/screen/schermata.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_mindease/screen/home_page.dart';
@@ -23,7 +22,7 @@ class App extends ConsumerWidget {
           centerTitle: true,
         ),
       ),
-      home:  const RegistrazionePage(),
+      home:  const HomePage(),
     );
   }
 }

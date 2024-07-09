@@ -27,7 +27,7 @@ def get_playlist_tracks(playlist_id):
 
 def write_to_csv(tracks, output_file):
     with open(output_file, 'w', newline='', encoding='utf-8') as csvfile:
-        fieldnames = ['Title', 'Artist(s)', 'Album', 'Duration (ms)', 'Track URL']
+        fieldnames = ['Title', 'Artist(s)', 'Album', 'Duration (ms)', 'Track URL','Tag']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
         
@@ -37,7 +37,8 @@ def write_to_csv(tracks, output_file):
                 'Artist(s)': ', '.join([artist['name'] for artist in track['track']['artists']]),
                 'Album': track['track']['album']['name'],
                 'Duration (ms)': track['track']['duration_ms'],
-                'Track URL': track['track']['external_urls']['spotify']
+                'Track URL': track['track']['external_urls']['spotify'],
+                'Tag':'suoni'
             }
             writer.writerow(track_info)
 
