@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mindease/widget/font.dart';
-import 'package:flutter_mindease/widget/record_emotion.dart';
+import 'package:flutter_mindease/screen/record_emotion.dart';
 
 class EmotionButton extends StatelessWidget {
   final String imageUrl;
