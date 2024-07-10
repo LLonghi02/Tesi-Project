@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mindease/provider/getEmotion.dart';
+import 'package:flutter_mindease/widget/emotion_BCalenda.dart';
+import 'package:flutter_mindease/widget/emotion_button.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_mindease/model/calendar_model.dart';
+import 'package:flutter_mindease/repository/dateProvider.dart';
 import 'package:flutter_mindease/screen/calendar.dart';
 import 'package:flutter_mindease/widget/bottom_bar.dart';
 import 'package:flutter_mindease/widget/font.dart';
 import 'package:flutter_mindease/widget/top_bar.dart';
 import 'package:flutter_mindease/widget/trophie.dart';
+import 'package:collection/collection.dart'; // Import firstWhereOrNull
 
 void main() {
   runApp(MyApp());
@@ -18,15 +25,17 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends ConsumerWidget {
   // Dummy data to simulate objectives completion
   final List<bool> objectivesMet = List.generate(20, (index) => index % 2 == 0);
 
-  // Simulated current date for the calendar icon
-  String currentDate = '4/7'; // Assuming today's date is July 4th
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    String currentDate = DateTime.now().toIso8601String().split('T')[0];
+
+    final AsyncValue<List<CalendarModel>> calendarDataAsync =
+        ref.watch(calendarProvider(currentDate));
+
     return Scaffold(
       backgroundColor: const Color(0xffd2f7ef),
       appBar: const TopBar(),
@@ -58,42 +67,78 @@ class ProfileScreen extends StatelessWidget {
                     style: AppFonts.appTitle,
                     textAlign: TextAlign.left,
                   ),
+                  const SizedBox(height: 10),
                   Row(
                     children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>  CalendarPage(),
-                              ),
-                            );
-                          },
-                          child: Image.asset(
-                            'assets/images/calend.png',
-                            height: 150,
-                            width: 150,
-                          ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CalendarPage(),
+                            ),
+                          );
+                        },
+                        child: Image.asset(
+                          'assets/images/calend.png',
+                          height: 150,
+                          width: 150,
                         ),
                       ),
                       const SizedBox(width: 10),
                       Expanded(
                         child: Container(
-                          height: 90,
+                          height: 100,
                           decoration: BoxDecoration(
                             color: Colors.teal,
                             borderRadius: BorderRadius.circular(25.0),
                           ),
-                          child: Column(
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(Icons.calendar_today,
-                                  size: 50, color: Color(0xffd2f7ef)),
-                              const SizedBox(height: 5),
-                              Text(
-                                currentDate,
-                                style: AppFonts.calenda,
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.calendar_today,
+                                    size: 50,
+                                    color: Color(0xffd2f7ef),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    currentDate,
+                                    style: AppFonts.calenda,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(width: 10),
+                              calendarDataAsync.when(
+                                loading: () =>
+                                    const CircularProgressIndicator(),
+                                error: (error, stackTrace) =>
+                                    Text('Errore: $error'),
+                                data: (calendarData) {
+                                  // Find emotion for the current date
+                                  CalendarModel? todayEmotion =
+                                      calendarData.firstWhereOrNull(
+                                    (entry) => entry.data == currentDate,
+                                  );
+
+                                  if (todayEmotion != null) {
+                                    return Padding(
+                                      padding: const EdgeInsets.all(20.0),
+                                      child: EmotionCalenda(
+                                        imageUrl: getEmotionImage(
+                                            todayEmotion.emozione),
+                                      ),
+                                    );
+                                  } else {
+                                    return const Text(
+                                      'non ci hai fatto sapere come stai',
+                                      style: AppFonts.calenda,
+                                    );
+                                  }
+                                },
                               ),
                             ],
                           ),

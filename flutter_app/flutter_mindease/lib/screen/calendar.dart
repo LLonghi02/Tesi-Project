@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mindease/provider/getEmotion.dart';
 import 'package:flutter_mindease/repository/dateProvider.dart';
 import 'package:flutter_mindease/widget/bottom_bar.dart';
 import 'package:flutter_mindease/widget/top_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_mindease/model/calendar_model.dart';
-import 'package:flutter_mindease/widget/emotion_button.dart'; // Import the EmotionButton widget
+import 'package:flutter_mindease/widget/emotion_button.dart'; // Assicurati di aver importato EmotionButton
 
 class CalendarPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AsyncValue<List<CalendarModel>> calendarDataAsync =
-        ref.watch(calendarProvider(DateTime.now().toString()));
+        ref.watch(calendarProvider(DateTime.now().toIso8601String().split('T')[0]));
 
     return Scaffold(
       backgroundColor: const Color(0xffd2f7ef),
       appBar: const TopBar(),
       body: calendarDataAsync.when(
-        loading: () => const Center(
-            child:
-                CircularProgressIndicator()), // Use const for constant widgets
+        loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stackTrace) => Center(child: Text('Errore: $error')),
         data: (calendarData) {
           return _buildCalendarWithEmotionButton(calendarData);
@@ -38,8 +37,9 @@ class CalendarPage extends ConsumerWidget {
           child: Text(
             'Il tuo calendario',
             style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold), // Use const for constant styles
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
             textAlign: TextAlign.center,
           ),
         ),
@@ -61,34 +61,26 @@ class CalendarPage extends ConsumerWidget {
                 markersMaxCount: 1,
               ),
               headerStyle: const HeaderStyle(
-                formatButtonVisible: false, // Use const for constant properties
+                formatButtonVisible: false,
               ),
               firstDay: DateTime.utc(2010, 10, 16),
               lastDay: DateTime.utc(2030, 3, 14),
               focusedDay: DateTime.now(),
               selectedDayPredicate: (day) {
-                return calendarData
-                    .any((entry) => entry.data == day.toString());
+                return calendarData.any((entry) => entry.data == day.toString());
               },
               onDaySelected: (selectedDay, focusedDay) {
                 print('Selected $selectedDay');
               },
               calendarBuilders: CalendarBuilders<CalendarModel>(
                 defaultBuilder: (context, day, focusedDay) {
-                  final emotionsForDay = calendarData
-                      .where((entry) => entry.data == day.toString());
+                  final emotionsForDay = calendarData.where((entry) => entry.data == day.toString());
 
                   if (emotionsForDay.isNotEmpty) {
-                    return InkWell(
-                      onTap: () {
-                        print('Tapped on emotion for ${day.toString()}');
-                      },
-                      child: const EmotionButton(
-                        imageUrl:
-                            '', // Inserisci l'URL dell'immagine dell'emozione qui
-                        text:
-                            'Emotion', // Puoi inserire un testo per l'emozione
-                      ),
+                    final todayEmotion = emotionsForDay.first;
+                    return EmotionButton(
+                      imageUrl: getEmotionImage(todayEmotion.emozione),
+                      text: todayEmotion.emozione,
                     );
                   } else {
                     return Center(
