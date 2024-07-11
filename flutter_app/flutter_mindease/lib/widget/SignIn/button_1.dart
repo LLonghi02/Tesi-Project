@@ -1,7 +1,7 @@
 // custom_button.dart
 
 import 'package:flutter/material.dart';
-import 'package:flutter_mindease/widget/theme.dart';
+import 'package:flutter_mindease/provider/theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CustomTextButton extends ConsumerWidget {

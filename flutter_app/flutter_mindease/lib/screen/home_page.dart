@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mindease/provider/userProvider.dart';
 import 'package:flutter_mindease/screen/mindufulness/mindfulness.dart';
 import 'package:flutter_mindease/widget/bottom_bar.dart';
 import 'package:flutter_mindease/widget/click_image.dart';
 import 'package:flutter_mindease/widget/emotion_button.dart';
 import 'package:flutter_mindease/widget/font.dart';
-import 'package:flutter_mindease/widget/theme.dart';
+import 'package:flutter_mindease/provider/theme.dart';
 import 'package:flutter_mindease/widget/top_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -33,6 +34,8 @@ class HomePage extends ConsumerWidget {
         accentColorProvider); // Recupera il colore di sfondo dal provider
     final detcolor = ref.watch(
         backgrounDetail);
+    String nickname = ref.watch(nicknameProvider); // Recupera il valore del nickname
+
     return Scaffold(
       backgroundColor: detcolor,
       appBar: const TopBar(),
@@ -66,8 +69,8 @@ class HomePage extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Ciao,',
+                      Text(
+                        'Ciao,$nickname',
                         style: AppFonts.appTitle,
                       ),
                       const SizedBox(height: 20),

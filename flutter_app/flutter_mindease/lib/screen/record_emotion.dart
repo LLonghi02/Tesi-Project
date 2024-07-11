@@ -5,7 +5,7 @@ import 'package:flutter_mindease/widget/bottom_bar.dart';
 import 'package:flutter_mindease/widget/font.dart';
 import 'package:flutter_mindease/widget/sintomo_button.dart';
 import 'package:flutter_mindease/widget/text_field_noIcon.dart';
-import 'package:flutter_mindease/widget/theme.dart';
+import 'package:flutter_mindease/provider/theme.dart';
 import 'package:flutter_mindease/widget/top_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo;

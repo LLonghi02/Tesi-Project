@@ -3,7 +3,7 @@ import 'package:flutter_mindease/screen/ease/ease.dart';
 import 'package:flutter_mindease/screen/home_page.dart';
 import 'package:flutter_mindease/screen/profile.dart';
 import 'package:flutter_mindease/screen/supporto.dart';
-import 'package:flutter_mindease/widget/theme.dart'; // Importa il tuo provider di colore
+import 'package:flutter_mindease/provider/theme.dart'; // Importa il tuo provider di colore
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mindease/provider/userProvider.dart';
 import 'package:flutter_mindease/screen/setting_pages/about.dart';
 import 'package:flutter_mindease/screen/setting_pages/nickname.dart';
 import 'package:flutter_mindease/screen/setting_pages/password.dart';
@@ -7,7 +8,7 @@ import 'package:flutter_mindease/screen/setting_pages/share.dart';
 import 'package:flutter_mindease/screen/setting_pages/theme_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_mindease/widget/font.dart';
-import 'package:flutter_mindease/widget/theme.dart';
+import 'package:flutter_mindease/provider/theme.dart';
 import 'package:flutter_mindease/widget/bottom_bar.dart';
 import 'package:flutter_mindease/widget/top_bar.dart';
 
@@ -34,6 +35,7 @@ class SettingPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final backcolor =
         ref.watch(detProvider); // Recupera il colore di sfondo dal provider
+    String nickname = ref.watch(nicknameProvider); // Recupera il valore del nickname
 
     return Scaffold(
       backgroundColor: backcolor,
@@ -49,8 +51,8 @@ class SettingPage extends ConsumerWidget {
                 backgroundImage: AssetImage('assets/images/profilo.jpg'),
               ),
               const SizedBox(height: 10),
-              const Text(
-                'Nickname',
+              Text(
+                nickname,
                 style: AppFonts.settTitle,
               ),
               const SizedBox(height: 10),

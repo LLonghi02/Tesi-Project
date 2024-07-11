@@ -4,7 +4,7 @@ import 'package:flutter_mindease/screen/ease/respirazione.dart';
 import 'package:flutter_mindease/screen/ease/suoni.dart';
 import 'package:flutter_mindease/widget/bottom_bar.dart';
 import 'package:flutter_mindease/widget/click_image.dart';
-import 'package:flutter_mindease/widget/theme.dart';
+import 'package:flutter_mindease/provider/theme.dart';
 import 'package:flutter_mindease/widget/top_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mindease/model/sound_model.dart'; // Assicurati di importare correttamente il modello SuoniModel
 import 'package:flutter_mindease/widget/bottom_bar.dart';
-import 'package:flutter_mindease/widget/theme.dart';
+import 'package:flutter_mindease/provider/theme.dart';
 import 'package:flutter_mindease/widget/top_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;

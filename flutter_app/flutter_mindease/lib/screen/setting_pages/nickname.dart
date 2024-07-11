@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mindease/provider/userProvider.dart';
+import 'package:flutter_mindease/repository/mongoDB.dart';
+import 'package:flutter_mindease/widget/SignIn/button_1.dart';
+import 'package:flutter_mindease/widget/text_field_noIcon.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_mindease/widget/font.dart';
-import 'package:flutter_mindease/widget/theme.dart';
+import 'package:flutter_mindease/provider/theme.dart';
 import 'package:flutter_mindease/widget/bottom_bar.dart';
 import 'package:flutter_mindease/widget/top_bar.dart';
 
@@ -21,15 +25,19 @@ class MyApp extends StatelessWidget {
   }
 }
 
-final nicknameProvider = StateProvider<String>((ref) => ''); // Provider per gestire il nickname
-
 class NicknamePage extends ConsumerWidget {
-  const NicknamePage({super.key});
+
+ const  NicknamePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final backcolor = ref.watch(detProvider); // Recupera il colore di sfondo dal provider
-    final nickname = ref.watch(nicknameProvider); // Recupera il valore del nickname
+    final TextEditingController oldNicknameController = TextEditingController(); // Controller per il vecchio nickname
+    final TextEditingController newNicknameController = TextEditingController(); // Controller per il nuovo nickname
+
+    oldNicknameController.text = ref.watch(nicknameProvider); // Inizializza il controller con il vecchio nickname
+    String newNickname="";
+                String oldNickname = oldNicknameController.text; // Ottieni il vecchio nickname dal controller
 
     return Scaffold(
       backgroundColor: backcolor,
@@ -44,8 +52,9 @@ class NicknamePage extends ConsumerWidget {
               style: AppFonts.settTitle,
             ),
             const SizedBox(height: 20),
+
             TextFormField(
-              initialValue: nickname,
+              controller: oldNicknameController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Nickname',
@@ -53,18 +62,26 @@ class NicknamePage extends ConsumerWidget {
                 filled: true,
               ),
               onChanged: (value) {
-                ref.read(nicknameProvider.notifier).state = value; // Aggiorna il valore del nickname
+                newNickname=value;
+                newNicknameController.text = value;
               },
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Esegui azioni di salvataggio qui
+            CustomTextButton(
+              onPressed: () async {
+
+                await mongoDBService.open();
+                await mongoDBService.updateUserByNickname(oldNickname, newNickname);
+                await mongoDBService.close();
+
+                // Aggiorna il vecchio nickname con il nuovo nickname nel provider
+                ref.read(nicknameProvider.notifier).state = newNickname;
+
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Nickname salvato con successo!')),
                 );
               },
-              child: const Text('Salva Nickname'),
+              buttonText: 'Salva',
             ),
           ],
         ),

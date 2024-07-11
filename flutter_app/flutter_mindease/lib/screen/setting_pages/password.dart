@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mindease/provider/userProvider.dart';
+import 'package:flutter_mindease/repository/mongoDB.dart';
+import 'package:flutter_mindease/widget/SignIn/button_1.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_mindease/widget/font.dart';
-import 'package:flutter_mindease/widget/theme.dart';
+import 'package:flutter_mindease/provider/theme.dart';
 import 'package:flutter_mindease/widget/bottom_bar.dart';
 import 'package:flutter_mindease/widget/top_bar.dart';
 
@@ -21,15 +24,19 @@ class MyApp extends StatelessWidget {
   }
 }
 
-final PasswordProvider = StateProvider<String>((ref) => ''); 
-
 class PasswordPage extends ConsumerWidget {
-  const PasswordPage({super.key});
+
+ const  PasswordPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final backcolor = ref.watch(detProvider); // Recupera il colore di sfondo dal provider
-    final nickname = ref.watch(PasswordProvider); 
+    final TextEditingController oldPasswordController = TextEditingController(); // Controller per il vecchio nickname
+    final TextEditingController newPasswordController = TextEditingController(); // Controller per il nuovo nickname
+
+    oldPasswordController.text = ref.watch(passwordProvider); // Inizializza il controller con il vecchio nickname
+    String newPassword="";
+                String oldPassword = oldPasswordController.text; // Ottieni il vecchio nickname dal controller
 
     return Scaffold(
       backgroundColor: backcolor,
@@ -40,12 +47,12 @@ class PasswordPage extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              'Modifica la tua password:',
+              'Modifica la password:',
               style: AppFonts.settTitle,
             ),
             const SizedBox(height: 20),
             TextFormField(
-              initialValue: nickname,
+              controller: oldPasswordController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Password',
@@ -53,18 +60,26 @@ class PasswordPage extends ConsumerWidget {
                 filled: true,
               ),
               onChanged: (value) {
-                ref.read(PasswordProvider.notifier).state = value; 
+                newPassword=value;
+                newPasswordController.text = value;
               },
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Esegui azioni di salvataggio qui
+            CustomTextButton(
+              onPressed: () async {
+
+                await mongoDBService.open();
+                await mongoDBService.updateUserByPassword(oldPassword, newPassword);
+                await mongoDBService.close();
+
+                // Aggiorna il vecchio nickname con il nuovo nickname nel provider
+                ref.read(passwordProvider.notifier).state = newPassword;
+
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Password salvato con successo!')),
+                  const SnackBar(content: Text('Password salvata con successo!')),
                 );
               },
-              child: const Text('Salva Password'),
+              buttonText: 'Salva',
             ),
           ],
         ),

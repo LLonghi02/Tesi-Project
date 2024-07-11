@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mindease/model/video_model.dart';
 import 'package:flutter_mindease/repository/video.dart';
 import 'package:flutter_mindease/widget/bottom_bar.dart';
-import 'package:flutter_mindease/widget/theme.dart';
+import 'package:flutter_mindease/provider/theme.dart';
 import 'package:flutter_mindease/widget/top_bar.dart';
 import 'package:flutter_mindease/widget/video_item.dart';
 import 'package:flutter_mindease/widget/video_player.dart';

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mindease/provider/userProvider.dart';
 import 'package:flutter_mindease/repository/login.dart';
 import 'package:flutter_mindease/screen/home_page.dart';
 import 'package:flutter_mindease/screen/registrazione.dart';
@@ -8,7 +9,7 @@ import 'package:flutter_mindease/widget/font.dart';
 import 'package:flutter_mindease/widget/SignIn/noAccount.dart';
 import 'package:flutter_mindease/widget/SignIn/rememberMe.dart';
 import 'package:flutter_mindease/widget/text_field.dart';
-import 'package:flutter_mindease/widget/theme.dart';
+import 'package:flutter_mindease/provider/theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SignInPage extends ConsumerWidget {
@@ -58,6 +59,9 @@ class SignInPage extends ConsumerWidget {
               const SizedBox(height: 3),
               CustomTextButton(
                  onPressed: () async {
+                    ref.read(nicknameProvider.notifier).state = _nicknameController.text;
+                    ref.read(passwordProvider.notifier).state = _passwordController.text;
+
                     String loginResult = await logIn(
                         _nicknameController.text, _passwordController.text);
                     if (loginResult == 'login successful') {

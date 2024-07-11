@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mindease/screen/settings.dart';
 import 'package:flutter_mindease/widget/font.dart';
-import 'package:flutter_mindease/widget/theme.dart';
+import 'package:flutter_mindease/provider/theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TopBar extends ConsumerWidget implements PreferredSizeWidget {

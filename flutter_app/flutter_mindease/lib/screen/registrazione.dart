@@ -7,7 +7,7 @@ import 'package:flutter_mindease/widget/font.dart';
 import 'package:flutter_mindease/widget/SignIn/noAccount.dart';
 import 'package:flutter_mindease/widget/SignIn/rememberMe.dart';
 import 'package:flutter_mindease/widget/text_field.dart';
-import 'package:flutter_mindease/widget/theme.dart';
+import 'package:flutter_mindease/provider/theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_mindease/repository/mongoDB.dart';
 
@@ -91,7 +91,7 @@ class _RegistrazionePageState extends ConsumerState<RegistrazionePage> {
                   await mongoDBService.registerUser(email, nickname, password);
                   await mongoDBService.close();
                   Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (_) => const HomePage()),
+                    MaterialPageRoute(builder: (_) =>  SignInPage()),
                   );
                 },
                 buttonText: 'Registrami',

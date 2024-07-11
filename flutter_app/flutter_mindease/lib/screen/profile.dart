@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mindease/provider/getEmotion.dart';
+import 'package:flutter_mindease/provider/userProvider.dart';
 import 'package:flutter_mindease/widget/emotion_BCalenda.dart';
-import 'package:flutter_mindease/widget/emotion_button.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_mindease/model/calendar_model.dart';
 import 'package:flutter_mindease/repository/dateProvider.dart';
@@ -32,6 +32,7 @@ class ProfileScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     String currentDate = DateTime.now().toIso8601String().split('T')[0];
+    String nickname = ref.watch(nicknameProvider); // Recupera il valore del nickname
 
     final AsyncValue<List<CalendarModel>> calendarDataAsync =
         ref.watch(calendarProvider(currentDate));
@@ -52,8 +53,8 @@ class ProfileScreen extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              const Text(
-                'Nickname',
+              Text(
+                nickname,
                 style: AppFonts.appTitle,
               ),
               const SizedBox(height: 20),
