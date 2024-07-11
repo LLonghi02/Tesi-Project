@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mindease/provider/getEmotion.dart';
 import 'package:flutter_mindease/provider/userProvider.dart';
@@ -33,6 +35,7 @@ class ProfileScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     String currentDate = DateTime.now().toIso8601String().split('T')[0];
     String nickname = ref.watch(nicknameProvider); // Recupera il valore del nickname
+    File? profileImage = ref.watch(profileImageProvider); // Recupera il file dell'immagine del profilo
 
     final AsyncValue<List<CalendarModel>> calendarDataAsync =
         ref.watch(calendarProvider(currentDate));
@@ -46,10 +49,12 @@ class ProfileScreen extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Center(
+              Center(
                 child: CircleAvatar(
                   radius: 50,
-                  backgroundImage: AssetImage('assets/images/profilo.jpg'),
+                  backgroundImage: profileImage != null
+                      ? FileImage(profileImage)
+                      : const AssetImage('assets/images/user/profilo.png'),
                 ),
               ),
               const SizedBox(height: 10),
@@ -100,7 +105,7 @@ class ProfileScreen extends ConsumerWidget {
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.calendar_today,
                                     size: 50,
                                     color: Color(0xffd2f7ef),
@@ -129,14 +134,16 @@ class ProfileScreen extends ConsumerWidget {
                                     return Padding(
                                       padding: const EdgeInsets.all(20.0),
                                       child: EmotionCalenda(
-                                        imageUrl: getEmotionImage(
-                                            todayEmotion.emozione),
+                                        imageUrl:
+                                            getEmotionImage(todayEmotion.emozione),
                                       ),
                                     );
                                   } else {
-                                    return const Text(
-                                      'non ci hai fatto sapere come stai',
-                                      style: AppFonts.calenda,
+                                    return const Flexible(
+                                      child: Text(
+                                        'non ci hai fatto sapere come stai',
+                                        style: AppFonts.calenda,
+                                      ),
                                     );
                                   }
                                 },

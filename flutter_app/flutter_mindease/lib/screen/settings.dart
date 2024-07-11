@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mindease/provider/userProvider.dart';
 import 'package:flutter_mindease/screen/setting_pages/about.dart';
@@ -17,7 +19,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +31,13 @@ class MyApp extends StatelessWidget {
 }
 
 class SettingPage extends ConsumerWidget {
-  const SettingPage({super.key});
+  const SettingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final backcolor =
-        ref.watch(detProvider); // Recupera il colore di sfondo dal provider
-    String nickname = ref.watch(nicknameProvider); // Recupera il valore del nickname
+    final backcolor = ref.watch(detProvider); // Retrieve background color from provider
+    String nickname = ref.watch(nicknameProvider); // Retrieve nickname value from provider
+    File? profileImage = ref.watch(profileImageProvider); // Retrieve profile image file from provider
 
     return Scaffold(
       backgroundColor: backcolor,
@@ -46,9 +48,11 @@ class SettingPage extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const CircleAvatar(
-                radius: 40,
-                backgroundImage: AssetImage('assets/images/profilo.jpg'),
+               CircleAvatar(
+                radius: 50,
+                backgroundImage: profileImage != null
+                    ? FileImage(profileImage)
+                    : AssetImage('assets/images/user/profilo.png'),
               ),
               const SizedBox(height: 10),
               Text(
@@ -59,10 +63,9 @@ class SettingPage extends ConsumerWidget {
               Center(
                 child: Container(
                   width: 300, // Set the desired width
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 20.0, horizontal: 15.0),
+                  padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
                   decoration: BoxDecoration(
-                    color: Color(0xffECFEF1),
+                    color: const Color(0xffECFEF1),
                     borderRadius: BorderRadius.circular(16.0),
                   ),
                   child: Column(
@@ -71,46 +74,37 @@ class SettingPage extends ConsumerWidget {
                       _buildListItem(context, 'Nickname', Icons.person, () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => const NicknamePage()),
+                          MaterialPageRoute(builder: (context) => const NicknamePage()),
                         );
                       }),
                       _buildListItem(context, 'Password', Icons.lock, () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => const PasswordPage()),
+                          MaterialPageRoute(builder: (context) => const PasswordPage()),
                         );
                       }),
-                      _buildListItem(
-                          context, 'Immagine del profilo', Icons.image, () {
+                      _buildListItem(context, 'Profile Image', Icons.image, () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => const ProfileImagePage()),
+                          MaterialPageRoute(builder: (context) =>  ProfileImagePage()),
                         );
                       }),
-                      _buildListItem(context, 'Tema', Icons.brush, () {
+                      _buildListItem(context, 'Theme', Icons.brush, () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => const ThemeSelectionPage()),
+                          MaterialPageRoute(builder: (context) => const ThemeSelectionPage()),
                         );
                       }),
-                      _buildListItem(
-                          context, 'Condivisione con terapeuta', Icons.share,
-                          () {
+                      _buildListItem(context, 'Share with Therapist', Icons.share, () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => const SharePage()),
+                          MaterialPageRoute(builder: (context) => const SharePage()),
                         );
                       }),
                       _buildListItem(context, 'About Us', Icons.info, () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => const AboutPage()),
+                          MaterialPageRoute(builder: (context) => const AboutPage()),
                         );
                       }),
                     ],
@@ -126,15 +120,14 @@ class SettingPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildListItem(
-      BuildContext context, String title, IconData icon, VoidCallback onTap) {
+  Widget _buildListItem(BuildContext context, String title, IconData icon, VoidCallback onTap) {
     return ListTile(
-      leading: Icon(icon, color: Color(0xFF4FA69E)),
+      leading: Icon(icon, color: const Color(0xFF4FA69E)),
       title: Text(
         title,
         style: AppFonts.sett,
       ),
-      trailing: const Icon(Icons.arrow_forward_ios, color: Color(0xFF4FA69E)),
+      trailing: const Icon(Icons.arrow_forward_ios, color: const Color(0xFF4FA69E)),
       onTap: onTap,
     );
   }

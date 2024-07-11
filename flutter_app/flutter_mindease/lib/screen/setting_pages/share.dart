@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mindease/widget/SignIn/button_1.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_mindease/widget/font.dart';
 import 'package:flutter_mindease/provider/theme.dart';
@@ -63,14 +64,14 @@ class SharePage extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
+            CustomTextButton(
               onPressed: () {
                 // Esegui azioni di salvataggio qui
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Condivisione col terapeuta avvenuta con successo!')),
                 );
               },
-              child: const Text('Condividi'),
+              buttonText: 'Condividi',
             ),
           ],
         ),

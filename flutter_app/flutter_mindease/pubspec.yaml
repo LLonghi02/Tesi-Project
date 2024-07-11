@@ -48,7 +48,6 @@ flutter:
     - assets/images/calend.png
     - assets/images/psicologo.png
     - assets/images/mostro.png
-    - assets/images/profilo.jpg
     - assets/images/trofeo.png
     - assets/images/emotion/annoiato.png
     - assets/images/emotion/ansia.png
@@ -67,6 +66,15 @@ flutter:
     - assets/images/sintomi/nervous.png
     - assets/images/sintomi/parkinson.png
     - assets/images/sintomi/stomackache.png
+    - assets/images/user/profilo.png
+    - assets/images/user/p2.png
+    - assets/images/user/p3.png
+    - assets/images/user/p4.png
+    - assets/images/user/p5.png
+    - assets/images/user/p6.png
+    - assets/images/user/p7.png
+    - assets/images/user/p8.png
+
   fonts:
     - family: MyFont
       fonts:

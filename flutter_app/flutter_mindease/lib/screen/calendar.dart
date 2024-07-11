@@ -2,33 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mindease/provider/getEmotion.dart';
 import 'package:flutter_mindease/repository/dateProvider.dart';
 import 'package:flutter_mindease/widget/bottom_bar.dart';
+import 'package:flutter_mindease/widget/emotion_BCalenda.dart';
 import 'package:flutter_mindease/widget/top_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_mindease/model/calendar_model.dart';
-import 'package:flutter_mindease/widget/emotion_button.dart'; // Assicurati di aver importato EmotionButton
+import 'package:collection/collection.dart'; // Import for firstWhereOrNull method
 
 class CalendarPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final currentDate = DateTime.now().toIso8601String().split('T')[0];
     final AsyncValue<List<CalendarModel>> calendarDataAsync =
-        ref.watch(calendarProvider(DateTime.now().toIso8601String().split('T')[0]));
+        ref.watch(calendarProvider(currentDate));
 
     return Scaffold(
       backgroundColor: const Color(0xffd2f7ef),
       appBar: const TopBar(),
       body: calendarDataAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => Center(child: CircularProgressIndicator()),
         error: (error, stackTrace) => Center(child: Text('Errore: $error')),
         data: (calendarData) {
-          return _buildCalendarWithEmotionButton(calendarData);
+          // Find emotion for the current date
+          CalendarModel? todayEmotion =
+              calendarData.firstWhereOrNull((entry) => entry.data == currentDate);
+
+          return _buildCalendarWithEmotionButton(calendarData, todayEmotion);
         },
       ),
       bottomNavigationBar: const BottomBar(),
     );
   }
 
-  Widget _buildCalendarWithEmotionButton(List<CalendarModel> calendarData) {
+  Widget _buildCalendarWithEmotionButton(
+      List<CalendarModel> calendarData, CalendarModel? todayEmotion) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -67,20 +74,21 @@ class CalendarPage extends ConsumerWidget {
               lastDay: DateTime.utc(2030, 3, 14),
               focusedDay: DateTime.now(),
               selectedDayPredicate: (day) {
-                return calendarData.any((entry) => entry.data == day.toString());
+                return calendarData.any((entry) =>
+                    entry.data == day.toIso8601String().split('T')[0]);
               },
               onDaySelected: (selectedDay, focusedDay) {
                 print('Selected $selectedDay');
               },
               calendarBuilders: CalendarBuilders<CalendarModel>(
                 defaultBuilder: (context, day, focusedDay) {
-                  final emotionsForDay = calendarData.where((entry) => entry.data == day.toString());
+                  final emotionsForDay = calendarData.where((entry) =>
+                      entry.data == day.toIso8601String().split('T')[0]);
 
                   if (emotionsForDay.isNotEmpty) {
                     final todayEmotion = emotionsForDay.first;
-                    return EmotionButton(
+                    return EmotionCalenda(
                       imageUrl: getEmotionImage(todayEmotion.emozione),
-                      text: todayEmotion.emozione,
                     );
                   } else {
                     return Center(
