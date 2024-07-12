@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mindease/model/video_model.dart';
+import 'package:flutter_mindease/repository/soundProvider.dart';
+import 'package:flutter_mindease/screen/soundPlayer.dart';
 import 'package:flutter_mindease/widget/bottom_bar.dart';
 import 'package:flutter_mindease/widget/click_image.dart';
 import 'package:flutter_mindease/provider/theme.dart';
@@ -22,6 +25,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MeditationPage extends ConsumerWidget {
+  
   const MeditationPage({super.key});
 
   @override
@@ -31,11 +35,7 @@ class MeditationPage extends ConsumerWidget {
     return Scaffold(
       backgroundColor: backcolor,
       appBar: const TopBar(),
-      body: const Column(
-        children: [
-         
-        ],
-      ),
+     
       bottomNavigationBar: const BottomBar(),
     );
   }
