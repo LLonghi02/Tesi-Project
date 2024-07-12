@@ -81,7 +81,34 @@ flutter:
     - assets/images/user/p5.png
     - assets/images/user/p6.png
     - assets/images/user/p7.png
-    - assets/images/user/p8.png
+    - assets/sound/Beach Waves.mp3
+    - assets/sound/Beach.mp3
+    - assets/sound/Bosco & Uccelli.mp3
+    - assets/sound/Cinguettio rilassante.mp3
+    - assets/sound/Fire Crackle At the Lake.mp3
+    - assets/sound/Gentle Rivers and Streams.mp3
+    - assets/sound/Hazard's Beach.mp3
+    - assets/sound/Mountain Rain.mp3
+    - assets/sound/Musica di rilassamento con uccelli.mp3
+    - assets/sound/Natural Meditation.mp3
+    - assets/sound/Nature Sounds of the Ocean.mp3
+    - assets/sound/Ocean Relax.mp3
+    - assets/sound/Ocean Waves .mp3
+    - assets/sound/Oltre le nuvole (suono rilassante di uccelli).mp3
+    - assets/sound/Piccoli uccellini.mp3
+    - assets/sound/Piccoli volatili.mp3
+    - assets/sound/Relaxing Rain.mp3
+    - assets/sound/River, Thunder & Rain - Calm Excitement.mp3
+    - assets/sound/Soft Sounds of the Night.mp3
+    - assets/sound/Suburban Forest Rain 2.mp3
+    - assets/sound/Suoni degli uccelli.mp3
+    - assets/sound/The Babbling Brook - Scotland.mp3
+    - assets/sound/The Sound Of The Jungle With Coloured Birds For Relaxation, Sleeping, Studying.mp3
+    - assets/sound/Thunderstorm and Rain Music.mp3
+    - assets/sound/Tranquil Babbling Brook for Deep Sleep.mp3
+    - assets/sound/White Noise Rain and River.mp3
+
+
 
   fonts:
     - family: MyFont
