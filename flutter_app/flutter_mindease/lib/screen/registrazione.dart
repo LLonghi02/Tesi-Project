@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mindease/screen/google_signin.dart';
 import 'package:flutter_mindease/screen/home_page.dart';
-import 'package:flutter_mindease/screen/sign_in.dart';
 import 'package:flutter_mindease/widget/SignIn/button_1.dart';
 import 'package:flutter_mindease/widget/SignIn/social_signIn.dart';
 import 'package:flutter_mindease/widget/font.dart';
@@ -119,7 +119,7 @@ class _RegistrazionePageState extends ConsumerState<RegistrazionePage> {
                 ],
               ),
               const SizedBox(height: 10),
-              SocialSignInButtonsWidget(iconColor: iconColor),
+              //SocialSignInButtonsWidget(iconColor: iconColor),
               SignUpPromptWidget(
                 color: detColor,
                 label: 'Hai un account?',

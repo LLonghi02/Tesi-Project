@@ -11,12 +11,34 @@ import 'package:flutter_mindease/widget/SignIn/rememberMe.dart';
 import 'package:flutter_mindease/widget/text_field.dart';
 import 'package:flutter_mindease/provider/theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class SignInPage extends ConsumerWidget {
   SignInPage({Key? key}) : super(key: key);
 
   final TextEditingController _nicknameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  Future<void> _handleGoogleSignIn(BuildContext context, WidgetRef ref) async {
+    GoogleSignIn _googleSignIn = GoogleSignIn(
+      clientId: '1068698468225-jei0dqjtdrjmeka2nse9t60himhn5i1c.apps.googleusercontent.com', 
+      scopes: <String>['email', 'https://www.googleapis.com/auth/contacts.readonly'],
+    );
+
+    try {
+      await _googleSignIn.signIn();
+      // Handle successful Google sign-in here, e.g., navigate to HomePage or save user data
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+      );
+    } catch (error) {
+      print(error);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Google sign-in failed: $error')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -58,26 +80,26 @@ class SignInPage extends ConsumerWidget {
               RememberMeCheckbox(),
               const SizedBox(height: 3),
               CustomTextButton(
-                 onPressed: () async {
-                    ref.read(nicknameProvider.notifier).state = _nicknameController.text;
-                    ref.read(passwordProvider.notifier).state = _passwordController.text;
+                onPressed: () async {
+                  ref.read(nicknameProvider.notifier).state = _nicknameController.text;
+                  ref.read(passwordProvider.notifier).state = _passwordController.text;
 
-                    String loginResult = await logIn(
-                        _nicknameController.text, _passwordController.text);
-                    if (loginResult == 'login successful') {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Login effettuato con successo')),
-                      );
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomePage()),
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(loginResult)),
-                      );
-                    }
-                  },
+                  String loginResult = await logIn(
+                      _nicknameController.text, _passwordController.text);
+                  if (loginResult == 'login successful') {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Login effettuato con successo')),
+                    );
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomePage()),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(loginResult)),
+                    );
+                  }
+                },
                 buttonText: 'Accedi',
               ),
               const SizedBox(height: 10),
@@ -103,7 +125,10 @@ class SignInPage extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: 10),
-              SocialSignInButtonsWidget(iconColor: iconColor),
+              SocialSignInButtonsWidget(
+                iconColor: iconColor,
+                onGoogleSignIn: () => _handleGoogleSignIn(context, ref),
+              ),
               SignUpPromptWidget(
                 color: detColor,
                 label: 'Non hai un account?',
@@ -121,6 +146,4 @@ class SignInPage extends ConsumerWidget {
       backgroundColor: backColor,
     );
   }
-
-
 }

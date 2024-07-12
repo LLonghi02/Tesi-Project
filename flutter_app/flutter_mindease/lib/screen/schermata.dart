@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_mindease/screen/sign_in.dart';
+import 'package:flutter_mindease/screen/google_signin.dart';
 import 'package:flutter_mindease/widget/font.dart';
 
 class Schermata extends StatefulWidget {

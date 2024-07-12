@@ -1,11 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mindease/model/video_model.dart';
+import 'package:flutter_mindease/widget/font.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class VideoListItem extends StatelessWidget {
+class VideoListItem extends StatefulWidget {
   final VideoModel video;
   final VoidCallback onTap;
 
-  const VideoListItem({required this.video, required this.onTap});
+  const VideoListItem({Key? key, required this.video, required this.onTap}) : super(key: key);
+
+  @override
+  _VideoListItemState createState() => _VideoListItemState();
+}
+
+class _VideoListItemState extends State<VideoListItem> {
+  late YoutubePlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = YoutubePlayerController(
+      initialVideoId: YoutubePlayer.convertUrlToId(widget.video.videoUrl)!,
+      flags: YoutubePlayerFlags(
+        autoPlay: false, // Imposta su true se vuoi che il video parta automaticamente
+        mute: false,
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,45 +41,44 @@ class VideoListItem extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          AspectRatio(
-            aspectRatio: 16 / 9,
-            child: Image.network(
-              'https://img.youtube.com/vi/${Uri.parse(video.videoUrl).queryParameters['v']}/0.jpg',
-              fit: BoxFit.cover,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              video.title,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16.0,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              'Autore: ${video.author}',
-              style: const TextStyle(
-                fontStyle: FontStyle.italic,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                FloatingActionButton(
-                  heroTag: 'video-${video.id}',
-                  onPressed: onTap,
-                  child: const Icon(Icons.play_arrow),
+          YoutubePlayerBuilder(
+            player: YoutubePlayer(controller: _controller),
+            builder: (context, player) {
+              return GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _controller = YoutubePlayerController(
+                      initialVideoId: YoutubePlayer.convertUrlToId(widget.video.videoUrl)!,
+                      flags: YoutubePlayerFlags(
+                        autoPlay: true,
+                        mute: false,
+                      ),
+                    );
+                    _controller.play();
+                  });
+                },
+                child: Container(
+                  height: 200, // Altezza del container per il video
+                  child: player,
                 ),
-              ],
+              );
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+              widget.video.title,
+              style: AppFonts.appTitle,
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
+            child: Text(
+              'Autore: ${widget.video.author}',
+              style: AppFonts.emo,
+            ),
+          ),
+          
         ],
       ),
     );

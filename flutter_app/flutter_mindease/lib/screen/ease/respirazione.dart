@@ -5,8 +5,8 @@ import 'package:flutter_mindease/widget/bottom_bar.dart';
 import 'package:flutter_mindease/provider/theme.dart';
 import 'package:flutter_mindease/widget/top_bar.dart';
 import 'package:flutter_mindease/widget/video_item.dart';
-import 'package:flutter_mindease/widget/video_player.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class RespirationPage extends ConsumerStatefulWidget {
   const RespirationPage({Key? key}) : super(key: key);
@@ -16,7 +16,30 @@ class RespirationPage extends ConsumerStatefulWidget {
 }
 
 class _RespirationPageState extends ConsumerState<RespirationPage> {
+  YoutubePlayerController? _controller;
   VideoModel? selectedVideo;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize YoutubePlayerController when a video is selected
+    if (selectedVideo != null) {
+      _controller = YoutubePlayerController(
+        initialVideoId: YoutubePlayer.convertUrlToId(selectedVideo!.videoUrl)!,
+        flags: YoutubePlayerFlags(
+          autoPlay: true,
+          mute: false,
+        ),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    // Dispose the YoutubePlayerController
+    _controller?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +59,14 @@ class _RespirationPageState extends ConsumerState<RespirationPage> {
             return Column(
               children: [
                 if (selectedVideo != null)
-                  Container(
-                    height: 200, // Altezza del container per il video
-                    child: VideoPlayerWidget(videoUrl: selectedVideo!.videoUrl),
+                  YoutubePlayerBuilder(
+                    player: YoutubePlayer(controller: _controller!),
+                    builder: (context, player) {
+                      return Container(
+                        height: 200, // Altezza del container per il video
+                        child: player,
+                      );
+                    },
                   ),
                 Expanded(
                   child: ListView.builder(
@@ -47,8 +75,17 @@ class _RespirationPageState extends ConsumerState<RespirationPage> {
                       return VideoListItem(
                         video: videos[index],
                         onTap: () {
+                          // Update selected video and controller
                           setState(() {
                             selectedVideo = videos[index];
+                            _controller?.dispose(); // Dispose the previous controller
+                            _controller = YoutubePlayerController(
+                              initialVideoId: YoutubePlayer.convertUrlToId(selectedVideo!.videoUrl)!,
+                              flags: YoutubePlayerFlags(
+                                autoPlay: true,
+                                mute: false,
+                              ),
+                            );
                           });
                         },
                       );
