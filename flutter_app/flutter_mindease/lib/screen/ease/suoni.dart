@@ -30,7 +30,7 @@ class _SoundPageState extends State<SoundPage> {
     'assets/sound/Natural Meditation.mp3',
     'assets/sound/Nature Sounds of the Ocean.mp3',
     'assets/sound/Ocean Relax.mp3',
-    'assets/sound/Ocean Waves .mp3',
+    /*'assets/sound/Ocean Waves .mp3',
     'assets/sound/Oltre le nuvole (suono rilassante di uccelli).mp3',
     'assets/sound/Piccoli uccellini.mp3',
     'assets/sound/Piccoli volatili.mp3',
@@ -43,7 +43,7 @@ class _SoundPageState extends State<SoundPage> {
     'assets/sound/The Sound Of The Jungle With Coloured Birds For Relaxation, Sleeping, Studying.mp3',
     'assets/sound/Thunderstorm and Rain Music.mp3',
     'assets/sound/Tranquil Babbling Brook for Deep Sleep.mp3',
-    'assets/sound/White Noise Rain and River.mp3',
+    'assets/sound/White Noise Rain and River.mp3',*/
   ];
 
   @override
