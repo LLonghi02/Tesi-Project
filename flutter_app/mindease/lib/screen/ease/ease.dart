@@ -13,7 +13,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
 }
 
 class EasePage extends ConsumerWidget {
-  const EasePage({super.key});
+  const EasePage({Key? key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -34,7 +34,7 @@ class EasePage extends ConsumerWidget {
     return Scaffold(
       backgroundColor: backcolor,
       appBar: const TopBar(),
-      body: const Column(
+      body: Column(
         children: [
           ClickableImage(
             imageUrl: 'assets/images/meditazione.jpg',
@@ -46,14 +46,12 @@ class EasePage extends ConsumerWidget {
             imageUrl: 'assets/images/resp.jpg',
             text: 'Esercizi di respirazione',
             destination: RespirationPage(),
-
           ),
           ClickableImage(
             imageUrl: 'assets/images/suoni.jpeg',
             text: 'Suoni rilassanti',
             height: 100,
             destination: SoundPage(),
-
           ),
         ],
       ),
