@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:table_calendar/table_calendar.dart';
+import 'package:mindease/model/calendar_model.dart';
 import 'package:mindease/provider/getEmotion.dart';
 import 'package:mindease/repository/dateProvider.dart';
 import 'package:mindease/widget/bottom_bar.dart';
 import 'package:mindease/widget/emotion_BCalenda.dart';
 import 'package:mindease/widget/top_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:table_calendar/table_calendar.dart';
-import 'package:mindease/model/calendar_model.dart';
+import 'package:calendar_date_picker/calendar_date_picker.dart';
 import 'package:collection/collection.dart'; // Import for firstWhereOrNull method
 
 class CalendarPage extends ConsumerWidget {
@@ -27,7 +28,7 @@ class CalendarPage extends ConsumerWidget {
           CalendarModel? todayEmotion =
               calendarData.firstWhereOrNull((entry) => entry.data == currentDate);
 
-          return _buildCalendarWithEmotionButton(calendarData, todayEmotion);
+          return _buildCalendarWithEmotionButton(context, calendarData, todayEmotion);
         },
       ),
       bottomNavigationBar: const BottomBar(),
@@ -35,7 +36,7 @@ class CalendarPage extends ConsumerWidget {
   }
 
   Widget _buildCalendarWithEmotionButton(
-      List<CalendarModel> calendarData, CalendarModel? todayEmotion) {
+      BuildContext context, List<CalendarModel> calendarData, CalendarModel? todayEmotion) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -52,53 +53,31 @@ class CalendarPage extends ConsumerWidget {
         ),
         Expanded(
           child: SingleChildScrollView(
-            child: TableCalendar<CalendarModel>(
-              calendarFormat: CalendarFormat.month,
-              startingDayOfWeek: StartingDayOfWeek.monday,
-              daysOfWeekVisible: true,
-              calendarStyle: CalendarStyle(
-                todayDecoration: BoxDecoration(
-                  color: Colors.blue.withOpacity(0.5),
-                  shape: BoxShape.circle,
-                ),
-                selectedDecoration: const BoxDecoration(
-                  color: Colors.orange,
-                  shape: BoxShape.circle,
-                ),
-                markersMaxCount: 1,
-              ),
-              headerStyle: const HeaderStyle(
-                formatButtonVisible: false,
-              ),
-              firstDay: DateTime.utc(2010, 10, 16),
-              lastDay: DateTime.utc(2030, 3, 14),
-              focusedDay: DateTime.now(),
-              selectedDayPredicate: (day) {
-                return calendarData.any((entry) =>
+            child: CalendarDatePicker(
+              initialSelectedDate: DateTime.now(),
+              onDateChanged: (selectedDate) {
+                print('Selected $selectedDate');
+                // Optionally, you can perform actions based on the selected date
+              },
+              // Custom day builder to show emotions or other customizations
+              dayBuilder: (BuildContext context, DateTime day) {
+                final emotionsForDay = calendarData.where((entry) =>
                     entry.data == day.toIso8601String().split('T')[0]);
-              },
-              onDaySelected: (selectedDay, focusedDay) {
-                print('Selected $selectedDay');
-              },
-              calendarBuilders: CalendarBuilders<CalendarModel>(
-                defaultBuilder: (context, day, focusedDay) {
-                  final emotionsForDay = calendarData.where((entry) =>
-                      entry.data == day.toIso8601String().split('T')[0]);
 
-                  if (emotionsForDay.isNotEmpty) {
-                    final todayEmotion = emotionsForDay.first;
-                    return EmotionCalenda(
-                      imageUrl: getEmotionImage(todayEmotion.emozione),
-                    );
-                  } else {
-                    return Center(
-                      child: Text(
-                        day.day.toString(),
-                      ),
-                    );
-                  }
-                },
-              ),
+                if (emotionsForDay.isNotEmpty) {
+                  final todayEmotion = emotionsForDay.first;
+                  return EmotionCalenda(
+                    imageUrl: getEmotionImage(todayEmotion.emozione),
+                  );
+                } else {
+                  return Center(
+                    child: Text(
+                      day.day.toString(),
+                    ),
+                  );
+                }
+              },
+              locale: 'it', // Set your locale here
             ),
           ),
         ),

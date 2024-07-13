@@ -26,6 +26,7 @@ dependencies:
   flutter_facebook_auth: ^7.0.1
   google_sign_in: ^6.2.1
   youtube_player_flutter: ^9.0.1
+  calendar_date_picker2: ^1.1.5
   flutter_inappwebview: ^6.0.0
   video_player: ^2.2.12
   youtube_player_iframe: ^5.1.3
