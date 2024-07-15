@@ -23,13 +23,11 @@ class _LevelPageState extends ConsumerState<LevelPage> {
   bool _dailyGoalCompleted = false;
 
   late SharedPreferences _prefs;
-  late Timer _timer;
 
   @override
   void initState() {
     super.initState();
     _initializeSharedPreferences();
-    _setupDailyResetTimer();
   }
 
   Future<void> _initializeSharedPreferences() async {
@@ -37,22 +35,10 @@ class _LevelPageState extends ConsumerState<LevelPage> {
     _dailyGoalCompleted = _prefs.getBool('dailyGoalCompleted_$widget.level') ?? false;
   }
 
-  void _setupDailyResetTimer() {
-    _timer = Timer.periodic(const Duration(days: 1), (timer) {
-      _prefs.setBool('dailyGoalCompleted_$widget.level', false);
-      setState(() {
-        _dailyGoalCompleted = false;
-      });
-    });
-  }
-
   @override
   void dispose() {
-    _timer.cancel();
     super.dispose();
   }
-
- 
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +93,7 @@ class _LevelPageState extends ConsumerState<LevelPage> {
                           if (_isCompleted) {
                             _prefs.setBool('dailyGoalCompleted_$widget.level', true);
                             widget.onLevelCompleted(widget.level);
-                            Navigator.pop(context); // Torna alla pagina precedente (livelli)
+                            Navigator.pop(context); 
                           }
                         },
                       ),

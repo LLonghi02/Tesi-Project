@@ -1,10 +1,11 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mindease/widget/bottom_bar.dart';
 import 'package:mindease/widget/font.dart';
 import 'package:mindease/provider/theme.dart';
 import 'package:mindease/widget/top_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'level_page.dart';
+import 'package:mindease/screen/mindufulness/level_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LevelSelectionPage extends ConsumerStatefulWidget {
@@ -24,15 +25,22 @@ class _LevelSelectionPageState extends ConsumerState<LevelSelectionPage> {
 
   Future<void> _initializeSharedPreferences() async {
     _prefs = await SharedPreferences.getInstance();
-    _currentLevel = _prefs.getInt('currentLevel') ?? 1;
+    setState(() {
+      _currentLevel = _prefs.getInt('currentLevel') ?? 1;
+    });
+  }
+
+  bool isSameDay(DateTime date1, DateTime date2) {
+    return date1.year == date2.year && date1.month == date2.month && date1.day == date2.day;
   }
 
   void _openLevel(int level) {
     bool isUnlocked = level <= _currentLevel;
     bool dailyGoalCompleted = _prefs.getBool('dailyGoalCompleted_$level') ?? false;
+    DateTime? lastCompletionTime = DateTime.tryParse(_prefs.getString('lastCompletionTime_$level') ?? '');
 
-    if (isUnlocked && !dailyGoalCompleted) {
-      // Navigate to LevelPage
+    // Check if last completion time is before today's midnight
+    if (isUnlocked && (!dailyGoalCompleted || (lastCompletionTime != null && !isSameDay(lastCompletionTime, DateTime.now())))) {
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -43,10 +51,8 @@ class _LevelSelectionPageState extends ConsumerState<LevelSelectionPage> {
         ),
       );
     } else if (isUnlocked && dailyGoalCompleted) {
-      // Show dialog if daily goal is completed
       _showDailyGoalCompletedDialog();
     } else {
-      // Show dialog if level is locked
       _showLockedLevelDialog();
     }
   }
@@ -72,7 +78,8 @@ class _LevelSelectionPageState extends ConsumerState<LevelSelectionPage> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Obiettivo giornaliero completato'),
-        content: const Text('Torna domani per continuare con il prossimo livello.'),
+        content:
+            const Text('Torna domani per continuare con il prossimo livello.'),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
@@ -83,13 +90,17 @@ class _LevelSelectionPageState extends ConsumerState<LevelSelectionPage> {
     );
   }
 
-  void _onLevelCompleted(int level) {
+  void _onLevelCompleted(int level) async {
     setState(() {
       if (_currentLevel == level) {
         _currentLevel++;
         _prefs.setInt('currentLevel', _currentLevel);
       }
     });
+
+    DateTime now = DateTime.now();
+    await _prefs.setBool('dailyGoalCompleted_$level', true);
+    await _prefs.setString('lastCompletionTime_$level', now.toIso8601String());
   }
 
   @override
@@ -122,16 +133,41 @@ class _LevelSelectionPageState extends ConsumerState<LevelSelectionPage> {
     );
   }
 
-  List<Widget> _buildLevelButtons(Color backcolor, Color detcolor, Color lockcolor) {
+  List<Widget> _buildLevelButtons(
+      Color backcolor, Color detcolor, Color lockcolor) {
     final List<Widget> levelButtons = [];
-final List<Offset> positions = [
-  Offset(80, 1110), Offset(200, 1080), Offset(150, 1000), Offset(80, 930), Offset(220, 870),
-  Offset(60, 800), Offset(180, 750), Offset(120, 690), Offset(220, 640), Offset(80, 580),
-  Offset(140, 530), Offset(200, 480), Offset(100, 430), Offset(220, 390), Offset(60, 340),
-  Offset(180, 300), Offset(120, 260), Offset(220, 220), Offset(80, 180), Offset(150, 140),
-  Offset(200, 100), Offset(60, 60), Offset(180, 20), Offset(120, -20), Offset(220, -60),
-  Offset(80, -100), Offset(140, -140), Offset(200, -180), Offset(100, -220), Offset(220, -260)
-];
+    final List<Offset> positions = [
+      Offset(80, 1110),
+      Offset(200, 1080),
+      Offset(150, 1000),
+      Offset(80, 930),
+      Offset(220, 870),
+      Offset(60, 800),
+      Offset(180, 750),
+      Offset(120, 690),
+      Offset(220, 640),
+      Offset(80, 580),
+      Offset(140, 530),
+      Offset(200, 480),
+      Offset(100, 430),
+      Offset(220, 390),
+      Offset(60, 340),
+      Offset(180, 300),
+      Offset(120, 260),
+      Offset(220, 220),
+      Offset(80, 180),
+      Offset(150, 140),
+      Offset(200, 100),
+      Offset(60, 60),
+      Offset(180, 20),
+      Offset(120, -20),
+      Offset(220, -60),
+      Offset(80, -100),
+      Offset(140, -140),
+      Offset(200, -180),
+      Offset(100, -220),
+      Offset(220, -260)
+    ];
 
     for (int i = 0; i < positions.length; i++) {
       int level = i + 1;
