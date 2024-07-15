@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:mindease/provider/getEmotion.dart';
 import 'package:mindease/provider/userProvider.dart';
-import 'package:mindease/widget/emotion_BCalenda.dart';
+import 'package:mindease/widget/Calendario/emotion_BCalenda.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mindease/model/calendar_model.dart';
 import 'package:mindease/repository/dateProvider.dart';

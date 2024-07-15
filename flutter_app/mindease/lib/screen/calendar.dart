@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:mindease/model/calendar_model.dart';
+import 'package:mindease/provider/getEmotion.dart';
 import 'package:mindease/repository/dateProvider.dart';
+import 'package:mindease/widget/Calendario/emotion_BCalenda.dart';
+import 'package:mindease/widget/Calendario/emotion_details_widget.dart';
+import 'package:mindease/widget/bottom_bar.dart';
+import 'package:mindease/widget/font.dart';
+import 'package:mindease/widget/top_bar.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarPage extends ConsumerStatefulWidget {
@@ -21,24 +27,31 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
     final calendarData = ref.watch(calendarProvider(selectedDate));
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Il tuo calendario'),
-      ),
+      backgroundColor: const Color(0xffd2f7ef),
+      appBar: const TopBar(),
       body: Column(
         children: [
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Text(
+              'Il tuo calendario',
+              style: AppFonts.appTitle,
+            ),
+          ),
           _buildCalendar(),
           Expanded(
             child: calendarData.when(
               data: (data) {
                 _selectedEvents = data;
-                return _buildEmotionDetails(_selectedEvents);
+                return EmotionDetailsWidget(data: _selectedEvents); // Utilizzo del nuovo widget
               },
-              loading: () => Center(child: CircularProgressIndicator()),
+              loading: () => const Center(child: CircularProgressIndicator()),
               error: (err, stack) => Center(child: Text('Error: $err')),
             ),
           ),
         ],
       ),
+      bottomNavigationBar: const BottomBar(),
     );
   }
 
@@ -61,18 +74,16 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
           if (_selectedEvents.isNotEmpty) {
             final event = _selectedEvents.firstWhere(
               (event) => event.data == DateFormat('yyyy-MM-dd').format(date),
-              orElse: () => CalendarModel(id: '', data: '', emozione: '', causa: ''),
+              orElse: () =>
+                  CalendarModel(id: '', data: '', emozione: '', causa: '', sintomi: []),
             );
             if (event.emozione.isNotEmpty) {
-              // Customize the marker appearance based on emotion
-              return Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.blue, // Example color, change based on emotion
-                ),
-                child: Center(
-                  child: Text(event.emozione),
-                ),
+              String imageUrl = getEmotionImage(event.emozione);
+              return EmotionCalenda(
+                imageUrl: imageUrl,
+                onTap: () {
+                  // Handle the tap event if needed
+                },
               );
             }
           }
@@ -81,22 +92,16 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
       ),
     );
   }
-
-  Widget _buildEmotionDetails(List<CalendarModel> data) {
-    if (data.isEmpty) {
-      return Center(child: Text('No emotions recorded for this day'));
-    }
-
-    final emotion = data.first.emozione; // Assuming one emotion per day
-    final causa = data.first.causa; // Assuming one cause per day
-    final date = data.first.data;
-
-    return Column(
-      children: [
-        Text('Emotion for $date: $emotion'),
-        Text('Cause: $causa'),
-        // Add more details if available
-      ],
-    );
-  }
 }
+
+
+
+// Mappa di traduzione dei sintomi da italiano a inglese
+Map<String, String> italianToEnglishSymptoms = {
+  'Mal di testa': 'headache',
+  'Batticuore': 'heart',
+  'Insonnia': 'insomnia',
+  'Nervosismo': 'nervous',
+  'Tremore': 'parkinson',
+  'Mal di pancia': 'stomachache',
+};

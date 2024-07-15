@@ -16,8 +16,8 @@ class EmotionCalenda extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(12.0),
       child: Container(
-        width: 60, // Adjusted width to accommodate the image
-        height: 60, // Fixed height for the button
+        width: 50, // Adjusted width to accommodate the image
+        height: 50, // Fixed height for the button
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.0),
           image: DecorationImage(
