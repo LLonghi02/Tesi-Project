@@ -126,7 +126,7 @@ class SupportoPage extends ConsumerWidget {
 
   Widget _buildMessageBubble(BuildContext context, Message message) {
     final isUserMessage = message.isUser;
-  final alignment = isUserMessage ? Alignment.centerRight : Alignment.centerLeft;
+    final alignment = isUserMessage ? Alignment.centerRight : Alignment.centerLeft;
     final backgroundColor = isUserMessage ? Colors.white : Colors.blueGrey;
     final textColor = isUserMessage ? Colors.black : Colors.white;
     final borderRadius = isUserMessage
