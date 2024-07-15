@@ -102,6 +102,7 @@ class _LevelSelectionPageState extends ConsumerState<LevelSelectionPage> {
       backgroundColor: backcolor,
       appBar: const TopBar(),
       body: SingleChildScrollView(
+        reverse: true,
         child: Container(
           height: 1200, // Set height to fit all levels
           child: Stack(
@@ -123,15 +124,14 @@ class _LevelSelectionPageState extends ConsumerState<LevelSelectionPage> {
 
   List<Widget> _buildLevelButtons(Color backcolor, Color detcolor, Color lockcolor) {
     final List<Widget> levelButtons = [];
-    final List<Offset> positions = [
-      // Coordinates for all 30 levels
-      Offset(80, 1100), Offset(60, 1000), Offset(120, 900), Offset(140, 800), Offset(190, 850),
-      Offset(200, 700), Offset(100, 680), Offset(50, 620), Offset(150, 580), Offset(110, 520),
-      Offset(90, 460), Offset(140, 420), Offset(200, 380), Offset(80, 340), Offset(50, 300),
-      Offset(130, 260), Offset(160, 220), Offset(100, 180), Offset(80, 140), Offset(120, 100),
-      Offset(190, 60), Offset(60, 20), Offset(140, -20), Offset(80, -60), Offset(130, -100),
-      Offset(200, -140), Offset(50, -180), Offset(160, -220), Offset(110, -260), Offset(140, -300)
-    ];
+final List<Offset> positions = [
+  Offset(80, 1110), Offset(200, 1080), Offset(150, 1000), Offset(80, 930), Offset(220, 870),
+  Offset(60, 800), Offset(180, 750), Offset(120, 690), Offset(220, 640), Offset(80, 580),
+  Offset(140, 530), Offset(200, 480), Offset(100, 430), Offset(220, 390), Offset(60, 340),
+  Offset(180, 300), Offset(120, 260), Offset(220, 220), Offset(80, 180), Offset(150, 140),
+  Offset(200, 100), Offset(60, 60), Offset(180, 20), Offset(120, -20), Offset(220, -60),
+  Offset(80, -100), Offset(140, -140), Offset(200, -180), Offset(100, -220), Offset(220, -260)
+];
 
     for (int i = 0; i < positions.length; i++) {
       int level = i + 1;
@@ -144,21 +144,21 @@ class _LevelSelectionPageState extends ConsumerState<LevelSelectionPage> {
           child: GestureDetector(
             onTap: () => _openLevel(level),
             child: Container(
-              width: 50,
-              height: 50,
+              width: 60,
+              height: 60,
               child: Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(100),
                   side: BorderSide(
                     color: isUnlocked ? detcolor : lockcolor,
-                    width: 3,
+                    width: 4,
                   ),
                 ),
                 color: backcolor,
                 child: Center(
                   child: isUnlocked
                       ? Text('$level', style: AppFonts.screenTitle)
-                      : Icon(Icons.lock, size: 40, color: lockcolor),
+                      : Icon(Icons.lock, size: 35, color: lockcolor),
                 ),
               ),
             ),
