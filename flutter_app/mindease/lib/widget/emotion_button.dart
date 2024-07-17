@@ -5,11 +5,14 @@ import 'package:mindease/screen/record_emotion.dart';
 class EmotionButton extends StatelessWidget {
   final String imageUrl;
   final String text;
+  final String nickname;
 
   const EmotionButton({
     Key? key,
     required this.imageUrl,
     required this.text,
+    required this.nickname,
+
   }) : super(key: key);
 
   @override
@@ -17,7 +20,7 @@ class EmotionButton extends StatelessWidget {
     void onTap() {
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => RecordEmotionPage(emotion: text),
+          builder: (context) => RecordEmotionPage(emotion: text,name:nickname),
         ),
       );
     }

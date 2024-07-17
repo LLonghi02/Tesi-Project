@@ -12,8 +12,9 @@ import 'package:mongo_dart/mongo_dart.dart' as mongo;
 
 class RecordEmotionPage extends StatefulWidget {
   final String emotion;
+  final String name;
 
-  const RecordEmotionPage({Key? key, required this.emotion}) : super(key: key);
+  const RecordEmotionPage({Key? key, required this.emotion,required this.name}) : super(key: key);
 
   @override
   _RecordEmotionPageState createState() => _RecordEmotionPageState();
@@ -42,6 +43,7 @@ class _RecordEmotionPageState extends State<RecordEmotionPage> {
       widget.emotion,
       causeController.text,
       selectedSymptoms.toList(),
+      widget.name,
     );
     Navigator.of(context).pop(); // Chiudi la pagina dopo aver salvato
   }

@@ -75,7 +75,7 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
             final event = _selectedEvents.firstWhere(
               (event) => event.data == DateFormat('yyyy-MM-dd').format(date),
               orElse: () =>
-                  CalendarModel(id: '', data: '', emozione: '', causa: '', sintomi: []),
+                  CalendarModel(id: '', data: '', emozione: '', causa: '', sintomi: [],nickname:''),
             );
             if (event.emozione.isNotEmpty) {
               String imageUrl = getEmotionImage(event.emozione);

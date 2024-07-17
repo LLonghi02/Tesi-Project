@@ -3,14 +3,17 @@ class CalendarModel {
   final String data;
   final String emozione;
   final String causa;
-  final List<String> sintomi; // Aggiunto campo per i sintomi
+  final List<String> sintomi; 
+  final String nickname;
 
   CalendarModel({
     required this.id,
     required this.data,
     required this.emozione,
     required this.causa,
-    required this.sintomi, // Aggiunto al costruttore
+    required this.sintomi, 
+    required this.nickname, 
+
   });
 
   factory CalendarModel.fromJson(Map<String, dynamic> json) {
@@ -25,7 +28,8 @@ class CalendarModel {
       data: json['Data'],
       emozione: json['Emozione'],
       causa: json['Causa'],
-      sintomi: sintomiList, // Assegnamento dei sintomi
+      sintomi: sintomiList,
+      nickname: json['Nickname'],
     );
   }
 }

@@ -30,11 +30,9 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final backcolor = ref.watch(
-        accentColorProvider); // Recupera il colore di sfondo dal provider
-    final detcolor = ref.watch(
-        backgrounDetail);
-    String nickname = ref.watch(nicknameProvider); // Recupera il valore del nickname
+    final backcolor = ref.watch(accentColorProvider);
+    final detcolor = ref.watch(detProvider);
+    String name = ref.watch(nicknameProvider);
 
     return Scaffold(
       backgroundColor: detcolor,
@@ -43,14 +41,13 @@ class HomePage extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           SizedBox(
-            height: 170, // Altezza desiderata per l'immagine
+            height: 170,
             child: Container(
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('assets/images/home.jpg'),
                   fit: BoxFit.cover,
-                  alignment: Alignment(
-                      0.0, -0.5), // Allinea l'immagine verticalmente in alto
+                  alignment: Alignment(0.0, -0.5),
                 ),
               ),
             ),
@@ -64,13 +61,13 @@ class HomePage extends ConsumerWidget {
                   topRight: Radius.circular(25.0),
                 ),
                 child: Container(
-                  color: backcolor, // Colore di sfondo preso dal provider
+                  color: backcolor,
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Ciao,$nickname',
+                        'Ciao, $name', // Corretta interpolazione di stringa
                         style: AppFonts.appTitle,
                       ),
                       const SizedBox(height: 20),
@@ -82,7 +79,7 @@ class HomePage extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(25.0),
                         ),
                         padding: const EdgeInsets.all(8.0),
-                        child: const Column(
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
@@ -100,64 +97,77 @@ class HomePage extends ConsumerWidget {
                                     imageUrl:
                                         'assets/images/emotion/annoiato.png',
                                     text: 'Annoiato',
+                                    nickname: name,
                                   ),
                                   SizedBox(width: 16),
                                   EmotionButton(
                                     imageUrl:
                                         'assets/images/emotion/felice.png',
                                     text: 'Felice',
+                                    nickname: name,
                                   ),
                                   SizedBox(width: 16),
                                   EmotionButton(
                                     imageUrl:
                                         'assets/images/emotion/triste.png',
                                     text: 'Triste',
+                                    nickname: name,
                                   ),
                                   SizedBox(width: 16),
                                   EmotionButton(
-                                    imageUrl: 'assets/images/emotion/ansia.png',
+                                    imageUrl:
+                                        'assets/images/emotion/ansia.png',
                                     text: 'Ansia',
+                                    nickname: name,
                                   ),
                                   SizedBox(width: 16),
                                   EmotionButton(
                                     imageUrl:
                                         'assets/images/emotion/arabbiato.png',
                                     text: 'Arrabbiato',
+                                    nickname: name,
                                   ),
                                   SizedBox(width: 16),
                                   EmotionButton(
-                                    imageUrl: 'assets/images/emotion/calmo.png',
+                                    imageUrl:
+                                        'assets/images/emotion/calmo.png',
                                     text: 'Calmo',
+                                    nickname: name,
                                   ),
                                   SizedBox(width: 16),
                                   EmotionButton(
                                     imageUrl:
                                         'assets/images/emotion/eccitato.png',
                                     text: 'Eccitato',
+                                    nickname: name,
                                   ),
                                   SizedBox(width: 16),
                                   EmotionButton(
                                     imageUrl:
                                         'assets/images/emotion/preoccupato.png',
                                     text: 'Preoccupato',
+                                    nickname: name,
                                   ),
                                   SizedBox(width: 16),
                                   EmotionButton(
                                     imageUrl:
                                         'assets/images/emotion/rilassato.png',
                                     text: 'Rilassato',
+                                    nickname: name,
                                   ),
                                   SizedBox(width: 16),
                                   EmotionButton(
                                     imageUrl:
                                         'assets/images/emotion/stanco.png',
                                     text: 'Stanco',
+                                    nickname: name,
                                   ),
                                   SizedBox(width: 16),
                                   EmotionButton(
                                     imageUrl:
                                         'assets/images/emotion/stressed.png',
                                     text: 'Stressato',
+                                    nickname: name,
                                   ),
                                 ],
                               ),
@@ -166,7 +176,6 @@ class HomePage extends ConsumerWidget {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      // Widget per l'obiettivo quotidiano utilizzando ClickableImage
                       ClickableImage(
                         imageUrl: 'assets/images/mindfulness.jpg',
                         text: 'Il tuo obiettivo quotidiano di Mindfulness',
