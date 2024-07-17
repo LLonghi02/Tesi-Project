@@ -88,7 +88,7 @@ class _RegistrazionePageState extends ConsumerState<RegistrazionePage> {
                   String password = _passwordController.text;
 
                   await mongoDBService.open();
-                  await mongoDBService.registerUser(email, nickname, password);
+                  await mongoDBService.registerUser(context,email, nickname, password);
                   await mongoDBService.close();
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (_) =>  SignInPage()),

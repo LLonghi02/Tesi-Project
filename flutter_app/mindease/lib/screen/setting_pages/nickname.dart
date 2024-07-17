@@ -71,15 +71,13 @@ class NicknamePage extends ConsumerWidget {
               onPressed: () async {
 
                 await mongoDBService.open();
-                await mongoDBService.updateUserByNickname(oldNickname, newNickname);
+                await mongoDBService.updateUserByNickname(context, oldNickname, newNickname);
                 await mongoDBService.close();
 
                 // Aggiorna il vecchio nickname con il nuovo nickname nel provider
                 ref.read(nicknameProvider.notifier).state = newNickname;
 
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Nickname salvato con successo!')),
-                );
+               
               },
               buttonText: 'Salva',
             ),

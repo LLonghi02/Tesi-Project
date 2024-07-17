@@ -24,7 +24,7 @@ class App extends ConsumerWidget {
           centerTitle: true,
         ),
       ),
-      home:   HomePage(),
+      home:   SignInPage(),
     );
   }
 }
