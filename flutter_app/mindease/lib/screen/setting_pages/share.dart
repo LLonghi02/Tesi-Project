@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:mindease/widget/SignIn/button_1.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mindease/widget/SignIn/button_1.dart';
 import 'package:mindease/widget/font.dart';
 import 'package:mindease/provider/theme.dart';
+import 'package:mindease/provider/userProvider.dart';
 import 'package:mindease/widget/bottom_bar.dart';
 import 'package:mindease/widget/top_bar.dart';
+import 'package:mindease/repository/share_terapeura.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -22,11 +24,19 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class SharePage extends ConsumerWidget {
+class SharePage extends ConsumerStatefulWidget {
   const SharePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  _SharePageState createState() => _SharePageState();
+}
+
+class _SharePageState extends ConsumerState<SharePage> {
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
     final backcolor = ref.watch(detProvider); // Recupera il colore di sfondo dal provider
 
     return Scaffold(
@@ -45,6 +55,7 @@ class SharePage extends ConsumerWidget {
             ),
             const SizedBox(height: 20),
             TextFormField(
+              controller: _nameController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Nome e cognome',
@@ -52,9 +63,9 @@ class SharePage extends ConsumerWidget {
                 filled: true,
               ),
             ),
-            
             const SizedBox(height: 12),
             TextFormField(
+              controller: _emailController,
               keyboardType: TextInputType.emailAddress,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
@@ -65,12 +76,7 @@ class SharePage extends ConsumerWidget {
             ),
             const SizedBox(height: 20),
             CustomTextButton(
-              onPressed: () {
-                // Esegui azioni di salvataggio qui
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Condivisione col terapeuta avvenuta con successo!')),
-                );
-              },
+              onPressed: () => shareData(context, ref, _nameController, _emailController),
               buttonText: 'Condividi',
             ),
           ],
