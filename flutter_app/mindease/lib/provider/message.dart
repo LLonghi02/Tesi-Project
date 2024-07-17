@@ -21,13 +21,37 @@ class Message {
 class MessageListNotifier extends StateNotifier<List<Message>> {
   MessageListNotifier() : super([]);
 
-  void addMessage(Message message) {
+   void addMessage(Message message) {
     state = [...state, message];
-    _generateResponse(); // Call _generateResponse after adding user message
+    _generateResponse(message.text); // Chiamare _generateResponse dopo l'aggiunta del messaggio dell'utente
   }
 
-  void _generateResponse() {
-    final responses = [
+  void _generateResponse(String userMessage) {
+    // Dizionario di risposte basate su parole chiave nel messaggio dell'utente
+    final responses = {
+      "ciao": "Ciao, come stai?",
+      "come va?": "Sto bene, grazie! Tu?",
+      "aiuto": "Posso aiutarti in qualche modo?",
+      "male": "Mi spiace, dimmi di più",
+      "ansia":"Resprira e spiegami meglio",
+    };
+
+    // Cerca una parola chiave nel messaggio dell'utente
+     final responseEntry = responses.entries.firstWhere(
+      (entry) => userMessage.toLowerCase().contains(entry.key),
+      orElse: () => MapEntry<String, String>("", ""), 
+    );
+
+    if (responseEntry.key.isNotEmpty) {
+      state = [...state, Message(responseEntry.value, isUser: false)];
+    } else {
+      _generateRandomResponse();
+    }
+  }
+
+
+  void _generateRandomResponse() {
+    final randomResponses = [
       "Capisco come ti senti.",
       "Ti capisco e sono qui per te. Non sei solo in questo.",
       "Prenditi il tempo di respirare profondamente. Sarò qui con te.",
@@ -49,7 +73,7 @@ class MessageListNotifier extends StateNotifier<List<Message>> {
     ];
 
     final random = Random();
-    final response = responses[random.nextInt(responses.length)];
+    final response = randomResponses[random.nextInt(randomResponses.length)];
 
     state = [...state, Message(response, isUser: false)];
   }

@@ -123,43 +123,48 @@ class SupportoPage extends ConsumerWidget {
     );
   }
 
+Widget _buildMessageBubble(BuildContext context, Message message) {
+  final isUserMessage = message.isUser;
+  final backgroundColor = isUserMessage ? Colors.white : Colors.blueGrey;
+  final textColor = isUserMessage ? Colors.black : Colors.white;
 
-  Widget _buildMessageBubble(BuildContext context, Message message) {
-    final isUserMessage = message.isUser;
-    final alignment = isUserMessage ? Alignment.centerRight : Alignment.centerLeft;
-    final backgroundColor = isUserMessage ? Colors.white : Colors.blueGrey;
-    final textColor = isUserMessage ? Colors.black : Colors.white;
-    final borderRadius = isUserMessage
-        ? const BorderRadius.only(
-            topLeft: Radius.circular(12.0),
-            topRight: Radius.circular(12.0),
-            bottomRight: Radius.circular(12.0),
-          )
-        : const BorderRadius.only(
-            topLeft: Radius.circular(12.0),
-            topRight: Radius.circular(12.0),
-            bottomLeft: Radius.circular(12.0),
-          );
+  // Definiamo i bordi in base al tipo di messaggio
+  final borderRadius = isUserMessage
+      ? BorderRadius.only(
+          topLeft: Radius.circular(12.0),
+          bottomRight: Radius.circular(12.0),
+          topRight: Radius.circular(12.0),
+          bottomLeft: Radius.zero, // Nessun bordo a sinistra
+        )
+      : BorderRadius.only(
+          topLeft: Radius.circular(12.0),
+          bottomLeft: Radius.circular(12.0),
+          topRight: Radius.zero, // Nessun bordo a destra
+          bottomRight: Radius.circular(12.0),
+        );
 
-    return Align(
-      alignment:alignment ,
-      child: Container(
-        constraints: BoxConstraints(maxWidth: 300),
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: borderRadius,
-        ),
-        margin: const EdgeInsets.symmetric(vertical: 4),
-        child: Text(
-          message.text,
-          style: TextStyle(
-            color: textColor,
-          ),
+  // Allineamento del contenitore
+  final alignment = isUserMessage ? Alignment.centerRight : Alignment.centerLeft;
+
+  return Align(
+    alignment: alignment,
+    child: Container(
+      constraints: BoxConstraints(maxWidth: 300),
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: borderRadius,
+      ),
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      child: Text(
+        message.text,
+        style: TextStyle(
+          color: textColor,
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
 
 
