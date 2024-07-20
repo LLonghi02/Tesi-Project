@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mindease/provider/userProvider.dart';
 import 'package:mongo_dart/mongo_dart.dart';
@@ -31,5 +32,15 @@ Future<void> recordEmotion(
     'Nickname': nickname,
   });
 }
+
+Future<void> updateDBByNickname(BuildContext context,String oldNickname, String newNickname) async {
+    var collection = db.collection('Calendar_Emotions_DB');
+    var result = await collection.update(
+      where.eq('Nickname', oldNickname),
+      modify.set('Nickname', newNickname),
+    );
+
+  }
+
 
 }

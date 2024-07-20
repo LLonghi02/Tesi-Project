@@ -18,7 +18,6 @@ final List<String> predefinedImages = [
   'assets/images/user/p5.png',
   'assets/images/user/p6.png',
   'assets/images/user/p7.png',
-  'assets/images/user/p8.png',
 ];
 
 

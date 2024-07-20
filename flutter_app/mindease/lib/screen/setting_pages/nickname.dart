@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mindease/provider/userProvider.dart';
+import 'package:mindease/repository/calendarDB.dart';
 import 'package:mindease/repository/mongoDB.dart';
 import 'package:mindease/widget/SignIn/button_1.dart';
 import 'package:mindease/widget/text_field_noIcon.dart';
@@ -74,7 +75,12 @@ class NicknamePage extends ConsumerWidget {
                 await mongoDBService.updateUserByNickname(context, oldNickname, newNickname);
                 await mongoDBService.close();
 
-                // Aggiorna il vecchio nickname con il nuovo nickname nel provider
+                final calendarDBService = CalendarDBService();
+                await calendarDBService.open();
+                await calendarDBService.updateDBByNickname(context,oldNickname, newNickname);
+                await calendarDBService.close();
+
+
                 ref.read(nicknameProvider.notifier).state = newNickname;
 
                
