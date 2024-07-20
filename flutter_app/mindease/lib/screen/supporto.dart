@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mindease/provider/main_support.dart';
 import 'package:mindease/provider/message.dart';
 import 'package:mindease/provider/theme.dart';
+import 'package:mindease/provider/userProvider.dart';
 
 import 'package:mindease/widget/bottom_bar.dart';
 import 'package:mindease/widget/top_bar.dart';
@@ -80,13 +80,12 @@ class SupportoPage extends ConsumerWidget {
                     child: TextField(
                       controller: textController,
                       decoration: const InputDecoration(
-                        hintText: 'Cosa ti causa ansia?',
+                        hintText: 'Posso aiutarti?',
                         border: OutlineInputBorder(),
                         fillColor: Colors.white,
                         filled: true,
                       ),
                       textInputAction: TextInputAction.send,
-                      // Use TextInputAction.send to enable Enter key to send the message
                     ),
                   ),
                   IconButton(
@@ -128,7 +127,6 @@ Widget _buildMessageBubble(BuildContext context, Message message) {
   final backgroundColor = isUserMessage ? Colors.white : Colors.blueGrey;
   final textColor = isUserMessage ? Colors.black : Colors.white;
 
-  // Definiamo i bordi in base al tipo di messaggio
   final borderRadius = isUserMessage
       ? BorderRadius.only(
           topLeft: Radius.circular(12.0),

@@ -35,7 +35,7 @@ class ProfileScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     String currentDate = DateTime.now().toIso8601String().split('T')[0];
     String nickname = ref.watch(nicknameProvider); // Recupera il valore del nickname
-    File? profileImage = ref.watch(profileImageProvider); // Recupera il file dell'immagine del profilo
+    final profileImage = ref.watch(profileImageProvider); // Recupera il file dell'immagine del profilo
 
     final AsyncValue<List<CalendarModel>> calendarDataAsync =
         ref.watch(calendarProvider(currentDate));
@@ -52,9 +52,11 @@ class ProfileScreen extends ConsumerWidget {
               Center(
                 child: CircleAvatar(
                   radius: 50,
-                  backgroundImage: profileImage != null
-                      ? FileImage(profileImage)
-                      : const AssetImage('assets/images/user/profilo.png'),
+                  backgroundImage: profileImage != null && profileImage.isNotEmpty
+                    ? profileImage.startsWith('assets/')
+                        ? AssetImage(profileImage) as ImageProvider
+                        : FileImage(File(profileImage))
+                    : const AssetImage('assets/images/user/profilo.png'),
                 ),
               ),
               const SizedBox(height: 10),

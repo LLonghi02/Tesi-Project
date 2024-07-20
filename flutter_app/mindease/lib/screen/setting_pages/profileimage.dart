@@ -1,31 +1,31 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mindease/provider/userProvider.dart';
 import 'package:mindease/widget/SignIn/button_1.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mindease/widget/font.dart';
 import 'package:mindease/provider/theme.dart';
 import 'package:mindease/widget/bottom_bar.dart';
 import 'package:mindease/widget/top_bar.dart';
-import 'package:image_picker/image_picker.dart';
+
+const String defaultProfileImage = 'assets/images/user/profilo.png';
 
 class ProfileImagePage extends ConsumerWidget {
-final List<String> predefinedImages = [
-  'assets/images/user/profilo.png',
-  'assets/images/user/p2.png',
-  'assets/images/user/p3.png',
-  'assets/images/user/p4.png',
-  'assets/images/user/p5.png',
-  'assets/images/user/p6.png',
-  'assets/images/user/p7.png',
-];
-
+  final List<String> predefinedImages = [
+    'assets/images/user/profilo.png',
+    'assets/images/user/p2.png',
+    'assets/images/user/p3.png',
+    'assets/images/user/p4.png',
+    'assets/images/user/p5.png',
+    'assets/images/user/p6.png',
+    'assets/images/user/p7.png',
+  ];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final backcolor = ref.watch(detProvider);
-    final profileImage = ref.watch(profileImageProvider);
-    
+    final profileImage = ref.watch(profileImageProvider) ?? defaultProfileImage;
 
     return Scaffold(
       backgroundColor: backcolor,
@@ -42,38 +42,30 @@ final List<String> predefinedImages = [
                 style: AppFonts.settTitle,
               ),
               const SizedBox(height: 20),
-              profileImage != null
-                  ? CircleAvatar(
-                      radius: 50,
-                      backgroundImage: FileImage(profileImage),
-                    )
-                  : const CircleAvatar(
-                      radius: 50,
-                      backgroundColor: Colors.grey,
-                      child: Icon(Icons.person, size: 50, color: Colors.white),
-                    ),
+              CircleAvatar(
+                radius: 50,
+                backgroundImage: profileImage.startsWith('assets/')
+                    ? AssetImage(profileImage) as ImageProvider
+                    : FileImage(File(profileImage)),
+              ),
               const SizedBox(height: 20),
               CustomTextButton(
                 onPressed: () async {
                   final picker = ImagePicker();
-                  final pickedFile =
-                      await picker.pickImage(source: ImageSource.gallery);
+                  final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
                   if (pickedFile != null) {
-                    ref.read(profileImageProvider.notifier).state =
-                        File(pickedFile.path);
+                    ref.read(profileImageProvider.notifier).state = pickedFile.path;
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content:
-                            Text('Foto del profilo salvata con successo!'),
+                        content: Text('Foto del profilo salvata con successo!'),
                       ),
                     );
                   }
                 },
                 buttonText: 'Seleziona Immagine',
               ),
-                            const SizedBox(height: 20),
-
+              const SizedBox(height: 20),
               const Text(
                 'Scegli tra le immagini predefinite:',
                 style: AppFonts.settTitle,
@@ -88,12 +80,10 @@ final List<String> predefinedImages = [
                     final imagePath = predefinedImages[index];
                     return GestureDetector(
                       onTap: () {
-                        ref.read(profileImageProvider.notifier).state =
-                            File(imagePath);
+                        ref.read(profileImageProvider.notifier).state = imagePath;
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content:
-                                Text('Foto del profilo salvata con successo!'),
+                            content: Text('Foto del profilo salvata con successo!'),
                           ),
                         );
                       },
@@ -109,7 +99,6 @@ final List<String> predefinedImages = [
                 ),
               ),
               const SizedBox(height: 20),
-              
             ],
           ),
         ),

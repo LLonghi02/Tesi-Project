@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mindease/provider/main_support.dart';
+import 'package:mindease/provider/userProvider.dart';
 import 'package:mindease/widget/font.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mindease/provider/theme.dart';

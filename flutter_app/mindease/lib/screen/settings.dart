@@ -37,7 +37,7 @@ class SettingPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final backcolor = ref.watch(detProvider); // Retrieve background color from provider
     String nickname = ref.watch(nicknameProvider); // Retrieve nickname value from provider
-    File? profileImage = ref.watch(profileImageProvider); // Retrieve profile image file from provider
+    final profileImage = ref.watch(profileImageProvider); // Retrieve profile image file from provider
 
     return Scaffold(
       backgroundColor: backcolor,
@@ -50,9 +50,11 @@ class SettingPage extends ConsumerWidget {
             children: [
                CircleAvatar(
                 radius: 50,
-                backgroundImage: profileImage != null
-                    ? FileImage(profileImage)
-                    : AssetImage('assets/images/user/profilo.png'),
+                 backgroundImage: profileImage != null && profileImage.isNotEmpty
+                    ? profileImage.startsWith('assets/')
+                        ? AssetImage(profileImage) as ImageProvider
+                        : FileImage(File(profileImage))
+                    : const AssetImage('assets/images/user/profilo.png'),
               ),
               const SizedBox(height: 10),
               Text(
