@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mindease/screen/google_signin.dart';
+import 'package:mindease/screen/signin.dart';
 import 'package:mindease/screen/mindufulness/mindfulness.dart';
 import 'package:mindease/screen/schermata.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

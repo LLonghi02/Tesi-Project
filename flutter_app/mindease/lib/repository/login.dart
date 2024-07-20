@@ -1,6 +1,8 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 Future<String> logIn(String nickname, String password) async {
   var url = Uri.parse(
       'https://pqfgb1jyz0.execute-api.us-east-1.amazonaws.com/default/MindEase_login');
@@ -37,3 +39,34 @@ Future<String> logIn(String nickname, String password) async {
   }
 }
 
+
+class RememberHelper {
+  static Future<void> saveCredentials(String nickname, String password) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('nickname', nickname);
+    prefs.setString('password', password);
+  }
+
+  static Future<Map<String, String>> loadCredentials() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String nickname = prefs.getString('nickname') ?? '';
+    String password = prefs.getString('password') ?? '';
+    return {'nickname': nickname, 'password': password};
+  }
+
+  static Future<void> clearCredentials() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('nickname');
+    prefs.remove('password');
+  }
+
+  static Future<bool> loadRememberMe() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('remember_me') ?? false;
+  }
+
+  static Future<void> saveRememberMe(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('remember_me', value);
+  }
+}

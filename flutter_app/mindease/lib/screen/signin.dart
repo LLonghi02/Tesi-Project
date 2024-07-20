@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mindease/provider/userProvider.dart';
 import 'package:mindease/repository/login.dart';
 import 'package:mindease/screen/home_page.dart';
@@ -10,7 +11,6 @@ import 'package:mindease/widget/SignIn/noAccount.dart';
 import 'package:mindease/widget/SignIn/rememberMe.dart';
 import 'package:mindease/widget/text_field.dart';
 import 'package:mindease/provider/theme.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class SignInPage extends ConsumerWidget {
@@ -21,7 +21,7 @@ class SignInPage extends ConsumerWidget {
 
   Future<void> _handleGoogleSignIn(BuildContext context, WidgetRef ref) async {
     GoogleSignIn _googleSignIn = GoogleSignIn(
-      clientId: '1068698468225-jei0dqjtdrjmeka2nse9t60himhn5i1c.apps.googleusercontent.com', 
+      clientId: '1068698468225-jei0dqjtdrjmeka2nse9t60himhn5i1c.apps.googleusercontent.com',
       scopes: <String>['email', 'https://www.googleapis.com/auth/contacts.readonly'],
     );
 
@@ -45,6 +45,9 @@ class SignInPage extends ConsumerWidget {
     final backColor = ref.watch(accentColorProvider);
     final detColor = ref.watch(signProvider);
     final iconColor = ref.watch(detProvider);
+
+    // Load saved credentials when the widget is built
+    _loadCredentials();
 
     return Scaffold(
       body: Center(
@@ -87,6 +90,13 @@ class SignInPage extends ConsumerWidget {
                   String loginResult = await logIn(
                       _nicknameController.text, _passwordController.text);
                   if (loginResult == 'login successful') {
+                    bool rememberMe = await RememberHelper.loadRememberMe();
+                    if (rememberMe) {
+                      await RememberHelper.saveCredentials(_nicknameController.text, _passwordController.text);
+                    } else {
+                      await RememberHelper.clearCredentials(); 
+                    }
+
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('Login effettuato con successo')),
                     );
@@ -145,5 +155,11 @@ class SignInPage extends ConsumerWidget {
       ),
       backgroundColor: backColor,
     );
+  }
+
+  Future<void> _loadCredentials() async {
+    Map<String, String> credentials = await RememberHelper.loadCredentials();
+    _nicknameController.text = credentials['nickname'] ?? '';
+    _passwordController.text = credentials['password'] ?? '';
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mindease/screen/google_signin.dart';
+import 'package:mindease/screen/signin.dart';
 import 'package:mindease/screen/home_page.dart';
 import 'package:mindease/widget/SignIn/button_1.dart';
 import 'package:mindease/widget/SignIn/social_signIn.dart';
