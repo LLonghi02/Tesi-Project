@@ -79,7 +79,7 @@ class _RegistrazionePageState extends ConsumerState<RegistrazionePage> {
                 obscureText: true,
               ),
               const SizedBox(height: 1),
-              RememberMeCheckbox(),
+              //RememberMeCheckbox(),
               const SizedBox(height: 3),
               CustomTextButton(
                 onPressed: () async {

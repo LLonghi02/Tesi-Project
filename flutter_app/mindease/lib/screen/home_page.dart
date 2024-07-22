@@ -32,10 +32,12 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final backcolor = ref.watch(accentColorProvider);
     final detcolor = ref.watch(detProvider);
+    final backcolor2 = ref.watch(backgrounDetail);
+
     String name = ref.watch(nicknameProvider);
 
     return Scaffold(
-      backgroundColor: detcolor,
+      backgroundColor: backcolor2,
       appBar: const TopBar(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

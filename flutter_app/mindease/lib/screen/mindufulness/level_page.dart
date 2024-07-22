@@ -32,12 +32,44 @@ class _LevelPageState extends ConsumerState<LevelPage> {
 
   Future<void> _initializeSharedPreferences() async {
     _prefs = await SharedPreferences.getInstance();
-    _dailyGoalCompleted = _prefs.getBool('dailyGoalCompleted_$widget.level') ?? false;
+    _checkCompletionStatus();
+    _checkDailyGoal();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
+  void _checkCompletionStatus() {
+    setState(() {
+      _isCompleted = _prefs.getBool('isCompleted_${widget.level}') ?? false;
+      print('Level ${widget.level} completion status: $_isCompleted'); // Debugging output
+    });
+  }
+
+  void _checkDailyGoal() {
+    final String lastCompletionDate = _prefs.getString('lastCompletionDate_${widget.level}') ?? '';
+    final DateTime now = DateTime.now();
+    final String today = '${now.year}-${now.month}-${now.day}';
+
+    if (lastCompletionDate != today) {
+      _dailyGoalCompleted = false;
+      _prefs.setBool('dailyGoalCompleted_${widget.level}', false);
+    } else {
+      _dailyGoalCompleted = _prefs.getBool('dailyGoalCompleted_${widget.level}') ?? false;
+    }
+    setState(() {});
+  }
+
+  void _completeLevel() async {
+    final DateTime now = DateTime.now();
+    final String today = '${now.year}-${now.month}-${now.day}';
+
+    await _prefs.setBool('dailyGoalCompleted_${widget.level}', true);
+    await _prefs.setString('lastCompletionDate_${widget.level}', today);
+    await _prefs.setBool('isCompleted_${widget.level}', true); // Memorizza lo stato di completamento
+    widget.onLevelCompleted(widget.level);
+    setState(() {
+      _isCompleted = true;
+      _dailyGoalCompleted = true;
+    });
+    Navigator.pop(context);
   }
 
   @override
@@ -64,7 +96,7 @@ class _LevelPageState extends ConsumerState<LevelPage> {
                   width: 350,
                   height: 250,
                 ),
-              ), // Add rounded corners to image
+              ),
               const SizedBox(height: 16),
               Container(
                 height: 50,
@@ -82,18 +114,12 @@ class _LevelPageState extends ConsumerState<LevelPage> {
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: Checkbox(
-                        fillColor:
-                            MaterialStateProperty.all<Color>(Colors.white),
+                        fillColor: MaterialStateProperty.all<Color>(Colors.white),
                         checkColor: Colors.teal,
                         value: _isCompleted,
                         onChanged: (bool? value) {
-                          setState(() {
-                            _isCompleted = value ?? false;
-                          });
-                          if (_isCompleted) {
-                            _prefs.setBool('dailyGoalCompleted_$widget.level', true);
-                            widget.onLevelCompleted(widget.level);
-                            Navigator.pop(context); 
+                          if (value == true && !_dailyGoalCompleted) {
+                            _completeLevel();
                           }
                         },
                       ),

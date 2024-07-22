@@ -72,7 +72,6 @@ Future<void> sendEmail(String recipient, String body, TextEditingController name
     await FlutterEmailSender.send(email);
   } catch (error) {
     print('Errore durante l\'invio della email: $error');
-    // ScaffoldMessenger.of(context) non è disponibile qui, quindi passiamo l'errore
-    throw error;
+    throw error; //PlatformException(not_available, No email clients found!, null, null)
   }
 }

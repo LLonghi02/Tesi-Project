@@ -1,12 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:mindease/model/level_information.dart';
 import 'package:mindease/widget/bottom_bar.dart';
 import 'package:mindease/widget/font.dart';
 import 'package:mindease/provider/theme.dart';
 import 'package:mindease/widget/top_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mindease/screen/mindufulness/level_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mindease/screen/mindufulness/level_page.dart';
 
 class LevelSelectionPage extends ConsumerStatefulWidget {
   @override
@@ -15,7 +16,8 @@ class LevelSelectionPage extends ConsumerStatefulWidget {
 
 class _LevelSelectionPageState extends ConsumerState<LevelSelectionPage> {
   int _currentLevel = 1;
-  late SharedPreferences _prefs;
+  DateTime? _lastCompletionDate;
+  SharedPreferences? _prefs;
 
   @override
   void initState() {
@@ -24,23 +26,38 @@ class _LevelSelectionPageState extends ConsumerState<LevelSelectionPage> {
   }
 
   Future<void> _initializeSharedPreferences() async {
-    _prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _currentLevel = _prefs.getInt('currentLevel') ?? 1;
-    });
+    try {
+      _prefs = await SharedPreferences.getInstance();
+      setState(() {
+        _currentLevel = _prefs?.getInt('currentLevel') ?? 1;
+        String? lastCompletionDateStr = _prefs?.getString('lastCompletionDate');
+        _lastCompletionDate = lastCompletionDateStr != null
+            ? DateTime.tryParse(lastCompletionDateStr)
+            : null;
+      });
+    } catch (e) {
+      print('Errore durante l\'inizializzazione di SharedPreferences: $e');
+    }
   }
 
   bool isSameDay(DateTime date1, DateTime date2) {
     return date1.year == date2.year && date1.month == date2.month && date1.day == date2.day;
   }
 
-  void _openLevel(int level) {
-    bool isUnlocked = level <= _currentLevel;
-    bool dailyGoalCompleted = _prefs.getBool('dailyGoalCompleted_$level') ?? false;
-    DateTime? lastCompletionTime = DateTime.tryParse(_prefs.getString('lastCompletionTime_$level') ?? '');
+  void _openLevel(int level) async {
+    if (_prefs == null) {
+      print('SharedPreferences non è stato inizializzato');
+      return;
+    }
 
-    // Check if last completion time is before today's midnight
-    if (isUnlocked && (!dailyGoalCompleted || (lastCompletionTime != null && !isSameDay(lastCompletionTime, DateTime.now())))) {
+    bool isUnlocked = level == 1 || level <= _currentLevel;
+    bool dailyGoalCompleted = _prefs?.getBool('dailyGoalCompleted_$level') ?? false;
+    DateTime? lastCompletionTime = DateTime.tryParse(_prefs?.getString('lastCompletionTime_$level') ?? '');
+
+    // Controllo per sbloccare i livelli solo se l'obiettivo del giorno è completato
+    bool canOpenLevel = isUnlocked && (level == 1 || (dailyGoalCompleted && (lastCompletionTime != null && isSameDay(lastCompletionTime, DateTime.now()))));
+
+    if (canOpenLevel) {
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -50,8 +67,8 @@ class _LevelSelectionPageState extends ConsumerState<LevelSelectionPage> {
           ),
         ),
       );
-    } else if (isUnlocked && dailyGoalCompleted) {
-      _showDailyGoalCompletedDialog();
+    } else if (isUnlocked) {
+      _showDailyGoalIncompleteDialog();
     } else {
       _showLockedLevelDialog();
     }
@@ -73,13 +90,12 @@ class _LevelSelectionPageState extends ConsumerState<LevelSelectionPage> {
     );
   }
 
-  void _showDailyGoalCompletedDialog() {
+  void _showDailyGoalIncompleteDialog() {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Obiettivo giornaliero completato'),
-        content:
-            const Text('Torna domani per continuare con il prossimo livello.'),
+        content: const Text('Non puoi accedere a questo livello, hai già svolto il tuo obiettivo giornaliero. Torna domani'),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
@@ -91,16 +107,24 @@ class _LevelSelectionPageState extends ConsumerState<LevelSelectionPage> {
   }
 
   void _onLevelCompleted(int level) async {
+    if (_prefs == null) {
+      print('SharedPreferences non è stato inizializzato');
+      return;
+    }
+
+    DateTime now = DateTime.now();
+    String today = '${now.year}-${now.month}-${now.day}';
+
     setState(() {
-      if (_currentLevel == level) {
-        _currentLevel++;
-        _prefs.setInt('currentLevel', _currentLevel);
+      if (_currentLevel <= level) {
+        _currentLevel = level + 1; // Sblocca il prossimo livello solo se l'obiettivo del giorno è completato
+        _prefs?.setInt('currentLevel', _currentLevel);
       }
     });
 
-    DateTime now = DateTime.now();
-    await _prefs.setBool('dailyGoalCompleted_$level', true);
-    await _prefs.setString('lastCompletionTime_$level', now.toIso8601String());
+    await _prefs?.setBool('dailyGoalCompleted_$level', true);
+    await _prefs?.setString('lastCompletionTime_$level', now.toIso8601String());
+    await _prefs?.setString('lastCompletionDate', today); // Registra l'ultimo giorno di completamento
   }
 
   @override
@@ -171,14 +195,20 @@ class _LevelSelectionPageState extends ConsumerState<LevelSelectionPage> {
 
     for (int i = 0; i < positions.length; i++) {
       int level = i + 1;
-      bool isUnlocked = level <= _currentLevel;
+      bool isUnlocked = level == 1 || level <= _currentLevel;
+      bool dailyGoalCompleted = _prefs?.getBool('dailyGoalCompleted_$level') ?? false;
+      DateTime? lastCompletionTime = DateTime.tryParse(_prefs?.getString('lastCompletionTime_$level') ?? '');
+
+      bool canOpenLevel = isUnlocked && (level == 1 || (dailyGoalCompleted && (lastCompletionTime != null && isSameDay(lastCompletionTime, DateTime.now()))));
 
       levelButtons.add(
         Positioned(
           left: positions[i].dx,
           top: positions[i].dy,
           child: GestureDetector(
-            onTap: () => _openLevel(level),
+            onTap: () {
+              _openLevel(level);
+            },
             child: Container(
               width: 60,
               height: 60,
@@ -186,13 +216,13 @@ class _LevelSelectionPageState extends ConsumerState<LevelSelectionPage> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(100),
                   side: BorderSide(
-                    color: isUnlocked ? detcolor : lockcolor,
+                    color: canOpenLevel ? detcolor : lockcolor,
                     width: 4,
                   ),
                 ),
                 color: backcolor,
                 child: Center(
-                  child: isUnlocked
+                  child: canOpenLevel
                       ? Text('$level', style: AppFonts.screenTitle)
                       : Icon(Icons.lock, size: 35, color: lockcolor),
                 ),
