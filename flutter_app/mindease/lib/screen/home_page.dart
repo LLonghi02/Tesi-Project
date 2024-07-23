@@ -40,7 +40,6 @@ class HomePage extends ConsumerWidget {
       backgroundColor: backcolor2,
       appBar: const TopBar(),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           SizedBox(
             height: 170,
@@ -55,16 +54,16 @@ class HomePage extends ConsumerWidget {
             ),
           ),
           Expanded(
-            child: SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(25.0),
-                  topRight: Radius.circular(25.0),
-                ),
-                child: Container(
-                  color: backcolor,
-                  padding: const EdgeInsets.all(16.0),
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(25.0),
+                topRight: Radius.circular(25.0),
+              ),
+              child: Container(
+                color: backcolor,
+                padding: const EdgeInsets.all(16.0),
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -88,83 +87,83 @@ class HomePage extends ConsumerWidget {
                               'Come ti senti oggi?',
                               style: AppFonts.mind,
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
-                              physics: AlwaysScrollableScrollPhysics(),
+                              physics: const AlwaysScrollableScrollPhysics(),
                               child: Row(
                                 children: [
-                                  SizedBox(width: 16),
+                                  const SizedBox(width: 16),
                                   EmotionButton(
                                     imageUrl:
                                         'assets/images/emotion/annoiato.png',
                                     text: 'Annoiato',
                                     nickname: name,
                                   ),
-                                  SizedBox(width: 16),
+                                  const SizedBox(width: 16),
                                   EmotionButton(
                                     imageUrl:
                                         'assets/images/emotion/felice.png',
                                     text: 'Felice',
                                     nickname: name,
                                   ),
-                                  SizedBox(width: 16),
+                                  const SizedBox(width: 16),
                                   EmotionButton(
                                     imageUrl:
                                         'assets/images/emotion/triste.png',
                                     text: 'Triste',
                                     nickname: name,
                                   ),
-                                  SizedBox(width: 16),
+                                  const SizedBox(width: 16),
                                   EmotionButton(
                                     imageUrl:
                                         'assets/images/emotion/ansia.png',
                                     text: 'Ansia',
                                     nickname: name,
                                   ),
-                                  SizedBox(width: 16),
+                                  const SizedBox(width: 16),
                                   EmotionButton(
                                     imageUrl:
                                         'assets/images/emotion/arabbiato.png',
                                     text: 'Arrabbiato',
                                     nickname: name,
                                   ),
-                                  SizedBox(width: 16),
+                                  const SizedBox(width: 16),
                                   EmotionButton(
                                     imageUrl:
                                         'assets/images/emotion/calmo.png',
                                     text: 'Calmo',
                                     nickname: name,
                                   ),
-                                  SizedBox(width: 16),
+                                  const SizedBox(width: 16),
                                   EmotionButton(
                                     imageUrl:
                                         'assets/images/emotion/eccitato.png',
                                     text: 'Eccitato',
                                     nickname: name,
                                   ),
-                                  SizedBox(width: 16),
+                                  const SizedBox(width: 16),
                                   EmotionButton(
                                     imageUrl:
                                         'assets/images/emotion/preoccupato.png',
                                     text: 'Preoccupato',
                                     nickname: name,
                                   ),
-                                  SizedBox(width: 16),
+                                  const SizedBox(width: 16),
                                   EmotionButton(
                                     imageUrl:
                                         'assets/images/emotion/rilassato.png',
                                     text: 'Rilassato',
                                     nickname: name,
                                   ),
-                                  SizedBox(width: 16),
+                                  const SizedBox(width: 16),
                                   EmotionButton(
                                     imageUrl:
                                         'assets/images/emotion/stanco.png',
                                     text: 'Stanco',
                                     nickname: name,
                                   ),
-                                  SizedBox(width: 16),
+                                  const SizedBox(width: 16),
                                   EmotionButton(
                                     imageUrl:
                                         'assets/images/emotion/stressed.png',
@@ -183,7 +182,7 @@ class HomePage extends ConsumerWidget {
                         text: 'Il tuo obiettivo quotidiano di Mindfulness',
                         height: 150,
                         width: 550,
-                        destination: LevelSelectionPage(),
+                        destination:  LevelSelectionPage(),
                       ),
                     ],
                   ),

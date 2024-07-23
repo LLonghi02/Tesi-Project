@@ -39,7 +39,6 @@ class SupportoPage extends ConsumerWidget {
 
     final List<Message> messages = ref.watch(messageListProvider);
 
-
     void userMessage(String text) {
       if (text.isNotEmpty) {
         ref.read(messageListProvider.notifier).addMessage(Message(text));
@@ -47,7 +46,6 @@ class SupportoPage extends ConsumerWidget {
     }
 
     TextEditingController textController = TextEditingController();
-
 
     return Scaffold(
       appBar: const TopBar(),
@@ -109,10 +107,11 @@ class SupportoPage extends ConsumerWidget {
           Positioned(
             left: 16,
             bottom: 80,
+            right: 16, // Aggiunto per garantire il margine a destra
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: messages
-                  .map((message) => _buildMessageBubble(context,message))
+                  .map((message) => _buildMessageBubble(context, message))
                   .toList(),
             ),
           ),
@@ -122,48 +121,46 @@ class SupportoPage extends ConsumerWidget {
     );
   }
 
-Widget _buildMessageBubble(BuildContext context, Message message) {
-  final isUserMessage = message.isUser;
-  final backgroundColor = isUserMessage ? Colors.white : Colors.blueGrey;
-  final textColor = isUserMessage ? Colors.black : Colors.white;
+  Widget _buildMessageBubble(BuildContext context, Message message) {
+    final isUserMessage = message.isUser;
+    final backgroundColor = isUserMessage ? Colors.white : Colors.blueGrey;
+    final textColor = isUserMessage ? Colors.black : Colors.white;
 
-  final borderRadius = isUserMessage
-      ? BorderRadius.only(
-          topLeft: Radius.circular(12.0),
-          bottomRight: Radius.circular(12.0),
-          topRight: Radius.circular(12.0),
-          bottomLeft: Radius.zero, // Nessun bordo a sinistra
-        )
-      : BorderRadius.only(
-          topLeft: Radius.circular(12.0),
-          bottomLeft: Radius.circular(12.0),
-          topRight: Radius.zero, // Nessun bordo a destra
-          bottomRight: Radius.circular(12.0),
-        );
+    final borderRadius = isUserMessage
+        ? const BorderRadius.only(
+            topLeft: Radius.circular(12.0),
+            bottomLeft: Radius.circular(12.0),
+            topRight: Radius.circular(12.0),
+            bottomRight: Radius.zero,
+          )
+        : const BorderRadius.only(
+            topLeft: Radius.circular(12.0),
+            bottomLeft:Radius.zero,
+            topRight: Radius.circular(12.0),
+            bottomRight: Radius.circular(12.0),
+          );
 
-  // Allineamento del contenitore
-  final alignment = isUserMessage ? Alignment.centerRight : Alignment.centerLeft;
+    // Allineamento del contenitore
+    final alignment = isUserMessage ? Alignment.centerRight : Alignment.centerLeft;
 
-  return Align(
-    alignment: alignment,
-    child: Container(
-      constraints: BoxConstraints(maxWidth: 300),
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: borderRadius,
-      ),
-      margin: const EdgeInsets.symmetric(vertical: 4),
-      child: Text(
-        message.text,
-        style: TextStyle(
-          color: textColor,
+    return Align(
+      alignment: alignment,
+      child: Container(
+        constraints: const BoxConstraints(maxWidth: 300), // Se vuoi mantenere il limite massimo della larghezza
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: borderRadius,
+        ),
+        margin: const EdgeInsets.symmetric(vertical: 4),
+        //width: MediaQuery.of(context), // Imposta la larghezza a una percentuale della larghezza dello schermo
+        child: Text(
+          message.text,
+          style: TextStyle(
+            color: textColor,
+          ),
         ),
       ),
-    ),
-  );
-}
-
-
-
+    );
+  }
 }
