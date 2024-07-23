@@ -45,7 +45,7 @@ class _RespirationPageState extends ConsumerState<RespirationPage> {
   Widget build(BuildContext context) {
     final backcolor = ref.watch(accentColorProvider);
     final AsyncValue<List<VideoModel>> futureVideos = ref.watch(videoProvider('respirazione'));
-
+    
     return Scaffold(
       backgroundColor: backcolor,
       appBar: const TopBar(),

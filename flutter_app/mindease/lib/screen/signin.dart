@@ -21,7 +21,7 @@ class SignInPage extends ConsumerWidget {
 
   Future<void> _handleGoogleSignIn(BuildContext context, WidgetRef ref) async {
     GoogleSignIn _googleSignIn = GoogleSignIn(
-      clientId: '1068698468225-jei0dqjtdrjmeka2nse9t60himhn5i1c.apps.googleusercontent.com',
+      serverClientId: '1068698468225-jei0dqjtdrjmeka2nse9t60himhn5i1c.apps.googleusercontent.com',
       scopes: <String>['email', 'https://www.googleapis.com/auth/contacts.readonly'],
     );
 

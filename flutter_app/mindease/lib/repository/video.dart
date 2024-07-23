@@ -7,7 +7,6 @@ import 'dart:convert';
 final videoProvider = FutureProvider.family<List<VideoModel>, String>((ref, tag) async {
   return await fetchVideos(tag);
 });
-
 Future<List<VideoModel>> fetchVideos(String tag) async {
   Uri url; // Define url variable
 
@@ -33,8 +32,13 @@ Future<List<VideoModel>> fetchVideos(String tag) async {
 
   if (response.statusCode == 200) {
     List<dynamic> responseData = jsonDecode(response.body);
+
+    // Aggiungi una stampa per vedere i dati ricevuti
+    print('Response data: $responseData');
+
     return responseData.map((video) => VideoModel.fromJson(video)).toList();
   } else {
     throw Exception('Failed to load videos');
   }
+
 }
