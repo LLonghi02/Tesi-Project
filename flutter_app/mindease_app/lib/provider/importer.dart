@@ -7,8 +7,8 @@ export 'package:mindease_app/screen/signin.dart';
 export 'package:mindease_app/screen/schermata.dart';
 export 'package:mindease_app/screen/home_page.dart';
 export 'package:mindease_app/screen/calendar.dart';
-export 'package:mindease_app/screen/chat.dart';
-export 'package:mindease_app/screen/playSound.dart';
+export 'package:mindease_app/screen/test_chatgpt.dart';
+export 'package:mindease_app/screen/ease/playSound.dart';
 export 'package:mindease_app/screen/profile.dart';
 export 'package:mindease_app/screen/record_emotion.dart';
 export 'package:mindease_app/screen/registrazione.dart';
@@ -54,7 +54,7 @@ export 'package:mindease_app/widget/SignIn/social_signIn.dart';
 
 // Providers
 export 'package:mindease_app/provider/theme.dart';
-export 'package:mindease_app/repository/dateProvider.dart';
+export 'package:mindease_app/repository/dateDB.dart';
 export 'package:mindease_app/provider/getEmotion.dart';
 export 'package:mindease_app/provider/message.dart';
 export 'package:mindease_app/provider/userProvider.dart';

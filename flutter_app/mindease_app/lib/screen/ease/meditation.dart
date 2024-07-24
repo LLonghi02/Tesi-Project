@@ -42,7 +42,7 @@ class _MeditationPageState extends ConsumerState<MeditationPage> {
     return Scaffold(
       backgroundColor: backcolor,
       appBar: const TopBar(),
-      body: futureVideos.when(
+     /* body: futureVideos.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (err, stack) => Center(child: Text('Errore nel caricamento dei video')),
         data: (videos) {
@@ -67,20 +67,15 @@ class _MeditationPageState extends ConsumerState<MeditationPage> {
                     itemBuilder: (context, index) {
                       return VideoListItem(
                         video: videos[index],
+                        isSelected: selectedVideo == videos[index],
                         onTap: () {
-                          // Update selected video and controller
                           setState(() {
                             selectedVideo = videos[index];
                             _controller?.dispose(); // Dispose the previous controller
-                            _controller = YoutubePlayerController(
-                              initialVideoId: YoutubePlayer.convertUrlToId(selectedVideo!.videoUrl)!,
-                              flags: YoutubePlayerFlags(
-                                autoPlay: true,
-                                mute: false,
-                              ),
-                            );
+                            _initializeController(selectedVideo!);
                           });
                         },
+                        controller: _controller,
                       );
                     },
                   ),
@@ -89,7 +84,7 @@ class _MeditationPageState extends ConsumerState<MeditationPage> {
             );
           }
         },
-      ),
+      ),*/
       bottomNavigationBar: const BottomBar(),
     );
   }

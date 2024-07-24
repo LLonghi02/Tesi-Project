@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:http/http.dart' as http;
 import 'package:mindease_app/provider/importer.dart';
@@ -25,19 +26,17 @@ Future<void> shareData(
   );
 
   if (response.statusCode == 200) {
-    final responseData = jsonDecode(response.body);
+    final List<dynamic> responseData = jsonDecode(response.body);
 
-    // Estrai i dati desiderati
     final extractedData = responseData.map((user) {
       return {
         "Data": user["Data"],
         "Emozione": user["Emozione"],
         "Causa": user["Causa"],
-        "Sintomi": user["Sintomi"].join(", "),
+        "Sintomi": (user["Sintomi"] as List<dynamic>).join(", "),
       };
     }).toList();
 
-    // ignore: prefer_interpolation_to_compose_strings
     final emailBody = 'Questi sono i dati di ${nameController.text}:\n\n' +
         extractedData.map((data) => 
           'Data: ${data["Data"]}\n' +
@@ -46,11 +45,8 @@ Future<void> shareData(
           'Sintomi: ${data["Sintomi"]}\n\n'
         ).join(',');
 
-    await sendEmail(emailController.text, emailBody, nameController);
+    await sendEmail(context, emailController.text, emailBody, nameController);
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Condivisione col terapeuta avvenuta con successo!')),
-    );
   } else {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Errore durante il recupero dei dati')),
@@ -58,7 +54,7 @@ Future<void> shareData(
   }
 }
 
-Future<void> sendEmail(String recipient, String body, TextEditingController nameController) async {
+Future<void> sendEmail(BuildContext context, String recipient, String body, TextEditingController nameController) async {
   final Email email = Email(
     body: body,
     subject: 'Dati di ${nameController.text}',
@@ -68,8 +64,13 @@ Future<void> sendEmail(String recipient, String body, TextEditingController name
 
   try {
     await FlutterEmailSender.send(email);
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Condivisione col terapeuta avvenuta con successo!')),
+    );
   } catch (error) {
     print('Errore durante l\'invio della email: $error');
-    throw error; //PlatformException(not_available, No email clients found!, null, null)
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Errore durante l\'invio dell\'email. Assicurati di avere un client email configurato.')),
+    );
   }
 }

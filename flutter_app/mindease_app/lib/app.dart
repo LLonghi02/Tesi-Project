@@ -17,7 +17,7 @@ class App extends ConsumerWidget {
           centerTitle: true,
         ),
       ),
-      home:   Schermata(),
+      home:   EasePage(),
     );
   }
 }

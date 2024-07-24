@@ -29,6 +29,7 @@ dependencies:
   image_picker: ^0.8.4+4
   just_audio: ^0.9.38
   mongo_dart: ^0.10.3
+  provider: ^6.0.2
   shared_preferences: ^2.0.12
   table_calendar: ^3.0.8
   tuple: ^2.0.2

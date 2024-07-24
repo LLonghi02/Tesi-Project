@@ -14,12 +14,12 @@ class EasePage extends ConsumerWidget {
       appBar: const TopBar(),
       body: Column(
         children: [
-          ClickableImage(
+          /*ClickableImage(
             imageUrl: 'assets/images/meditazione.jpg',
             text: 'Pratiche di meditazione',
             height: 150,
             destination: MeditationPage(),
-          ),
+          ),*/
           ClickableImage(
             imageUrl: 'assets/images/resp.jpg',
             text: 'Esercizi di respirazione',
