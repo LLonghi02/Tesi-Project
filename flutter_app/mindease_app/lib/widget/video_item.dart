@@ -2,6 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:mindease_app/provider/importer.dart';
 
+
+// Funzione per estrarre l'ID del video da un URL
+String? extractVideoIdFromUrl(String url) {
+  final RegExp youtubeIdPattern = RegExp(
+    r'(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/|youtube-nocookie\.com\/v\/)([a-zA-Z0-9_-]{11})',
+    caseSensitive: false,
+    multiLine: false,
+  );
+
+  final match = youtubeIdPattern.firstMatch(url);
+  final videoId = match?.group(1);
+
+  // Stampa l'ID del video estratto
+  print('Extracted video ID: $videoId');
+
+  return videoId;
+}
+
 class VideoListItem extends StatefulWidget {
   final VideoModel video;
   final bool isSelected;
@@ -17,7 +35,6 @@ class VideoListItem extends StatefulWidget {
   @override
   _VideoListItemState createState() => _VideoListItemState();
 }
-
 class _VideoListItemState extends State<VideoListItem> {
   YoutubePlayerController? _controller;
   bool _isPlayerVisible = false;
@@ -31,15 +48,18 @@ class _VideoListItemState extends State<VideoListItem> {
   }
 
   void _initializeController() {
-    final videoId = YoutubePlayer.convertUrlToId(widget.video.videoUrl);
+    final videoId = extractVideoIdFromUrl(widget.video.videoUrl);
     if (videoId != null) {
-      _controller = YoutubePlayerController(
-        initialVideoId: videoId,
-        flags: YoutubePlayerFlags(
-          autoPlay: false, // Default to not auto-playing
-          mute: false,
-        ),
-      );
+      setState(() {
+        _controller = YoutubePlayerController(
+          initialVideoId: videoId,
+          flags: YoutubePlayerFlags(
+            autoPlay: false,
+            mute: false,
+          ),
+        );
+        _isPlayerVisible = true;
+      });
     }
   }
 
@@ -48,9 +68,6 @@ class _VideoListItemState extends State<VideoListItem> {
     super.didUpdateWidget(oldWidget);
     if (widget.isSelected && _controller == null) {
       _initializeController();
-      setState(() {
-        _isPlayerVisible = true;
-      });
     }
   }
 
@@ -62,10 +79,13 @@ class _VideoListItemState extends State<VideoListItem> {
 
   @override
   Widget build(BuildContext context) {
-    final thumbnailUrl = YoutubePlayer.getThumbnail(
-      videoId: YoutubePlayer.convertUrlToId(widget.video.videoUrl)!,
-      quality: ThumbnailQuality.high,
-    );
+    final videoId = extractVideoIdFromUrl(widget.video.videoUrl);
+    final thumbnailUrl = videoId != null
+        ? YoutubePlayer.getThumbnail(
+            videoId: videoId,
+            quality: ThumbnailQuality.high,
+          )
+        : '';
 
     return Card(
       margin: const EdgeInsets.all(8.0),
@@ -75,9 +95,11 @@ class _VideoListItemState extends State<VideoListItem> {
           GestureDetector(
             onTap: () {
               widget.onTap();
-              setState(() {
-                _isPlayerVisible = true;
-              });
+              if (!_isPlayerVisible) {
+                setState(() {
+                  _isPlayerVisible = true;
+                });
+              }
             },
             child: _isPlayerVisible && _controller != null
                 ? Container(
@@ -87,6 +109,9 @@ class _VideoListItemState extends State<VideoListItem> {
                       showVideoProgressIndicator: true,
                       onReady: () {
                         print('Player is ready');
+                      },
+                      onEnded: (metadata) {
+                        print('Video ended');
                       },
                     ),
                   )
