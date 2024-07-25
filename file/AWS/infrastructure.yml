@@ -31,17 +31,16 @@ Resources:
     Type: 'AWS::S3::Bucket'
     DeletionPolicy: Retain
     Properties:
-      BucketName: "mindease-data"
+      BucketName: "mindease-data-24"
 
   ScriptS3Bucket:
     Type: 'AWS::S3::Bucket'
     DeletionPolicy: Retain
     Properties:
-      BucketName: "mindease-script"
+      BucketName: "mindease-script-24"
 
   LogsS3Bucket:
     Type: 'AWS::S3::Bucket'
     DeletionPolicy: Retain
     Properties:
-      BucketName: "mindease-logs"
-
+      BucketName: "mindease-logs-24"

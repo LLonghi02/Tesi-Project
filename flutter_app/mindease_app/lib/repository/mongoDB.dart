@@ -45,7 +45,7 @@ class MongoDBService {
 
   Future<bool> isNicknameAvailable(String nickname) async {
     final response = await http.post(
-      Uri.parse('https://jjyc1nzkwf.execute-api.us-east-1.amazonaws.com/default/verifica_nickname'),
+      Uri.parse('https://5nel8scg04.execute-api.us-east-1.amazonaws.com/default/verifica_nickname'),
       body: jsonEncode({'nickname': nickname}),
     );
 

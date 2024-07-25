@@ -10,9 +10,9 @@ Future<List<VideoModel>> fetchVideos(String tag) async {
   Uri url; // Define url variable
 
   if (tag == "respirazione") {
-    url = Uri.parse('https://02qhzuakib.execute-api.us-east-1.amazonaws.com/default/Respirazione_Player');
+    url = Uri.parse('https://6f0h9i13vb.execute-api.us-east-1.amazonaws.com/default/Respirazione_Player');
   } else if (tag == "meditazione") {
-    url = Uri.parse('https://c41rctrt6a.execute-api.us-east-1.amazonaws.com/default/Meditazione_player');
+    url = Uri.parse('https://nbie2360s6.execute-api.us-east-1.amazonaws.com/default/Meditazione_player');
   } else {
     throw Exception('Invalid tag: $tag');
   }

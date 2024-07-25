@@ -20,7 +20,7 @@ Future<void> shareData(
   }
 
   final response = await http.post(
-    Uri.parse('https://uwzyouum4m.execute-api.us-east-1.amazonaws.com/default/calendar_nickname'),
+    Uri.parse('https://5d0c0r8wxc.execute-api.us-east-1.amazonaws.com/default/calendar_nickname'),
     headers: {'Content-Type': 'application/json'},
     body: jsonEncode({'Nickname': nickname}),
   );
