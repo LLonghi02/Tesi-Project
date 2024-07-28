@@ -20,7 +20,7 @@ Future<void> shareData(
   }
 
   final response = await http.post(
-    Uri.parse('https://5d0c0r8wxc.execute-api.us-east-1.amazonaws.com/default/calendar_nickname'),
+    Uri.parse('https://2la86e82af.execute-api.us-east-1.amazonaws.com/default/Calendar_nickname'),
     headers: {'Content-Type': 'application/json'},
     body: jsonEncode({'Nickname': nickname}),
   );
@@ -37,7 +37,7 @@ Future<void> shareData(
       };
     }).toList();
 
-    final emailBody = 'Questi sono i dati di ${nameController.text}:\n\n' +
+    final emailBody = 'Questi sono i dati del paziente ${nameController.text}:\n\n' +
         extractedData.map((data) => 
           'Data: ${data["Data"]}\n' +
           'Emozione: ${data["Emozione"]}\n' +

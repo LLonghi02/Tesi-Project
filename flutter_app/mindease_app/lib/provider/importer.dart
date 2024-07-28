@@ -62,7 +62,7 @@ export 'package:mindease_app/provider/userProvider.dart';
 //Models
 export 'package:mindease_app/model/calendar_model.dart';
 export 'package:mindease_app/model/sound_model.dart';
-export 'package:mindease_app/model/level_information.dart';
+export 'package:mindease_app/provider/level_information.dart';
 export 'package:mindease_app/model/video_model.dart';
 
 //Repository

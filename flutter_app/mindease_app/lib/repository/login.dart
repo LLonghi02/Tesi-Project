@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future<String> logIn(String nickname, String password) async {
   var url = Uri.parse(
-      'https://ma24de1q49.execute-api.us-east-1.amazonaws.com/default/MindEase_login');
+      'https://yve5zvnx82.execute-api.us-east-1.amazonaws.com/default/MindEase_login');
   var body = jsonEncode(<String, String>{
     'nickname': nickname,
     'password': password,
