@@ -14,6 +14,7 @@ export 'package:mindease_app/screen/record_emotion.dart';
 export 'package:mindease_app/screen/registrazione.dart';
 export 'package:mindease_app/screen/settings.dart';
 export 'package:mindease_app/screen/supporto.dart';
+export 'package:mindease_app/screen/recoverPassword.dart';
 
 export 'package:mindease_app/screen/mindufulness/mindfulness.dart';
 export 'package:mindease_app/screen/mindufulness/level_page.dart';
@@ -72,3 +73,4 @@ export 'package:mindease_app/repository/login.dart';
 export 'package:mindease_app/repository/mongoDB.dart';
 export 'package:mindease_app/repository/trofei_data.dart';
 export 'package:mindease_app/repository/share_terapeura.dart';
+export 'package:mindease_app/repository/recupera_account.dart';

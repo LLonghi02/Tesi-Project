@@ -54,16 +54,16 @@ class _TrophiesSectionState extends State<TrophiesSection> {
 
                       switch (index) {
                         case 0:
-                          trophyText = 'Hai aggiornato il calendario 3 volte';
-                          isUnlocked = count >= 3;
-                          break;
-                        case 1:
                           trophyText = 'Hai aggiornato il calendario 5 volte';
                           isUnlocked = count >= 5;
                           break;
-                        case 2:
+                        case 1:
                           trophyText = 'Hai aggiornato il calendario 10 volte';
                           isUnlocked = count >= 10;
+                          break;
+                        case 2:
+                          trophyText = 'Hai aggiornato il calendario 30 volte';
+                          isUnlocked = count >= 30;
                           break;
                         default:
                           trophyText = 'Trofeo speciale';

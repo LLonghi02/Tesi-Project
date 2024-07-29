@@ -4,8 +4,7 @@ import 'package:mindease_app/provider/importer.dart';
 import 'package:collection/collection.dart'; // Import firstWhereOrNull
 
 
-class ProfileScreen extends ConsumerWidget {
-  // Dummy data to simulate objectives completion
+class ProfilePage extends ConsumerWidget {
   final List<bool> objectivesMet = List.generate(20, (index) => index % 2 == 0);
 
   @override

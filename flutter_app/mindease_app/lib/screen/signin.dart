@@ -1,6 +1,7 @@
 import 'package:mindease_app/provider/importer.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:mindease_app/provider/theme.dart';
 
 class SignInPage extends ConsumerWidget {
   SignInPage({Key? key}) : super(key: key);
@@ -10,8 +11,12 @@ class SignInPage extends ConsumerWidget {
 
   Future<void> _handleGoogleSignIn(BuildContext context, WidgetRef ref) async {
     GoogleSignIn _googleSignIn = GoogleSignIn(
-      clientId: '932816395142-de98ubeepan61sk7ho2fc3khshicuvd2.apps.googleusercontent.com',
-      scopes: <String>['email', 'https://www.googleapis.com/auth/contacts.readonly'],
+      clientId:
+          '932816395142-de98ubeepan61sk7ho2fc3khshicuvd2.apps.googleusercontent.com',
+      scopes: <String>[
+        'email',
+        'https://www.googleapis.com/auth/contacts.readonly'
+      ],
     );
 
     try {
@@ -19,7 +24,7 @@ class SignInPage extends ConsumerWidget {
       // Handle successful Google sign-in here, e.g., navigate to HomePage or save user data
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomePage()),
+        MaterialPageRoute(builder: (context) => const HomePage()),
       );
     } catch (error) {
       print(error);
@@ -69,29 +74,58 @@ class SignInPage extends ConsumerWidget {
                 obscureText: true,
               ),
               const SizedBox(height: 1),
-              RememberMeCheckbox(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const RememberMeCheckbox(),
+                  const SizedBox(width: 40),
+
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RecoverpasswordPage()),
+                      );
+                    },
+
+                    child: Text(
+                      'Non ricordo la password',
+                      style: TextStyle(
+                        color: detColor, // Cambia colore a tuo piacimento
+                        fontSize: 13,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               const SizedBox(height: 3),
               CustomTextButton(
                 onPressed: () async {
-                  ref.read(nicknameProvider.notifier).state = _nicknameController.text;
-                  ref.read(passwordProvider.notifier).state = _passwordController.text;
+                  ref.read(nicknameProvider.notifier).state =
+                      _nicknameController.text;
+                  ref.read(passwordProvider.notifier).state =
+                      _passwordController.text;
 
                   String loginResult = await logIn(
                       _nicknameController.text, _passwordController.text);
                   if (loginResult == 'login successful') {
                     bool rememberMe = await RememberHelper.loadRememberMe();
                     if (rememberMe) {
-                      await RememberHelper.saveCredentials(_nicknameController.text, _passwordController.text);
+                      await RememberHelper.saveCredentials(
+                          _nicknameController.text, _passwordController.text);
                     } else {
-                      await RememberHelper.clearCredentials(); 
+                      await RememberHelper.clearCredentials();
                     }
 
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Login effettuato con successo')),
+                      const SnackBar(
+                          content: Text('Login effettuato con successo')),
                     );
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => HomePage()),
+                      MaterialPageRoute(builder: (context) => const HomePage()),
                     );
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -134,7 +168,8 @@ class SignInPage extends ConsumerWidget {
                 label2: 'Registrati',
                 onTap: () {
                   Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (_) => const RegistrazionePage()),
+                    MaterialPageRoute(
+                        builder: (_) => const RegistrazionePage()),
                   );
                 },
               ),
