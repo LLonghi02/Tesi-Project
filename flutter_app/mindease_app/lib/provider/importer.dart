@@ -70,4 +70,5 @@ export 'package:mindease_app/repository/video.dart';
 export 'package:mindease_app/repository/calendarDB.dart';
 export 'package:mindease_app/repository/login.dart';
 export 'package:mindease_app/repository/mongoDB.dart';
+export 'package:mindease_app/repository/trofei_data.dart';
 export 'package:mindease_app/repository/share_terapeura.dart';

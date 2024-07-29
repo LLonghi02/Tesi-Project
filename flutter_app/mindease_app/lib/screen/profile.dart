@@ -42,7 +42,7 @@ class ProfileScreen extends ConsumerWidget {
                 style: AppFonts.appTitle,
               ),
               const SizedBox(height: 20),
-              TrophiesSection(objectivesMet: objectivesMet),
+              TrophiesSection(objectivesMet: objectivesMet, nickname: nickname,),
               const SizedBox(height: 20),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
