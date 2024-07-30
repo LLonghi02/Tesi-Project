@@ -1,28 +1,35 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:collection/collection.dart'; // Import firstWhereOrNull
 import 'package:mindease_app/provider/importer.dart';
 
-import 'package:collection/collection.dart'; // Import firstWhereOrNull
+class ProfilePage extends ConsumerStatefulWidget {
+  @override
+  _ProfilePageState createState() => _ProfilePageState();
+}
 
-
-class ProfilePage extends ConsumerWidget {
-  final List<bool> objectivesMet = List.generate(20, (index) => index % 2 == 0);
+class _ProfilePageState extends ConsumerState<ProfilePage> {
+  late String currentDate;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    String currentDate = DateTime.now().toIso8601String().split('T')[0];
-    String nickname = ref.watch(nicknameProvider); // Recupera il valore del nickname
-    Future<void> _loadProfileImage() async {
-        final imagePath = await loadProfileImage();
-        if (imagePath != null) {
-          ref.read(profileImageProvider.notifier).state = imagePath;
-        }
-      }
+  void initState() {
+    super.initState();
+    currentDate = DateTime.now().toIso8601String().split('T')[0];
+    _loadProfileImage();
+  }
 
-      _loadProfileImage();
-        final profileImage = ref.watch(profileImageProvider); // Recupera il file dell'immagine del profilo
+  Future<void> _loadProfileImage() async {
+    final imagePath = await loadProfileImage();
+    if (imagePath != null) {
+      ref.read(profileImageProvider.notifier).state = imagePath;
+    }
+  }
 
-    final AsyncValue<List<CalendarModel>> calendarDataAsync =
-        ref.watch(calendarProvider(currentDate));
+  @override
+  Widget build(BuildContext context) {
+    final nickname = ref.watch(nicknameProvider);
+    final profileImage = ref.watch(profileImageProvider);
 
     return Scaffold(
       backgroundColor: const Color(0xffd2f7ef),
@@ -37,10 +44,10 @@ class ProfilePage extends ConsumerWidget {
                 child: CircleAvatar(
                   radius: 50,
                   backgroundImage: profileImage != null && profileImage.isNotEmpty
-                    ? profileImage.startsWith('assets/')
-                        ? AssetImage(profileImage) as ImageProvider
-                        : FileImage(File(profileImage))
-                    : const AssetImage('assets/images/user/profilo.png'),
+                      ? profileImage.startsWith('assets/')
+                          ? AssetImage(profileImage) as ImageProvider
+                          : FileImage(File(profileImage))
+                      : const AssetImage('assets/images/user/profilo.png'),
                 ),
               ),
               const SizedBox(height: 10),
@@ -49,7 +56,7 @@ class ProfilePage extends ConsumerWidget {
                 style: AppFonts.appTitle,
               ),
               const SizedBox(height: 20),
-              TrophiesSection(objectivesMet: objectivesMet, nickname: nickname,),
+              TrophiesSection(objectivesMet: List.generate(20, (index) => index % 2 == 0), nickname: nickname),
               const SizedBox(height: 20),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,33 +111,37 @@ class ProfilePage extends ConsumerWidget {
                                 ],
                               ),
                               const SizedBox(width: 10),
-                              calendarDataAsync.when(
-                                loading: () =>
-                                    const CircularProgressIndicator(),
-                                error: (error, stackTrace) =>
-                                    Text('Errore: $error'),
-                                data: (calendarData) {
-                                  // Find emotion for the current date
-                                  CalendarModel? todayEmotion =
-                                      calendarData.firstWhereOrNull(
-                                    (entry) => entry.data == currentDate,
-                                  );
+                              FutureBuilder<List<CalendarModel>>(
+                                future: ref.watch(calendarProvider(currentDate).future),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState == ConnectionState.waiting) {
+                                    return const CircularProgressIndicator();
+                                  } else if (snapshot.hasError) {
+                                    return Text('Errore: ${snapshot.error}');
+                                  } else if (snapshot.hasData) {
+                                    final calendarData = snapshot.data!;
+                                    // Find emotion for the current date
+                                    CalendarModel? todayEmotion = calendarData.firstWhereOrNull(
+                                      (entry) => entry.data == currentDate,
+                                    );
 
-                                  if (todayEmotion != null) {
-                                    return Padding(
-                                      padding: const EdgeInsets.all(20.0),
-                                      child: EmotionCalenda(
-                                        imageUrl:
-                                            getEmotionImage(todayEmotion.emozione),
-                                      ),
-                                    );
+                                    if (todayEmotion != null) {
+                                      return Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: EmotionCalenda(
+                                          imageUrl: getEmotionImage(todayEmotion.emozione),
+                                        ),
+                                      );
+                                    } else {
+                                      return const Flexible(
+                                        child: Text(
+                                          'non ci hai fatto sapere come stai',
+                                          style: AppFonts.calenda,
+                                        ),
+                                      );
+                                    }
                                   } else {
-                                    return const Flexible(
-                                      child: Text(
-                                        'non ci hai fatto sapere come stai',
-                                        style: AppFonts.calenda,
-                                      ),
-                                    );
+                                    return const Text('Nessun dato disponibile');
                                   }
                                 },
                               ),
