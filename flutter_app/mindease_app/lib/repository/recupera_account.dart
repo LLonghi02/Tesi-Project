@@ -57,6 +57,12 @@ Future<void> sendEmailAccount(BuildContext context, String recipient, String bod
     isHTML: false,
   );
 
+    // Naviga alla pagina di accesso dopo aver inviato l'email
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => SignInPage()),
+    );
+
   try {
     await FlutterEmailSender.send(email);
     ScaffoldMessenger.of(context).showSnackBar(
