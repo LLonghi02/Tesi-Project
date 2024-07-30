@@ -1,13 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:mindease_app/provider/importer.dart';
+
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mindease_app/provider/theme.dart';
 
 class SignInPage extends ConsumerWidget {
   SignInPage({Key? key}) : super(key: key);
-
   final TextEditingController _nicknameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
 
 
   @override
@@ -15,10 +14,8 @@ class SignInPage extends ConsumerWidget {
     final backColor = ref.watch(accentColorProvider);
     final detColor = ref.watch(signProvider);
     final iconColor = ref.watch(detProvider);
-
     // Load saved credentials when the widget is built
     _loadCredentials();
-
     return Scaffold(
       body: Center(
         child: Padding(
@@ -55,7 +52,6 @@ class SignInPage extends ConsumerWidget {
                 children: [
                   const RememberMeCheckbox(),
                   const SizedBox(width: 40),
-
                   TextButton(
                     onPressed: () {
                       Navigator.push(
@@ -64,7 +60,6 @@ class SignInPage extends ConsumerWidget {
                             builder: (context) => RecoverpasswordPage()),
                       );
                     },
-
                     child: Text(
                       'Non ricordo la password',
                       style: TextStyle(
@@ -83,7 +78,6 @@ class SignInPage extends ConsumerWidget {
                       _nicknameController.text;
                   ref.read(passwordProvider.notifier).state =
                       _passwordController.text;
-
                   String loginResult = await logIn(
                       _nicknameController.text, _passwordController.text);
                   if (loginResult == 'login successful') {
@@ -94,7 +88,6 @@ class SignInPage extends ConsumerWidget {
                     } else {
                       await RememberHelper.clearCredentials();
                     }
-
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                           content: Text('Login effettuato con successo')),
@@ -156,7 +149,6 @@ class SignInPage extends ConsumerWidget {
       backgroundColor: backColor,
     );
   }
-
   Future<void> _loadCredentials() async {
     Map<String, String> credentials = await RememberHelper.loadCredentials();
     _nicknameController.text = credentials['nickname'] ?? '';

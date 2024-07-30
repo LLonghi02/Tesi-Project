@@ -1,13 +1,13 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mindease_app/provider/importer.dart';
-
 
 class ThemeSelectionPage extends ConsumerWidget {
   const ThemeSelectionPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final backcolor =
-        ref.watch(detProvider); // Recupera il colore di sfondo dal provider
+    final backcolor = ref.watch(detProvider); // Recupera il colore di sfondo dal provider
 
     final themes = [
       {
@@ -23,6 +23,12 @@ class ThemeSelectionPage extends ConsumerWidget {
         'name': 'Franco che ascolta',
       },
     ];
+
+    // Funzione per aggiornare e salvare l'immagine di sfondo
+    Future<void> _updateBackgroundImage(String newImagePath) async {
+      await saveBackgroundImage(newImagePath);
+      ref.read(backgroundImageProvider.notifier).state = newImagePath;
+    }
 
     return Scaffold(
       backgroundColor: backcolor,
@@ -47,12 +53,12 @@ class ThemeSelectionPage extends ConsumerWidget {
               itemCount: themes.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
-                  onTap: () {
-                    ref.read(backgroundImageProvider.notifier).state =
-                        themes[index]['image'];
+                  onTap: () async {
+                    await _updateBackgroundImage(themes[index]['image']!);
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                          content: Text('Tema selezionato con successo!')),
+                        content: Text('Tema selezionato con successo!'),
+                      ),
                     );
                     Navigator.pop(context); // Torna alla pagina precedente
                   },

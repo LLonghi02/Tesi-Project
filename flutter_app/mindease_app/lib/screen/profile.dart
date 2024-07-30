@@ -11,7 +11,15 @@ class ProfilePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     String currentDate = DateTime.now().toIso8601String().split('T')[0];
     String nickname = ref.watch(nicknameProvider); // Recupera il valore del nickname
-    final profileImage = ref.watch(profileImageProvider); // Recupera il file dell'immagine del profilo
+    Future<void> _loadProfileImage() async {
+        final imagePath = await loadProfileImage();
+        if (imagePath != null) {
+          ref.read(profileImageProvider.notifier).state = imagePath;
+        }
+      }
+
+      _loadProfileImage();
+        final profileImage = ref.watch(profileImageProvider); // Recupera il file dell'immagine del profilo
 
     final AsyncValue<List<CalendarModel>> calendarDataAsync =
         ref.watch(calendarProvider(currentDate));

@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:mindease_app/provider/importer.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 
 const String defaultProfileImage = 'assets/images/user/profilo.png';
 
@@ -20,6 +20,38 @@ class ProfileImagePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final backcolor = ref.watch(detProvider);
     final profileImage = ref.watch(profileImageProvider) ?? defaultProfileImage;
+
+    // Funzione per salvare l'immagine del profilo
+    Future<void> _saveProfileImage(String imagePath) async {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('profileImage', imagePath);
+      ref.read(profileImageProvider.notifier).state = imagePath;
+    }
+
+    // Funzione per selezionare un'immagine dalla galleria
+    Future<void> _selectImageFromGallery() async {
+      final picker = ImagePicker();
+      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+      if (pickedFile != null) {
+        await _saveProfileImage(pickedFile.path);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Foto del profilo salvata con successo!'),
+          ),
+        );
+      }
+    }
+
+    // Funzione per scegliere un'immagine predefinita
+    void _selectDefaultImage(String imagePath) async {
+      await _saveProfileImage(imagePath);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Foto del profilo salvata con successo!'),
+        ),
+      );
+    }
 
     return Scaffold(
       backgroundColor: backcolor,
@@ -44,19 +76,7 @@ class ProfileImagePage extends ConsumerWidget {
               ),
               const SizedBox(height: 20),
               CustomTextButton(
-                onPressed: () async {
-                  final picker = ImagePicker();
-                  final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
-                  if (pickedFile != null) {
-                    ref.read(profileImageProvider.notifier).state = pickedFile.path;
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Foto del profilo salvata con successo!'),
-                      ),
-                    );
-                  }
-                },
+                onPressed: _selectImageFromGallery,
                 buttonText: 'Seleziona Immagine',
               ),
               const SizedBox(height: 20),
@@ -73,14 +93,7 @@ class ProfileImagePage extends ConsumerWidget {
                   itemBuilder: (context, index) {
                     final imagePath = predefinedImages[index];
                     return GestureDetector(
-                      onTap: () {
-                        ref.read(profileImageProvider.notifier).state = imagePath;
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Foto del profilo salvata con successo!'),
-                          ),
-                        );
-                      },
+                      onTap: () => _selectDefaultImage(imagePath),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: CircleAvatar(

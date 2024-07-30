@@ -11,8 +11,15 @@ class SupportoPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final backcolor = ref.watch(accentColorProvider);
+  Future<void> _loadBackgroundImage() async {
+    final imagePath = await loadBackgroundImage();
+    if (imagePath != null) {
+      ref.read(backgroundImageProvider.notifier).state = imagePath;
+    }
+  }
     final backgroundImage = ref.watch(backgroundImageProvider) ?? defaultBackgroundImage;
 
+  _loadBackgroundImage();
     final List<Message> messages = ref.watch(messageListProvider);
 
     void userMessage(String text) {
