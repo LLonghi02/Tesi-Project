@@ -28,13 +28,24 @@ class MessageListNotifier extends StateNotifier<List<Message>> {
 
   void _generateResponse(String userMessage) {
     // Dizionario di risposte basate su parole chiave nel messaggio dell'utente
-    final responses = {
-      "ciao": "Ciao, come stai?",
-      "come va?": "Sto bene, grazie! Tu?",
-      "aiuto": "Posso aiutarti in qualche modo?",
-      "male": "Mi spiace, dimmi di più",
-      "ansia":"Resprira e spiegami meglio",
-    };
+// Dizionario di risposte basate su parole chiave nel messaggio dell'utente
+final responses = {
+  "ciao": "Ciao, come stai? Posso aiutarti con qualcosa oggi?",
+  "come va?": "Sto bene, grazie! E tu come te la passi?",
+  "aiuto": "Certamente, come posso assisterti? Fammi sapere di cosa hai bisogno.",
+  "male": "Mi dispiace sapere che ti senti così. Vuoi parlarne? Sono qui per ascoltare.",
+  "ansia": "Capisco che l'ansia possa essere difficile. Respira profondamente e prova a spiegarmi meglio cosa stai provando.",
+  "grazie": "Prego! Se hai altre domande o hai bisogno di ulteriori informazioni, non esitare a chiedere.",
+  "scusa": "Non preoccuparti, tutto bene! Come posso aiutarti ulteriormente?",
+  "dove sei?": "Sono un assistente virtuale, quindi non ho una posizione fisica. Sono qui per aiutarti online.",
+  "aiutami con ": "Certo! Fammi sapere di cosa hai bisogno e cercherò di aiutarti.",
+  "problema ": "Mi dispiace sentire che hai un problema . Puoi descrivere il problema in dettaglio?",
+  "risate": "Spero di averti fatto sorridere! Se hai bisogno di ulteriore aiuto, fammi sapere.",
+  "informazioni": "Di che tipo di informazioni hai bisogno? Fammi sapere così posso fornirti una risposta più precisa.",
+  "notizie": "Non sono aggiornato sulle ultime notizie, ma posso aiutarti con altre informazioni o rispondere a domande generali.",
+  "saluti": "Arrivederci! Spero di risentirti presto. Se hai altre domande, sono qui per te.",
+};
+
 
     // Cerca una parola chiave nel messaggio dell'utente
      final responseEntry = responses.entries.firstWhere(

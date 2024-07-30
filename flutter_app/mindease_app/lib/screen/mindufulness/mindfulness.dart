@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:mindease_app/provider/importer.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LevelSelectionPage extends ConsumerStatefulWidget {
@@ -38,6 +37,12 @@ class _LevelSelectionPageState extends ConsumerState<LevelSelectionPage> {
     return date1.year == date2.year && date1.month == date2.month && date1.day == date2.day;
   }
 
+  bool isNextDay(DateTime date1, DateTime date2) {
+    return date1.add(Duration(days: 1)).day == date2.day &&
+           date1.add(Duration(days: 1)).month == date2.month &&
+           date1.add(Duration(days: 1)).year == date2.year;
+  }
+
   void _openLevel(int level) async {
     if (_prefs == null) {
       print('SharedPreferences non è stato inizializzato');
@@ -48,8 +53,7 @@ class _LevelSelectionPageState extends ConsumerState<LevelSelectionPage> {
     bool dailyGoalCompleted = _prefs?.getBool('dailyGoalCompleted_$level') ?? false;
     DateTime? lastCompletionTime = DateTime.tryParse(_prefs?.getString('lastCompletionTime_$level') ?? '');
 
-    // Controllo per sbloccare i livelli solo se l'obiettivo del giorno è completato
-    bool canOpenLevel = isUnlocked && (level == 1 || (dailyGoalCompleted && (lastCompletionTime != null && isSameDay(lastCompletionTime, DateTime.now()))));
+    bool canOpenLevel = isUnlocked && (level == 1 || (dailyGoalCompleted && (lastCompletionTime != null && isNextDay(lastCompletionTime, DateTime.now()))));
 
     if (canOpenLevel) {
       Navigator.push(
@@ -111,14 +115,14 @@ class _LevelSelectionPageState extends ConsumerState<LevelSelectionPage> {
 
     setState(() {
       if (_currentLevel <= level) {
-        _currentLevel = level + 1; // Sblocca il prossimo livello solo se l'obiettivo del giorno è completato
+        _currentLevel = level + 1; // Sblocca il prossimo livello
         _prefs?.setInt('currentLevel', _currentLevel);
+        _prefs?.setString('lastCompletionDate', today); // Registra l'ultimo giorno di completamento
       }
     });
 
     await _prefs?.setBool('dailyGoalCompleted_$level', true);
     await _prefs?.setString('lastCompletionTime_$level', now.toIso8601String());
-    await _prefs?.setString('lastCompletionDate', today); // Registra l'ultimo giorno di completamento
   }
 
   @override
@@ -193,7 +197,7 @@ class _LevelSelectionPageState extends ConsumerState<LevelSelectionPage> {
       bool dailyGoalCompleted = _prefs?.getBool('dailyGoalCompleted_$level') ?? false;
       DateTime? lastCompletionTime = DateTime.tryParse(_prefs?.getString('lastCompletionTime_$level') ?? '');
 
-      bool canOpenLevel = isUnlocked && (level == 1 || (dailyGoalCompleted && (lastCompletionTime != null && isSameDay(lastCompletionTime, DateTime.now()))));
+      bool canOpenLevel = isUnlocked && (level == 1 || (dailyGoalCompleted && (lastCompletionTime != null && isNextDay(lastCompletionTime, DateTime.now()))));
 
       levelButtons.add(
         Positioned(
