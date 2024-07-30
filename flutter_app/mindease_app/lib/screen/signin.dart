@@ -1,6 +1,5 @@
+import 'package:flutter/material.dart';
 import 'package:mindease_app/provider/importer.dart';
-
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mindease_app/provider/theme.dart';
 
 class SignInPage extends ConsumerWidget {
@@ -9,30 +8,7 @@ class SignInPage extends ConsumerWidget {
   final TextEditingController _nicknameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  Future<void> _handleGoogleSignIn(BuildContext context, WidgetRef ref) async {
-    GoogleSignIn _googleSignIn = GoogleSignIn(
-      clientId:
-          '932816395142-de98ubeepan61sk7ho2fc3khshicuvd2.apps.googleusercontent.com',
-      scopes: <String>[
-        'email',
-        'https://www.googleapis.com/auth/contacts.readonly'
-      ],
-    );
 
-    try {
-      await _googleSignIn.signIn();
-      // Handle successful Google sign-in here, e.g., navigate to HomePage or save user data
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomePage()),
-      );
-    } catch (error) {
-      print(error);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Google sign-in failed: $error')),
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -160,7 +136,7 @@ class SignInPage extends ConsumerWidget {
               const SizedBox(height: 10),
               SocialSignInButtonsWidget(
                 iconColor: iconColor,
-                onGoogleSignIn: () => _handleGoogleSignIn(context, ref),
+                onGoogleSignIn: () => handleGoogleSignIn(context),
               ),
               SignUpPromptWidget(
                 color: detColor,

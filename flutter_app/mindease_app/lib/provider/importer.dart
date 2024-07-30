@@ -74,3 +74,4 @@ export 'package:mindease_app/repository/mongoDB.dart';
 export 'package:mindease_app/repository/trofei_data.dart';
 export 'package:mindease_app/repository/share_terapeura.dart';
 export 'package:mindease_app/repository/recupera_account.dart';
+export 'package:mindease_app/repository/google.dart';

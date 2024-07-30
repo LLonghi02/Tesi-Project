@@ -9,32 +9,34 @@ class MeditationPage extends ConsumerStatefulWidget {
 }
 
 class _MeditationPageState extends ConsumerState<MeditationPage> {
-  VideoModel? selectedVideo;
+  VideoModel? selectedVideo;  // Variabile per tenere traccia del video selezionato
 
   @override
   Widget build(BuildContext context) {
     final backcolor = ref.watch(accentColorProvider);
+    // Ottiene la lista di video di meditazione dal provider, gestito come AsyncValue
     final AsyncValue<List<VideoModel>> futureVideos = ref.watch(videoProvider('meditazione'));
 
     return Scaffold(
-      backgroundColor: backcolor,
-      appBar: const TopBar(),
+      backgroundColor: backcolor,  
+      appBar: const TopBar(),  
+
       body: futureVideos.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text('Errore nel caricamento dei video')),
+        loading: () => const Center(child: CircularProgressIndicator()),  // Mostra un indicatore di caricamento durante il caricamento dei video
+        error: (err, stack) => Center(child: Text('Errore nel caricamento dei video')),  // Mostra un messaggio di errore se il caricamento fallisce
         data: (videos) {
           if (videos.isEmpty) {
-            return const Center(child: Text('Nessun video disponibile'));
+            return const Center(child: Text('Nessun video disponibile'));  // Mostra un messaggio se non ci sono video
           } else {
             return ListView.builder(
-              itemCount: videos.length,
+              itemCount: videos.length,  // Numero di elementi nella lista
               itemBuilder: (context, index) {
                 return VideoListItem(
-                  video: videos[index],
-                  isSelected: selectedVideo == videos[index],
+                  video: videos[index],  // Passa il video corrente all'item della lista
+                  isSelected: selectedVideo == videos[index],  // Indica se l'elemento corrente è selezionato
                   onTap: () {
                     setState(() {
-                      selectedVideo = videos[index];
+                      selectedVideo = videos[index];  // Aggiorna lo stato con il video selezionato
                     });
                   },
                 );
@@ -43,7 +45,7 @@ class _MeditationPageState extends ConsumerState<MeditationPage> {
           }
         },
       ),
-      bottomNavigationBar: const BottomBar(),
+      bottomNavigationBar: const BottomBar(),  
     );
   }
 }
