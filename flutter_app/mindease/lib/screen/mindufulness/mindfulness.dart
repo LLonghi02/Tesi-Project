@@ -11,11 +11,11 @@ class LevelSelectionPage extends ConsumerStatefulWidget {
   @override
   _LevelSelectionPageState createState() => _LevelSelectionPageState();
 }
-
 class _LevelSelectionPageState extends ConsumerState<LevelSelectionPage> {
   int _currentLevel = 1;
   bool _dailyGoalCompleted = false;
   SharedPreferences? _prefs;
+  List<bool> _levelUnlockStatus = []; // Lista per memorizzare lo stato di sblocco dei livelli
 
   @override
   void initState() {
@@ -23,46 +23,50 @@ class _LevelSelectionPageState extends ConsumerState<LevelSelectionPage> {
     _initializeLevelData();
   }
 
-Future<void> _initializeLevelData() async {
-  final String nickname = ref.read(nicknameProvider);
-  var levelDataList = await levelStory(nickname);
+  Future<void> _initializeLevelData() async {
+    final String nickname = ref.read(nicknameProvider);
+    var levelDataList = await levelStory(nickname);
 
-  if (levelDataList != null && levelDataList.isNotEmpty) {
-    var latestData = levelDataList.last;
-    print('Level Data Retrieved: $latestData'); // Debugging output
+    if (levelDataList != null && levelDataList.isNotEmpty) {
+      var latestData = levelDataList.last;
+      print('Level Data Retrieved: $latestData'); // Debugging output
 
-    try {
-      // Parsing Date from String
-      DateTime lastCompletionDate = DateTime.parse(latestData['Data']);
-      DateTime today = DateTime.now();
+      try {
+        // Parsing Date from String
+        DateTime lastCompletionDate = DateTime.parse(latestData['Data']);
+        DateTime today = DateTime.now();
 
-      // Check if the last completion date is today
-      bool isToday = _isSameDay(lastCompletionDate, today);
+        // Check if the last completion date is today
+        bool isToday = _isSameDay(lastCompletionDate, today);
 
-      // Update state
-      setState(() {
-        _currentLevel = int.parse(latestData['Livello']);
-        _dailyGoalCompleted = isToday;
-      });
+        // Update state
+        setState(() {
+          _currentLevel = int.parse(latestData['Livello']);
+          _dailyGoalCompleted = isToday;
 
-      print('Current Level: $_currentLevel');
-      print('Last Completion Date: $lastCompletionDate');
-      print('Today\'s Date: $today');
-      print('Daily Goal Completed: $_dailyGoalCompleted');
-    } catch (e) {
-      print('Error parsing date or updating state: $e');
+          // Initialize or update the unlock status for all levels
+          _levelUnlockStatus = List.generate(
+            (_currentLevel > 30 ? _currentLevel : 30), // Assicurati di avere abbastanza spazio
+            (index) => index < _currentLevel || index == 0,
+          );
+        });
+
+        print('Current Level: $_currentLevel');
+        print('Last Completion Date: $lastCompletionDate');
+        print('Today\'s Date: $today');
+        print('Daily Goal Completed: $_dailyGoalCompleted');
+        print('Level Unlock Status: $_levelUnlockStatus');
+      } catch (e) {
+        print('Error parsing date or updating state: $e');
+      }
+    } else {
+      print('Failed to fetch level story.');
     }
-  } else {
-    print('Failed to fetch level story.');
   }
-}
 
-bool _isSameDay(DateTime date1, DateTime date2) {
-  return date1.year == date2.year && date1.month == date2.month && date1.day == date2.day;
-}
-
-
-
+  bool _isSameDay(DateTime date1, DateTime date2) {
+    return date1.year == date2.year && date1.month == date2.month && date1.day == date2.day;
+  }
 void _openLevel(int level) {
   // Verifica se il livello è sbloccato
   bool isUnlocked = (level == 1) || (level > 1 && level <= _currentLevel + 1);
@@ -74,7 +78,7 @@ void _openLevel(int level) {
   bool isDifferentDay = level > 1 && !_dailyGoalCompleted;
 
   // Determina se possiamo aprire il livello
-  bool canOpenLevel = isUnlocked && (level == 1 || isDifferentDay);
+  bool canOpenLevel = isUnlocked && previousLevelCompleted && isDifferentDay;
 
   print('Attempting to open level $level');
   print('Is Level Unlocked: $isUnlocked');
@@ -93,7 +97,7 @@ void _openLevel(int level) {
       ),
     );
   } else if (isUnlocked && !isDifferentDay) {
-    _showDailyGoalIncompleteDialog();
+    _showDailyGoalIncompleteDialog(); // Mostra il dialogo se il giorno non è diverso
   } else if (!isUnlocked) {
     _showLockedLevelDialog();
   }
@@ -138,6 +142,11 @@ void _openLevel(int level) {
       if (_currentLevel <= level) {
         _currentLevel = level + 1; // Sblocca il prossimo livello
         _dailyGoalCompleted = true;
+
+        // Aggiorna lo stato di sblocco per il prossimo livello
+        if (_currentLevel - 1 < _levelUnlockStatus.length) {
+          _levelUnlockStatus[_currentLevel - 1] = true;
+        }
       }
     });
 
@@ -174,90 +183,77 @@ void _openLevel(int level) {
     );
   }
 
-List<Widget> _buildLevelButtons(
-    Color backcolor, Color detcolor, Color lockcolor) {
-  final List<Widget> levelButtons = [];
-  final List<Offset> positions = [
-    Offset(80, 1110),
-    Offset(200, 1080),
-    Offset(150, 1000),
-    Offset(80, 930),
-    Offset(220, 870),
-    Offset(60, 800),
-    Offset(180, 750),
-    Offset(120, 690),
-    Offset(220, 640),
-    Offset(80, 580),
-    Offset(140, 530),
-    Offset(200, 480),
-    Offset(100, 430),
-    Offset(220, 390),
-    Offset(60, 340),
-    Offset(180, 300),
-    Offset(120, 260),
-    Offset(220, 220),
-    Offset(80, 180),
-    Offset(150, 140),
-    Offset(200, 100),
-    Offset(60, 60),
-    Offset(180, 20),
-    Offset(120, -20),
-    Offset(220, -60),
-    Offset(80, -100),
-    Offset(140, -140),
-    Offset(200, -180),
-    Offset(100, -220),
-    Offset(220, -260),
-  ];
+  List<Widget> _buildLevelButtons(Color backcolor, Color detcolor, Color lockcolor) {
+    final List<Widget> levelButtons = [];
+    final List<Offset> positions = [
+      Offset(80, 1110),
+      Offset(200, 1080),
+      Offset(150, 1000),
+      Offset(80, 930),
+      Offset(220, 870),
+      Offset(60, 800),
+      Offset(180, 750),
+      Offset(120, 690),
+      Offset(220, 640),
+      Offset(80, 580),
+      Offset(140, 530),
+      Offset(200, 480),
+      Offset(100, 430),
+      Offset(220, 390),
+      Offset(60, 340),
+      Offset(180, 300),
+      Offset(120, 260),
+      Offset(220, 220),
+      Offset(80, 180),
+      Offset(150, 140),
+      Offset(200, 100),
+      Offset(60, 60),
+      Offset(180, 20),
+      Offset(120, -20),
+      Offset(220, -60),
+      Offset(80, -100),
+      Offset(140, -140),
+      Offset(200, -180),
+      Offset(100, -220),
+      Offset(220, -260),
+    ];
 
-  for (int i = 0; i < positions.length; i++) {
-    int level = i + 1;
-  bool isUnlocked = (level == 1) || (level > 1 && level <= _currentLevel + 1);
+    for (int i = 0; i < positions.length; i++) {
+      int level = i + 1;
+      bool isUnlocked = (level - 1 < _levelUnlockStatus.length) ? _levelUnlockStatus[level - 1] : false;
 
-  // Verifica se il livello precedente è stato completato
-  bool previousLevelCompleted = level > 1 && (level - 1) <= _currentLevel;
-
-  // Verifica se la data odierna è diversa dalla data di completamento
-  bool isDifferentDay = level > 1 && _dailyGoalCompleted;
-
-  // Determina se possiamo aprire il livello
-  bool canOpenLevel = isUnlocked && (level == 1 || isDifferentDay);
-
-   // print('Level $level: isUnlocked=$isUnlocked, previousLevelCompleted=$previousLevelCompleted, isDifferentDay=$isDifferentDay, canOpenLevel=$canOpenLevel');
-
-    levelButtons.add(
-      Positioned(
-        left: positions[i].dx,
-        top: positions[i].dy,
-        child: GestureDetector(
-          onTap: () {
-            _openLevel(level);
-          },
-          child: Container(
-            width: 60,
-            height: 60,
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(100),
-                side: BorderSide(
-                  color: canOpenLevel ? detcolor : lockcolor,
-                  width: 4,
+      levelButtons.add(
+        Positioned(
+          left: positions[i].dx,
+          top: positions[i].dy,
+          child: GestureDetector(
+            onTap: () {
+              _openLevel(level);
+            },
+            child: Container(
+              width: 60,
+              height: 60,
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100),
+                  side: BorderSide(
+                    color: isUnlocked ? detcolor : lockcolor,
+                    width: 6,
+                  ),
                 ),
-              ),
-              color: backcolor,
-              child: Center(
-                child: canOpenLevel
-                    ? Text('$level',
-                        style: TextStyle(fontSize: 18, color: detcolor))
-                    : Icon(Icons.lock, size: 35, color: lockcolor),
+                color: backcolor,
+                child: Center(
+                  child: isUnlocked
+                      ? Text('$level', style: TextStyle(fontSize: 20, color: detcolor,fontWeight: FontWeight.bold,))
+                      : Icon(Icons.lock, size: 35, color: lockcolor),
+                ),
               ),
             ),
           ),
         ),
-      ),
-    );
-  }
+      );
+    }
 
-  return levelButtons;
-}
+    return levelButtons;
+  }
 }
