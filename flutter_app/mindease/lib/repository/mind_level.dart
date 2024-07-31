@@ -49,7 +49,7 @@ class MindfulnessDBService {
     }
   }
 
-  /*Future<void> updateDBByNickname(
+  Future<void> updateLevelByNickname(
     BuildContext context,
     String oldNickname,
     String newNickname,
@@ -57,7 +57,7 @@ class MindfulnessDBService {
     await open(); // Assicurati che la connessione sia aperta
 
     try {
-      var collection = db.collection('Calendar_Emotions_DB');
+      var collection = db.collection('Mindufulness_DB');
       var result = await collection.update(
         where.eq('Nickname', oldNickname),
         modify.set('Nickname', newNickname),
@@ -71,5 +71,5 @@ class MindfulnessDBService {
     } finally {
       await close(); // Chiudi la connessione
     }
-  }*/
+  }
 }

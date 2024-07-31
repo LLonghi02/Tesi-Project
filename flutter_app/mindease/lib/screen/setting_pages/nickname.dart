@@ -56,6 +56,11 @@ class NicknamePage extends ConsumerWidget {
                 await calendarDBService.updateDBByNickname(context,oldNickname, newNickname);
                 await calendarDBService.close();
 
+                final mindfulnessDBService = MindfulnessDBService();
+                await mindfulnessDBService.open();
+                await mindfulnessDBService.updateLevelByNickname(context,oldNickname, newNickname);
+                await mindfulnessDBService.close();
+
 
                 ref.read(nicknameProvider.notifier).state = newNickname;
 

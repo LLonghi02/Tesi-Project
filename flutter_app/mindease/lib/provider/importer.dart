@@ -74,3 +74,5 @@ export 'package:mindease/repository/share_terapeura.dart';
 export 'package:mindease/repository/recupera_account.dart';
 export 'package:mindease/repository/google.dart';
 export 'package:mindease/repository/save_preferences.dart';
+export 'package:mindease/repository/mind_level.dart';
+export 'package:mindease/repository/level_history.dart';
