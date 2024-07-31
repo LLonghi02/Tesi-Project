@@ -19,6 +19,14 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     _loadProfileImage();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Refresh data when the page is viewed
+
+    ref.refresh(calendarProvider(currentDate));
+  }
+
   Future<void> _loadProfileImage() async {
     final imagePath = await loadProfileImage();
     if (imagePath != null) {

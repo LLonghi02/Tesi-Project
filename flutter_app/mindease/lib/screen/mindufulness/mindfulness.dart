@@ -72,10 +72,10 @@ void _openLevel(int level) {
   bool isUnlocked = (level == 1) || (level > 1 && level <= _currentLevel + 1);
 
   // Verifica se il livello precedente è stato completato
-  bool previousLevelCompleted = level > 1 && (level - 1) <= _currentLevel;
+  bool previousLevelCompleted = level == 1 || (level > 1 && (level - 1) <= _currentLevel);
 
   // Verifica se la data odierna è diversa dalla data di completamento
-  bool isDifferentDay = level > 1 && !_dailyGoalCompleted;
+  bool isDifferentDay = level == 1 || (level > 1 && !_dailyGoalCompleted);
 
   // Determina se possiamo aprire il livello
   bool canOpenLevel = isUnlocked && previousLevelCompleted && isDifferentDay;
@@ -220,7 +220,7 @@ void _openLevel(int level) {
 
     for (int i = 0; i < positions.length; i++) {
       int level = i + 1;
-      bool isUnlocked = (level - 1 < _levelUnlockStatus.length) ? _levelUnlockStatus[level - 1] : false;
+bool isUnlocked = (level == 1) || (level - 1 < _levelUnlockStatus.length && _levelUnlockStatus[level - 1]);
 
       levelButtons.add(
         Positioned(
