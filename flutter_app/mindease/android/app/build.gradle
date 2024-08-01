@@ -3,6 +3,7 @@ plugins {
     id "kotlin-android"
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
+    id 'com.google.gms.google-services' // Assicurati che questa riga sia presente
 }
 
 def localProperties = new Properties()
@@ -56,3 +57,21 @@ android {
 flutter {
     source = "../.."
 }
+
+dependencies {
+    // Add the dependencies for the Firebase products you want to use
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation platform('com.google.firebase:firebase-bom:32.2.0')
+
+    // Add the dependencies for the Firebase products you want to use
+    // For example, to use Firebase Analytics
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'com.google.android.gms:play-services-auth:20.6.0'
+    // Add any other Firebase dependencies here, for example:
+    // implementation 'com.google.firebase:firebase-auth-ktx'
+    // implementation 'com.google.firebase:firebase-firestore-ktx'
+}
+
+// Add this at the bottom of the file
+apply plugin: 'com.google.gms.google-services'

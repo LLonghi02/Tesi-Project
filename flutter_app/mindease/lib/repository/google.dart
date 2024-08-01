@@ -1,11 +1,10 @@
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mindease/provider/importer.dart';
 
-Future<void> handleGoogleSignIn(BuildContext context) async {
+Future<void> handleGoogleSignIn(BuildContext context, WidgetRef ref) async {
   GoogleSignIn _googleSignIn = GoogleSignIn(
-    clientId:
-        '932816395142-de98ubeepan61sk7ho2fc3khshicuvd2.apps.googleusercontent.com',
     scopes: <String>[
       'email',
       'https://www.googleapis.com/auth/contacts.readonly'
@@ -19,10 +18,16 @@ Future<void> handleGoogleSignIn(BuildContext context) async {
       return;
     }
 
-    // Handle successful Google sign-in here, e.g., navigate to HomePage or save user data
+    // Ottieni il nome visualizzato dall'account Google
+    final String? nickname = googleUser.displayName;
+
+    // Aggiorna il provider del nickname
+    ref.read(nicknameProvider.notifier).state = nickname ?? 'Guest';
+
+    // Naviga alla HomePage
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) =>  HomePage()),
+      MaterialPageRoute(builder: (context) => HomePage()),
     );
   } catch (error) {
     print(error);

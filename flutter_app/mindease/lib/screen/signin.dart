@@ -1,7 +1,6 @@
 import 'package:mindease/provider/importer.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:mindease/provider/theme.dart';
 
 class SignInPage extends ConsumerWidget {
   SignInPage({Key? key}) : super(key: key);
@@ -129,7 +128,7 @@ class SignInPage extends ConsumerWidget {
               const SizedBox(height: 10),
               SocialSignInButtonsWidget(
                 iconColor: iconColor,
-                onGoogleSignIn: () => handleGoogleSignIn(context),
+                onGoogleSignIn: () => handleGoogleSignIn(context,ref),
               ),
               SignUpPromptWidget(
                 color: detColor,
