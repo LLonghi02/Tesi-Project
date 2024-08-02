@@ -4,12 +4,13 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:window_manager/window_manager.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 import 'app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  
   WindowOptions windowOptions = const WindowOptions(
     //Pixel 7a form factor (2400x1080 px)
     size: Size(376, 835),

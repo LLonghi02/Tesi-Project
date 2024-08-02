@@ -49,13 +49,27 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Center(
-                child: CircleAvatar(
-                  radius: 50,
-                  backgroundImage: profileImage != null && profileImage.isNotEmpty
-                      ? profileImage.startsWith('assets/')
-                          ? AssetImage(profileImage) as ImageProvider
-                          : FileImage(File(profileImage))
-                      : const AssetImage('assets/images/user/profilo.png'),
+                child: Container(
+                  width:
+                      100, // doppio del raggio per avere spazio sufficiente per il bordo
+                  height:
+                      100, // doppio del raggio per avere spazio sufficiente per il bordo
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.teal, // Colore del bordo
+                      width: 4, // Larghezza del bordo
+                    ),
+                  ),
+                  child: CircleAvatar(
+                    radius: 50,
+                    backgroundImage: profileImage != null &&
+                            profileImage.isNotEmpty
+                        ? profileImage.startsWith('assets/')
+                            ? AssetImage(profileImage) as ImageProvider
+                            : FileImage(File(profileImage))
+                        : const AssetImage('assets/images/user/profilo.png'),
+                  ),
                 ),
               ),
               const SizedBox(height: 10),
@@ -64,7 +78,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 style: AppFonts.appTitle,
               ),
               const SizedBox(height: 20),
-              TrophiesSection(objectivesMet: List.generate(20, (index) => index % 2 == 0), nickname: nickname),
+              TrophiesSection(
+                  objectivesMet: List.generate(20, (index) => index % 2 == 0),
+                  nickname: nickname),
               const SizedBox(height: 20),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,16 +136,19 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                               ),
                               const SizedBox(width: 10),
                               FutureBuilder<List<CalendarModel>>(
-                                future: ref.watch(calendarProvider(currentDate).future),
+                                future: ref.watch(
+                                    calendarProvider(currentDate).future),
                                 builder: (context, snapshot) {
-                                  if (snapshot.connectionState == ConnectionState.waiting) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
                                     return const CircularProgressIndicator();
                                   } else if (snapshot.hasError) {
                                     return Text('Errore: ${snapshot.error}');
                                   } else if (snapshot.hasData) {
                                     final calendarData = snapshot.data!;
                                     // Find emotion for the current date
-                                    CalendarModel? todayEmotion = calendarData.firstWhereOrNull(
+                                    CalendarModel? todayEmotion =
+                                        calendarData.firstWhereOrNull(
                                       (entry) => entry.data == currentDate,
                                     );
 
@@ -137,7 +156,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                       return Padding(
                                         padding: const EdgeInsets.all(20.0),
                                         child: EmotionCalenda(
-                                          imageUrl: getEmotionImage(todayEmotion.emozione),
+                                          imageUrl: getEmotionImage(
+                                              todayEmotion.emozione),
                                         ),
                                       );
                                     } else {
@@ -149,7 +169,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                       );
                                     }
                                   } else {
-                                    return const Text('Nessun dato disponibile');
+                                    return const Text(
+                                        'Nessun dato disponibile');
                                   }
                                 },
                               ),

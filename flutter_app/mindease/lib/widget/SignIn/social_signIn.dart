@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mindease/repository/facebook.dart';
 
 class SocialSignInButtonsWidget extends StatelessWidget {
   final Color iconColor;
@@ -32,7 +33,7 @@ class SocialSignInButtonsWidget extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(width: 20),
+        /*const SizedBox(width: 20),
         Container(
           width: 80,
           height: 80,
@@ -41,16 +42,14 @@ class SocialSignInButtonsWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
           ),
           child: IconButton(
-            onPressed: () {
-              // Gestisci l'accesso con Facebook
-            },
+            onPressed: loginWithFacebook,
             icon: Icon(
               FontAwesomeIcons.facebook,
               color: iconColor,
               size: 40,
             ),
           ),
-        ),
+        ),*/
       ],
     );
   }

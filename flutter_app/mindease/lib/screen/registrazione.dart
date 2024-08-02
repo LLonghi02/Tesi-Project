@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mindease/provider/importer.dart';
 
-
 // Provider for MongoDB service
 final mongoDBServiceProvider =
     Provider<MongoDBService>((ref) => MongoDBService());
@@ -79,10 +78,11 @@ class _RegistrazionePageState extends ConsumerState<RegistrazionePage> {
                   String password = _passwordController.text;
 
                   await mongoDBService.open();
-                  await mongoDBService.registerUser(context,email, nickname, password);
+                  await mongoDBService.registerUser(
+                      context, email, nickname, password);
                   await mongoDBService.close();
                   Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (_) =>  SignInPage()),
+                    MaterialPageRoute(builder: (_) => SignInPage()),
                   );
                 },
                 buttonText: 'Registrami',
@@ -110,14 +110,17 @@ class _RegistrazionePageState extends ConsumerState<RegistrazionePage> {
                 ],
               ),
               const SizedBox(height: 10),
-              //SocialSignInButtonsWidget(iconColor: iconColor),
+              SocialSignInButtonsWidget(
+                iconColor: iconColor,
+                onGoogleSignIn: () => handleGoogleSignIn(context, ref),
+              ),
               SignUpPromptWidget(
                 color: detColor,
                 label: 'Hai un account?',
                 label2: 'SignIn',
                 onTap: () {
                   Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (_) =>  SignInPage()),
+                    MaterialPageRoute(builder: (_) => SignInPage()),
                   );
                 },
               ),

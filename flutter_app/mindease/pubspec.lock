@@ -329,6 +329,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.3"
+  facebook_auth:
+    dependency: "direct main"
+    description:
+      name: facebook_auth
+      sha256: "1fe8af8efaaee8bdf1e05b71d4c5a76e2ac8b1dd9699690a244922b7bb622d69"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.3"
   facebook_auth_desktop:
     dependency: transitive
     description:

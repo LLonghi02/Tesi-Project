@@ -18,11 +18,29 @@ Future<void> handleGoogleSignIn(BuildContext context, WidgetRef ref) async {
       return;
     }
 
-    // Ottieni il nome visualizzato dall'account Google
-    final String? nickname = googleUser.displayName;
+    final String? email = googleUser.email;
+    final String? displayName = googleUser.displayName;
 
-    // Aggiorna il provider del nickname
-    ref.read(nicknameProvider.notifier).state = nickname ?? 'Guest';
+    if (email == null || displayName == null) {
+      // Se non c'è un'email o un nome, assegna valori predefiniti
+      ref.read(nicknameProvider.notifier).state = 'Guest';
+      return;
+    }
+
+    // Verifica se l'utente esiste già
+    if (await mongoDBService.isUserExists(email)) {
+      // Aggiorna il nickname se necessario
+      String currentNickname = await mongoDBService.getNicknameByEmail(email);
+      if (currentNickname != displayName) {
+        await mongoDBService.updateNickname(email, displayName);
+      }
+    } else {
+      // Registra un nuovo utente
+      await mongoDBService.registerUserSocial(email, displayName);
+    }
+
+    // Imposta il nickname nel provider
+    ref.read(nicknameProvider.notifier).state = displayName;
 
     // Naviga alla HomePage
     Navigator.pushReplacement(

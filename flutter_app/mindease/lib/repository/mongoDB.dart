@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:mindease/provider/importer.dart';
+import 'package:mongo_dart/mongo_dart.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:mongo_dart/mongo_dart.dart';
 
 class MongoDBService {
   final Db db = Db(
@@ -14,7 +14,6 @@ class MongoDBService {
   Future<void> close() async {
     await db.close();
   }
-
 
   Future<void> registerUser(
       BuildContext context, String email, String nickname, String password) async {
@@ -43,6 +42,27 @@ class MongoDBService {
     }
   }
 
+  Future<void> registerUserSocial(String email, String nickname) async {
+    await open(); // Ensure the database is open
+    var collection = db.collection('Utenti_registrati');
+    await collection.insert({
+      'email': email,
+      'nickname': nickname,
+      'password': '', // Password is not required for social login
+    });
+    await close(); // Ensure the database is closed
+  }
+
+  Future<void> updateNickname(String email, String newNickname) async {
+    await open(); // Ensure the database is open
+    var collection = db.collection('Utenti_registrati');
+    await collection.update(
+      where.eq('email', email),
+      modify.set('nickname', newNickname),
+    );
+    await close(); // Ensure the database is closed
+  }
+  
   Future<bool> isNicknameAvailable(String nickname) async {
     final response = await http.post(
       Uri.parse('https://vvi51i7nf4.execute-api.us-east-1.amazonaws.com/default/verifica_nickname'),
@@ -58,35 +78,61 @@ class MongoDBService {
     }
   }
 
- Future<void> updateUserByNickname(BuildContext context, String oldNickname, String newNickname) async {
-  print('Old Nickname: $oldNickname');
-  print('New Nickname: $newNickname');
-
-  // Verifica se il nuovo nickname è disponibile per l'aggiornamento
-  bool isAvailable = await isNicknameAvailable(newNickname);
-
-  if (!isAvailable) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Il nickname "$newNickname" è già stato utilizzato. Scegli un altro nickname.'),
-        duration: const Duration(seconds: 3),
-      ),
-    );
-  } else {
+  Future<bool> isUserExists(String email) async {
+    await open(); // Ensure the database is open
     var collection = db.collection('Utenti_registrati');
-    var result = await collection.update(
-      where.eq('nickname', oldNickname),
+    var result = await collection.findOne(where.eq('email', email));
+    await close(); // Ensure the database is closed
+    return result != null;
+  }
+
+  Future<String> getNicknameByEmail(String email) async {
+    await open(); // Ensure the database is open
+    var collection = db.collection('Utenti_registrati');
+    var result = await collection.findOne(where.eq('email', email));
+    await close(); // Ensure the database is closed
+    return result?['nickname'] ?? '';
+  }
+
+  Future<void> updateUserNicknameByEmail(String email, String newNickname) async {
+    await open(); // Ensure the database is open
+    var collection = db.collection('Utenti_registrati');
+    await collection.update(
+      where.eq('email', email),
       modify.set('nickname', newNickname),
     );
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Nickname salvato con successo!'),
-        duration: const Duration(seconds: 3),
-      ),
-    );
+    await close(); // Ensure the database is closed
   }
-}
+
+  Future<void> updateUserByNickname(BuildContext context, String oldNickname, String newNickname) async {
+    print('Old Nickname: $oldNickname');
+    print('New Nickname: $newNickname');
+
+    // Verifica se il nuovo nickname è disponibile per l'aggiornamento
+    bool isAvailable = await isNicknameAvailable(newNickname);
+
+    if (!isAvailable) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Il nickname "$newNickname" è già stato utilizzato. Scegli un altro nickname.'),
+          duration: const Duration(seconds: 3),
+        ),
+      );
+    } else {
+      var collection = db.collection('Utenti_registrati');
+      var result = await collection.update(
+        where.eq('nickname', oldNickname),
+        modify.set('nickname', newNickname),
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Nickname salvato con successo!'),
+          duration: const Duration(seconds: 3),
+        ),
+      );
+    }
+  }
 
   Future<void> updateUserByPassword(String oldPassword, String newPassword) async {
     print('Old Password: $oldPassword');

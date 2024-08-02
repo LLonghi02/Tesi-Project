@@ -15,6 +15,7 @@ dependencies:
   bcrypt: ^1.1.3
   calendar_date_picker2: ^1.1.5
   chewie: ^1.8.1
+  facebook_auth: ^0.0.3
   firebase_auth: ^3.1.3
   firebase_core: ^1.10.6
   flutter_email_sender: ^6.0.3
