@@ -31,6 +31,7 @@ class MessageListNotifier extends StateNotifier<List<Message>> {
 // Dizionario di risposte basate su parole chiave nel messaggio dell'utente
 final responses = {
   "ciao": "Ciao, come stai? Posso aiutarti con qualcosa oggi?",
+  "si": "Dimmi cosa posso fare per te",
   "come va?": "Sto bene, grazie! E tu come te la passi?",
   "aiuto": "Certamente, come posso assisterti? Fammi sapere di cosa hai bisogno.",
   "male": "Mi dispiace sapere che ti senti così. Vuoi parlarne? Sono qui per ascoltare.",

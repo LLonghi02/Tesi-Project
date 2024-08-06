@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:mindease/provider/importer.dart';
 
-
 const String defaultBackgroundImage = 'assets/images/supporto.png';
 
 class SupportoPage extends ConsumerWidget {
@@ -11,15 +10,17 @@ class SupportoPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final backcolor = ref.watch(accentColorProvider);
-  Future<void> _loadBackgroundImage() async {
-    final imagePath = await loadBackgroundImage();
-    if (imagePath != null) {
-      ref.read(backgroundImageProvider.notifier).state = imagePath;
+    Future<void> _loadBackgroundImage() async {
+      final imagePath = await loadBackgroundImage();
+      if (imagePath != null) {
+        ref.read(backgroundImageProvider.notifier).state = imagePath;
+      }
     }
-  }
-    final backgroundImage = ref.watch(backgroundImageProvider) ?? defaultBackgroundImage;
 
-  _loadBackgroundImage();
+    final backgroundImage =
+        ref.watch(backgroundImageProvider) ?? defaultBackgroundImage;
+
+    _loadBackgroundImage();
     final List<Message> messages = ref.watch(messageListProvider);
 
     void userMessage(String text) {
@@ -60,9 +61,30 @@ class SupportoPage extends ConsumerWidget {
                   Expanded(
                     child: TextField(
                       controller: textController,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         hintText: 'Posso aiutarti?',
-                        border: OutlineInputBorder(),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: const BorderSide(
+                            color: Colors.teal, // Colore del bordo
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: const BorderSide(
+                            color: Colors
+                                .teal, // Colore del bordo quando il TextField è abilitato
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: const BorderSide(
+                            color: Colors
+                                .teal, // Colore del bordo quando il TextField è a fuoco
+                            width:
+                                2.0, // Spessore del bordo quando il TextField è a fuoco
+                          ),
+                        ),
                         fillColor: Colors.white,
                         filled: true,
                       ),
@@ -70,15 +92,36 @@ class SupportoPage extends ConsumerWidget {
                     ),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.send),
+                    icon: Container(
+                      decoration: const BoxDecoration(
+                        color: Colors.white, // Colore del cerchio
+                        shape: BoxShape.circle,
+                        /* border: Border.all(
+        color: Colors.teal, // Colore del bordo
+        width: 2.0, // Spessore del bordo
+      ),*/
+                      ),
+                      child: const Padding(
+                        padding:
+                            EdgeInsets.all(10.0), // Spazio intorno all'icona
+                        child: Icon(
+                          Icons.send,
+                          color: Colors.teal,
+                        ),
+                      ),
+                    ),
+                    //icon: const Icon(Icons.send),
                     onPressed: () {
-                      String messageText = textController.text.trim(); // Leggere il testo attuale nel TextField
+                      String messageText = textController.text
+                          .trim(); // Leggere il testo attuale nel TextField
                       if (messageText.isNotEmpty) {
-                        print("Sending message from IconButton: $messageText"); // Controllo per il messaggio dall'IconButton
+                        print(
+                            "Sending message from IconButton: $messageText"); // Controllo per il messaggio dall'IconButton
                         userMessage(messageText);
-                        textController.clear(); // Pulire il TextField dopo l'invio del messaggio
+                        textController
+                            .clear(); // Pulire il TextField dopo l'invio del messaggio
                       } else {
-                        print("Messaggio vuoto"); 
+                        print("Messaggio vuoto");
                       }
                     },
                   ),
@@ -100,7 +143,7 @@ class SupportoPage extends ConsumerWidget {
           ),
         ],
       ),
-      bottomNavigationBar:  BottomBar(),
+      bottomNavigationBar: const BottomBar(),
     );
   }
 
@@ -118,18 +161,21 @@ class SupportoPage extends ConsumerWidget {
           )
         : const BorderRadius.only(
             topLeft: Radius.circular(12.0),
-            bottomLeft:Radius.zero,
+            bottomLeft: Radius.zero,
             topRight: Radius.circular(12.0),
             bottomRight: Radius.circular(12.0),
           );
 
     // Allineamento del contenitore
-    final alignment = isUserMessage ? Alignment.centerRight : Alignment.centerLeft;
+    final alignment =
+        isUserMessage ? Alignment.centerRight : Alignment.centerLeft;
 
     return Align(
       alignment: alignment,
       child: Container(
-        constraints: const BoxConstraints(maxWidth: 300), // Se vuoi mantenere il limite massimo della larghezza
+        constraints: const BoxConstraints(
+            maxWidth:
+                300), // Se vuoi mantenere il limite massimo della larghezza
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: backgroundColor,

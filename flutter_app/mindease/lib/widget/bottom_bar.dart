@@ -1,6 +1,7 @@
 import 'package:mindease/provider/importer.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_font_icons/flutter_font_icons.dart';
 
 class BottomBar extends ConsumerWidget {
   const BottomBar({super.key});
@@ -88,7 +89,7 @@ class BottomBar extends ConsumerWidget {
                       .zero, // Rimuove il padding interno del pulsante
                   constraints:
                       const BoxConstraints(), // Rimuove i vincoli di dimensione del pulsante
-                  icon: Icon(Icons.chat,
+                  icon: Icon(Entypo.chat,
                       color:
                           iconColor), // Utilizza il colore delle icone dal provider
                   onPressed: () {
