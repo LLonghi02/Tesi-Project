@@ -59,14 +59,15 @@ def get_playlist_videos(playlist_id):
             duration = video_response['items'][0]['contentDetails']['duration']
             duration_seconds = parse_duration(duration)
             video_url = f'https://www.youtube.com/watch?v={video_id}'
-            tag='respirazione'
+            tag = 'respirazione'
 
             video_info = {
+                'id': video_id,
                 'title': title,
                 'author': author,
                 'duration': duration_seconds,
                 'video_url': video_url,
-                'tag':tag
+                'tag': tag
             }
             videos_with_details.append(video_info)
 
@@ -78,22 +79,23 @@ def get_playlist_videos(playlist_id):
 
 def write_to_csv(videos, output_file):
     with open(output_file, 'w', newline='', encoding='utf-8') as csvfile:
-        fieldnames = ['Title', 'Author', 'Duration (seconds)', 'Video URL','Tag']
+        fieldnames = ['ID', 'Title', 'Author', 'Duration (seconds)', 'Video URL', 'Tag']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
         writer.writeheader()
         for video in videos:
             writer.writerow({
+                'ID': video['id'],
                 'Title': video['title'],
                 'Author': video['author'],
                 'Duration (seconds)': video['duration'],
                 'Video URL': video['video_url'],
-                'Tag':video['tag']
+                'Tag': video['tag']
             })
 
 if __name__ == "__main__":
     # Nome del file CSV di output
-    output_file = "respirazione.csv"
+    output_file = r"C:\Users\laral\Desktop\TESI\VSC\Tesi-Project\file\csv\respirazione_id.csv"
 
     # Ottieni i video della playlist con dettagli
     playlist_videos = get_playlist_videos(playlist_id)
