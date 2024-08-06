@@ -129,14 +129,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.7.0"
-  bcrypt:
-    dependency: "direct main"
-    description:
-      name: bcrypt
-      sha256: "9dc3f234d5935a76917a6056613e1a6d9b53f7fa56f98e24cd49b8969307764b"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.3"
   boolean_selector:
     dependency: transitive
     description:
@@ -185,14 +177,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.3"
-  chewie:
-    dependency: "direct main"
-    description:
-      name: chewie
-      sha256: d4983f05f28f63ed05c1a741ac7327f6d72dff73f27484953478179fe70e762b
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.8.2"
   ci:
     dependency: transitive
     description:
@@ -273,14 +257,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
-  cupertino_icons:
-    dependency: transitive
-    description:
-      name: cupertino_icons
-      sha256: ba631d1c7f7bef6b729a622b7b752645a2d076dba9976925b8f25725a30e1ee6
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.8"
   custom_lint:
     dependency: transitive
     description:
@@ -313,14 +289,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.6"
-  dbus:
-    dependency: transitive
-    description:
-      name: dbus
-      sha256: "365c771ac3b0e58845f39ec6deebc76e3276aa9922b0cc60840712094d9047ac"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.7.10"
   decimal:
     dependency: transitive
     description:
@@ -944,22 +912,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
-  package_info_plus:
-    dependency: transitive
-    description:
-      name: package_info_plus
-      sha256: "4de6c36df77ffbcef0a5aefe04669d33f2d18397fea228277b852a2d4e58e860"
-      url: "https://pub.dev"
-    source: hosted
-    version: "8.0.1"
-  package_info_plus_platform_interface:
-    dependency: transitive
-    description:
-      name: package_info_plus_platform_interface
-      sha256: ac1f4a4847f1ade8e6a87d1f39f5d7c67490738642e2542f559ec38c37489a66
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.1"
   packages_extensions:
     dependency: transitive
     description:
@@ -1477,22 +1429,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.6"
-  wakelock_plus:
-    dependency: transitive
-    description:
-      name: wakelock_plus
-      sha256: "4fa83a128b4127619e385f686b4f080a5d2de46cff8e8c94eccac5fcf76550e5"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.2.7"
-  wakelock_plus_platform_interface:
-    dependency: transitive
-    description:
-      name: wakelock_plus_platform_interface
-      sha256: "422d1cdbb448079a8a62a5a770b69baa489f8f7ca21aef47800c726d404f9d16"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.2.1"
   watcher:
     dependency: transitive
     description:
