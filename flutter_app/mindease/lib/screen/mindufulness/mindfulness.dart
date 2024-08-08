@@ -45,10 +45,10 @@ class _LevelSelectionPageState extends ConsumerState<LevelSelectionPage> {
           _dailyGoalCompleted = isToday;
 
           // Initialize or update the unlock status for all levels
-          _levelUnlockStatus = List.generate(
-            (_currentLevel > 30 ? _currentLevel : 30), // Assicurati di avere abbastanza spazio
-            (index) => index < _currentLevel || index == 0,
-          );
+ _levelUnlockStatus = List.generate(
+          (_currentLevel >= 30 ? _currentLevel + 1 : 30), // Assicurati di avere abbastanza spazio e sblocca il prossimo livello
+          (index) => index <= _currentLevel, // Sblocca anche il livello successivo
+        );
         });
 
         print('Current Level: $_currentLevel');
@@ -150,7 +150,6 @@ void _openLevel(int level) {
       }
     });
 
-    // Qui puoi chiamare un servizio backend per aggiornare lo stato del completamento del livello
   }
 
   @override
@@ -221,7 +220,6 @@ void _openLevel(int level) {
     for (int i = 0; i < positions.length; i++) {
       int level = i + 1;
 bool isUnlocked = (level == 1) || (level - 1 < _levelUnlockStatus.length && _levelUnlockStatus[level - 1]);
-
       levelButtons.add(
         Positioned(
           left: positions[i].dx,
