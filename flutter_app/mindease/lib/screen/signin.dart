@@ -126,10 +126,10 @@ class SignInPage extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: 10),
-              SocialSignInButtonsWidget(
+              /*SocialSignInButtonsWidget(
                 iconColor: iconColor,
                 onGoogleSignIn: () => handleGoogleSignIn(context,ref),
-              ),
+              ),*/
               SignUpPromptWidget(
                 color: detColor,
                 label: 'Non hai un account?',

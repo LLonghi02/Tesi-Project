@@ -34,22 +34,38 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
+    signingConfigs {
+        release {
+            keyAlias 'my-key-alias'
+            keyPassword 'android'
+            storeFile file('C:/Users/laral/Desktop/TESI/VSC/Tesi-Project/flutter_app/mindease/my-release-key.keystore')
+            storePassword 'android'
+        }
+    }
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.mindease"
+        applicationId = "com.laralonghi.mindease"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
+        multiDexEnabled true
+
     }
 
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.debug
+           // signingConfig = signingConfigs.debug
+            signingConfig signingConfigs.release
+            minifyEnabled true // Imposta su true se vuoi abilitare il minification
+            shrinkResources true // Abilita la rimozione delle risorse non utilizzate
+
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+      
         }
     }
 }
@@ -71,6 +87,8 @@ dependencies {
     // Add any other Firebase dependencies here, for example:
     // implementation 'com.google.firebase:firebase-auth-ktx'
     // implementation 'com.google.firebase:firebase-firestore-ktx'
+    implementation 'com.android.support:multidex:1.0.3'
+
 }
 
 // Add this at the bottom of the file

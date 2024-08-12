@@ -1,7 +1,6 @@
-
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mindease/provider/importer.dart';
-
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarPage extends ConsumerStatefulWidget {
@@ -36,7 +35,7 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
             child: calendarData.when(
               data: (data) {
                 _selectedEvents = data;
-                return EmotionDetailsWidget(data: _selectedEvents); // Utilizzo del nuovo widget
+                return Container(); // Non è più necessario visualizzare i dettagli qui
               },
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (err, stack) => Center(child: Text('Error: $err')),
@@ -61,24 +60,57 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
         setState(() {
           _selectedDay = selectedDay;
         });
+
+        // Filtra gli eventi per la data selezionata
+        final eventsForDate = _selectedEvents.where(
+          (event) => event.data == DateFormat('yyyy-MM-dd').format(selectedDay),
+        ).toList();
+
+        // Mostra un modal bottom sheet con i dettagli
+        showModalBottomSheet(
+          context: context,
+          builder: (context) {
+            return Container(
+              height: 400, // Adjust height as needed
+              child: EmotionDetailsWidget(data: eventsForDate),
+            );
+          },
+        );
       },
       calendarBuilders: CalendarBuilders(
         markerBuilder: (context, date, events) {
-          if (_selectedEvents.isNotEmpty) {
-            final event = _selectedEvents.firstWhere(
-              (event) => event.data == DateFormat('yyyy-MM-dd').format(date),
-              orElse: () =>
-                  CalendarModel(id: '', data: '', emozione: '', causa: '', sintomi: [],nickname:''),
+          final eventsForDate = _selectedEvents.where(
+            (event) => event.data == DateFormat('yyyy-MM-dd').format(date),
+          ).toList();
+
+          if (eventsForDate.isNotEmpty) {
+            return Positioned(
+              child: Stack(
+                children: eventsForDate.map((event) {
+                  String imageUrl = getEmotionImage(event.emozione);
+                  return Positioned(
+                    right: 0,
+                    bottom: 0,
+                    child: GestureDetector(
+                      onTap: () {
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return Container(
+                              height: 200, // Adjust height as needed
+                              child: EmotionDetailsWidget(data: eventsForDate),
+                            );
+                          },
+                        );
+                      },
+                      child: EmotionCalenda(
+                        imageUrl: imageUrl,
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
             );
-            if (event.emozione.isNotEmpty) {
-              String imageUrl = getEmotionImage(event.emozione);
-              return EmotionCalenda(
-                imageUrl: imageUrl,
-                onTap: () {
-                  // Handle the tap event if needed
-                },
-              );
-            }
           }
           return null;
         },
@@ -86,8 +118,6 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
     );
   }
 }
-
-
 
 // Mappa di traduzione dei sintomi da italiano a inglese
 Map<String, String> italianToEnglishSymptoms = {

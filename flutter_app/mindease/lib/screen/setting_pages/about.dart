@@ -19,8 +19,8 @@ class AboutPage extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              'Chi siamo:'
-              'Benvenuti su MindEase, un\'applicazione mobile dedicata al benessere emotivo e all\'autocura. La nostra missione è aiutare gli utenti a gestire efficacemente ansia e stress attraverso strumenti innovativi e funzionalità di supporto.\n\n'
+              'Chi siamo: '
+              'MindEase, è un\'applicazione mobile dedicata al benessere emotivo e all\'autocura. La nostra missione è aiutare gli utenti a gestire efficacemente ansia e stress attraverso strumenti innovativi e funzionalità di supporto.\n\n'
               'MindEase è più di una semplice app: è un compagno nel tuo percorso verso una migliore salute mentale. Progettata con le esigenze degli utenti al centro, la nostra applicazione offre una serie di funzionalità mirate a promuovere la resilienza emotiva e favorire il relax.\n\n'
               'A MindEase, ci impegniamo nell\'utilizzare la tecnologia per supportare gli individui nel gestire il loro benessere emotivo. Unisciti a noi in questo viaggio verso una vita più equilibrata e sana.\n\n'
               'Scopri MindEase, il tuo partner nel benessere emotivo e nell\'autocura.',
