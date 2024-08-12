@@ -46,30 +46,34 @@ class SignInPage extends ConsumerWidget {
                 obscureText: true,
               ),
               const SizedBox(height: 1),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const RememberMeCheckbox(),
-                  const SizedBox(width: 40),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RecoverpasswordPage()),
-                      );
-                    },
-                    child: Text(
-                      'Non ricordo la password',
-                      style: TextStyle(
-                        color: detColor, // Cambia colore a tuo piacimento
-                        fontSize: 13,
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+SingleChildScrollView(
+  scrollDirection: Axis.horizontal,
+  child: Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      const RememberMeCheckbox(),
+      const SizedBox(width: 40),
+      TextButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => RecoverpasswordPage()),
+          );
+        },
+        child: Text(
+          'Non ricordo la password',
+          style: TextStyle(
+            color: detColor, // Cambia colore a tuo piacimento
+            fontSize: 13,
+            decoration: TextDecoration.underline,
+          ),
+        ),
+      ),
+    ],
+  ),
+),
+
               const SizedBox(height: 3),
               CustomTextButton(
                 onPressed: () async {

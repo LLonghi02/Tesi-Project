@@ -53,6 +53,9 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
       firstDay: DateTime.utc(2020, 1, 1),
       lastDay: DateTime.utc(2030, 12, 31),
       calendarFormat: CalendarFormat.month,
+       availableCalendarFormats: const {
+      CalendarFormat.month: 'Mese',
+    }, 
       selectedDayPredicate: (day) {
         return isSameDay(_selectedDay, day);
       },
