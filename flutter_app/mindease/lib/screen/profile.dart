@@ -112,6 +112,7 @@ Expanded(
     scrollDirection: Axis.horizontal,
     child: Container(
       height: 100,
+      width: 200,
       decoration: BoxDecoration(
         color: Colors.teal,
         borderRadius: BorderRadius.circular(25.0),
