@@ -11,6 +11,8 @@ class TopBar extends ConsumerWidget implements PreferredSizeWidget {
     
     return AppBar(
       backgroundColor: accentColor,
+            automaticallyImplyLeading: false, // Disabilita la freccia di ritorno automatica
+
       title: Row(
         children: [
           const CircleAvatar(

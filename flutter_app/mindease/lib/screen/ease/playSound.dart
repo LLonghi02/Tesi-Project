@@ -1,6 +1,9 @@
 import 'package:mindease/provider/importer.dart';
 
 import 'package:just_audio/just_audio.dart';
+import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final audioPlayerProvider = Provider<AudioPlayer>((ref) => AudioPlayer());
 
@@ -30,7 +33,7 @@ class _PlaySoundPageState extends ConsumerState<PlaySoundPage> {
 
   Future<void> _initAudioPlayer() async {
     try {
-      await _player.setAsset(widget.audioUrl);
+      await _player.setUrl(widget.audioUrl); // Utilizza setUrl per file remoti
       _player.durationStream.listen((duration) {
         setState(() {
           _duration = duration ?? Duration.zero;
@@ -79,13 +82,11 @@ class _PlaySoundPageState extends ConsumerState<PlaySoundPage> {
 
   void _skipNext() {
     int nextIndex = widget.index + 1;
-  
     if (nextIndex < widget.audioFiles.length) {
       String nextAudioUrl = widget.audioFiles[nextIndex]['filePath'];
-      
       try {
         _player.pause(); // Pausa l'audio corrente se sta suonando
-        _player.setAsset(nextAudioUrl).then((_) {
+        _player.setUrl(nextAudioUrl).then((_) {
           _player.play(); // Avvia il nuovo audio
           setState(() {
             widget.index = nextIndex; // Aggiorna l'indice corrente
@@ -102,13 +103,11 @@ class _PlaySoundPageState extends ConsumerState<PlaySoundPage> {
 
   void _skipPrevious() {
     int prevIndex = widget.index - 1;
-  
     if (prevIndex >= 0) {
       String prevAudioUrl = widget.audioFiles[prevIndex]['filePath'];
-      
       try {
         _player.pause(); // Pausa l'audio corrente se sta suonando
-        _player.setAsset(prevAudioUrl).then((_) {
+        _player.setUrl(prevAudioUrl).then((_) {
           _player.play(); // Avvia il nuovo audio
           setState(() {
             widget.index = prevIndex; // Aggiorna l'indice corrente
@@ -152,7 +151,7 @@ class _PlaySoundPageState extends ConsumerState<PlaySoundPage> {
             ),
             SizedBox(height: 20),
             Text(
-              widget.audioUrl.split('/').last.replaceAll('.mp3', ''),
+              widget.audioUrl.split('/').last.replaceAll('.mp3', '').replaceAll('%20', ' '),
               style: AppFonts.screenTitle,
             ),
             SizedBox(height: 10),
