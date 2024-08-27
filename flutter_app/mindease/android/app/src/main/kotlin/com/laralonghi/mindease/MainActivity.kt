@@ -1,4 +1,4 @@
-package com.example.mindease
+package com.laralonghi.mindease
 
 import io.flutter.embedding.android.FlutterActivity
 
