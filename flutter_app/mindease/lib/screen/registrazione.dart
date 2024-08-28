@@ -109,11 +109,11 @@ class _RegistrazionePageState extends ConsumerState<RegistrazionePage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 10),/*
               SocialSignInButtonsWidget(
                 iconColor: iconColor,
                 onGoogleSignIn: () => handleGoogleSignIn(context, ref),
-              ),
+              ),*/
               SignUpPromptWidget(
                 color: detColor,
                 label: 'Hai un account?',
